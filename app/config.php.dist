@@ -1,0 +1,46 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: jimmyfish
+ * Date: 30/03/16
+ * Time: 11:24
+ */
+
+return [
+    'common' => [
+        'debug' => true,
+        'monolog.logfile' => __DIR__ . '/../app/logs/development.log',
+        'asset.path' => __DIR__ . '/../public/assets'
+    ],
+    'db' => [
+        'db.options' => [
+            'driver' => 'pdo_mysql',
+            'host' => '127.0.0.1',
+            'username' => 'root',
+            'password' => '',
+            'dbname' => 'fifo'
+        ],
+    ],
+    'twig' => [
+        'twig.path' => __DIR__ . '/../src/Templates',
+        'twig.options' => [
+            'cache' => __DIR__ . '/cache/app_template',
+            'auto_reload' => true
+        ]
+    ],
+    'profiler' => [
+        'profiler.cache_dir' => __DIR__ . '/cache/profiler'
+    ],
+    'orm' => [
+        'orm.em.options' => [
+            'mappings' => [
+                [
+                    'type' => 'annotation',
+                    'namespace' => 'Jimmy\fifo\Domain\Entity',
+                    'path' => __DIR__ . '/../src/Domain/Entity',
+                ]
+            ],
+        ],
+        'orm.proxies_dir' => __DIR__ . '/proxies',
+    ],
+];

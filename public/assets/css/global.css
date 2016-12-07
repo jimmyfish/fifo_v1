@@ -1,0 +1,90 @@
+@font-face{
+    font-family: 'Lato';
+    src: url('../fonts/Lato-Regular.eot');
+    src: url('../fonts/Lato-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Lato-Regular.woff') format('woff'),
+    url('../fonts/Lato-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face{
+    font-family: 'Lato';
+    src: url('../fonts/Lato-Bold.eot');
+    src: url('../fonts/Lato-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Lato-Bold.woff') format('woff'),
+    url('../fonts/Lato-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face{
+    font-family: 'Lato';
+    src: url('../fonts/Lato-Light.eot');
+    src: url('../fonts/Lato-Light.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Lato-Light.woff') format('woff'),
+    url('../fonts/Lato-Light.ttf') format('truetype');
+    font-weight: 300;
+}
+
+body {
+    font-family: 'Lato', serif;
+}
+
+#admin-page {
+    font-family: 'Lato', sans-serif;
+    font-weight:300;
+}
+
+#page-wrapper {
+    margin-top: 25px !important;
+}
+
+.format-name {
+    text-transform: capitalize;
+}
+
+.popover {
+    font-family:'Lato', serif;
+}
+
+.popover {
+    top:60px !important;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
+}
+
+.popover-content {
+    /*width:100px;*/
+}
+
+.popover-content a {
+    color: #000 !important;
+    text-decoration: none;
+    padding:5px 20px !important;
+    width: 200px;
+    -webkit-transition: all .4s ease;
+    -moz-transition: all .4s ease ;
+    -ms-transition: all .4s ease ;
+    -o-transition: all .4s ease ;
+    transition: all .4s ease ;
+}
+
+.popover-content a:hover {
+
+    text-decoration: none;
+    background: #eeeeee !important;
+    border:1px solid transparent !important;
+    -webkit-transition: all .4s ease;
+    -moz-transition: all .4s ease ;
+    -ms-transition: all .4s ease ;
+    -o-transition: all .4s ease ;
+    transition: all .4s ease ;
+}
+
+.popover-title {
+    text-align: center;
+}
+
+.label {
+    font-size:1em;
+}

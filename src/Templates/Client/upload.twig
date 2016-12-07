@@ -1,0 +1,125 @@
+{% extends 'Client/Layouts/layouts.twig' %}
+
+{% block title %}Upload{% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<div id="main-kerja" class="container-fluid">
+    <!-- Page Content -->
+    <div class="container">
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-header">Upload
+                    <small>Barang Ditemukan</small>
+                </h1>
+            </div>
+        </div>
+
+        <div class="row thumbnail">
+            <div id="upload-content" class="col-md-12">
+                <p>&nbsp;</p>
+                <div id="info-kiri" class="col-md-3">
+
+                </div>
+                <div id="upload-kanan" class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3>Keterangan</h3>
+                            <form action="" method="post" name="Keterangan" id="keterangan" enctype="multipart/form-data">
+                                <div class="col-xs-6">
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>Nama Depan</label>
+                                            <input type="text" class="form-control" id="first-name" name="first-name" value="{{ data.firstName }}" disabled>
+                                            <p class="help-block"></p>
+                                        </div>
+                                    </div>
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" value="{{ data.email }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>Facebook</label>
+                                            <input type="text" class="form-control" id="facebook" name="facebook">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>Nama Belakang</label>
+                                            <input type="text" class="form-control" id="last-name" name="last-name" value="{% if (data.lastName is not null) %}{{ data.lastName }}{% endif %}" disabled>
+                                            <p class="help-block"></p>
+                                        </div>
+                                    </div>
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>No Telepon</label>
+                                            <input type="tel" class="form-control" id="phone" name="phone" value="{{ data.phone }}" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>Pin BBM</label>
+                                            <input type="text" class="form-control" id="bbm" name="bbm">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <select name="category" class="form-control">
+                                            <option>Dompet</option>
+                                            <option>Motor</option>
+                                            <option>Tas</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Lampiran Foto</label>
+                                        <p>
+                                            <img src="http://lorempixel.com/400/200" height="200" width="400">
+                                        </p>
+                                        <input type="file" name="attachment-1" accept="image/*" required>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <p>
+                                            <img src="http://lorempixel.com/400/200" height="200" width="400">
+                                        </p>
+                                        <input type="file" name="attachment-2" accept="image/*" required>
+                                    </div>
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>Alamat</label>
+                                            <textarea rows="5" cols="100" class="form-control" name="address" style="resize:vertical" disabled>{{ data.address }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="control-group form-group">
+                                        <div class="controls">
+                                            <label>Deskripsi</label>
+                                            <textarea rows="8" cols="100" class="form-control" name="description" style="resize:vertical" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-block btn-primary pull-right">Publish</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-3">&nbsp;</div>
+
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'Client/Layouts/layouts.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <!-- Login-Content -->
+    <div id="form-login" class="container-fluid">
+        <div class="form">
+            <ul class="tab-group">
+                <li class="tab active"><a href="#login">Masuk</a></li>
+                <li class="tab"><a href="#signup">Daftar</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="login">
+                    <h1>Selamat Datang Kembali</h1>
+                    {% for message in app.session.getFlashBag.get('message_error') %}
+                        <div class="alert alert-danger">
+                            <strong>Ups!</strong> {{ message }}
+                        </div>
+                    {% endfor %}
+                    <form action="{{ path('loginClient') }}" method="post">
+
+                        <div class="field-wrap">
+                            <label for="email">
+                                Email Anda<span class="req">*</span>
+                            </label>
+                            <input id="email" name="email" type="email" required autocomplete="off"/>
+                        </div>
+
+                        <div class="field-wrap">
+                            <label>
+                                Password Anda<span class="req">*</span>
+                            </label>
+                            <input id="password" name="password" type="password" required autocomplete="off"/>
+                        </div>
+
+                        <p class="forgot"><a href="#">Lupa Password?</a></p>
+
+                        <button class="button button-block"/>
+                        Masuk</button>
+                    </form>
+
+                </div>
+                <div id="signup">
+                    <h1>Daftar Anggota Sekarang!!!</h1>
+
+                    <form action="{{ path('client_registration') }}" method="post">
+
+                        <div class="top-row">
+                            <div class="field-wrap">
+                                <label for="first-name">
+                                    Nama Depan<span class="req">*</span>
+                                </label>
+                                <input id="first-name" name="first-name" type="text" required autocomplete="off"/>
+                            </div>
+
+                            <div class="field-wrap">
+                                <label>
+                                    Nama Belakang<span class="req">*</span>
+                                </label>
+                                <input id="last-name" name="last-name" type="text" required autocomplete="off"/>
+                            </div>
+                        </div>
+
+                        <div class="field-wrap">
+                            <label>
+                                Email Anda<span class="req">*</span>
+                            </label>
+                            <input id="email" name="email" type="email" required autocomplete="off"/>
+                        </div>
+
+                        <div class="field-wrap">
+                            <label>
+                                Password Baru<span class="req">*</span>
+                            </label>
+                            <input id="password" name="password" type="password" required autocomplete="off"/>
+                        </div>
+
+                        <button type="submit" class="button button-block"/>
+                        Daftar</button>
+
+                    </form>
+
+                </div>
+            </div><!-- tab-content -->
+        </div> <!-- /form -->
+    </div>
+{% endblock %}
