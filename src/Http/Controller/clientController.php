@@ -115,6 +115,7 @@ class clientController implements ControllerProviderInterface
             if ($data != null) {
                 if ($pass == $data->getPassword()) {
                     $this->app['session']->set('name', ['value' => $data->getFirstName() . ' ' . $data->getLastName()]);
+                    $this->app['session']->set('role', ['value' => $data->getRole()]);
                     $this->app['session']->set('email', ['value' => $data->getEmail()]);
                     $this->app['session']->set('user-count', ['value' => count($userList)]);
                     return $this->app->redirect($this->app['url_generator']->generate('homeClient'));
@@ -213,7 +214,7 @@ class clientController implements ControllerProviderInterface
         $data = $this->app['user.repository']->findByEmail($this->app['session']->get('email')['value']);
 
         if ($request->getMethod() == 'POST') {
-            $fileName = md5(uniqid()) . '.' . $request->files->get('profile-image')->guessExtension();
+
             $data->setFirstName($request->get('first-name'));
             $data->setLastName($request->get('last-name'));
             $data->setPhone($request->get('phone'));
@@ -221,9 +222,12 @@ class clientController implements ControllerProviderInterface
             $data->setPinBBM($request->get('pin-bbm'));
             $data->setAddress($request->get('address'));
             $this->app['session']->set('name', ['value' => $data->getFirstName() . ' ' . $data->getLastName()]);
-            $data->setPicture($fileName);
 
-            $request->files->get('profile-image')->move($this->app['foto.path'] . '/', $fileName);
+            if ($request->files->get('profile-image') != null) {
+                $fileName = md5(uniqid()) . '.' . $request->files->get('profile-image')->guessExtension();
+                $data->setPicture($fileName);
+                $request->files->get('profile-image')->move($this->app['foto.path'] . '/', $fileName);
+            }
 
             $this->app['orm.em']->flush();
             return $this->app->redirect($this->app['url_generator']->generate('profil_client'));

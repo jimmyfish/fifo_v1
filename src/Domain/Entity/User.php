@@ -99,6 +99,12 @@ class User
     private $picture;
 
     /**
+     * @Column(type="integer", length=2, nullable=false)
+     * @var int
+     */
+    private $status;
+
+    /**
      * @Column(type="datetime", nullable=false, name="created_at")
      * @var \DateTime
      */
@@ -129,6 +135,7 @@ class User
         $user->setValidateState(0);
         $user->setSecretToken(sha1($email));
         $user->setCreatedAt(new \DateTime());
+        $user->setStatus(0);
 
         return $user;
     }
@@ -391,7 +398,19 @@ class User
         $this->picture = $picture;
     }
 
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
-
-
+    /**
+     * @param int $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
 }

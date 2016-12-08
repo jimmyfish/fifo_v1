@@ -56,8 +56,8 @@ class adminController implements ControllerProviderInterface
 
     public function adminHomeAction()
     {
-        if ($this->app['session']->get('name') == null) {
-            return $this->app->redirect($this->app['url_generator']->generate('loginAdmin'));
+        if ($this->app['session']->get('email') == null) {
+            return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
         }
         return $this->app['twig']->render('Admin/index.twig');
         

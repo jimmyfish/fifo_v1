@@ -86,6 +86,9 @@
                     <li>
                         <a href="#" data-toggle="popover" class="trigger" data-placement="bottom" title="{{ app.session.get('name')['value'] }}"><i class="fa fa-user"></i></a>
                         <div class="content hide">
+                            {% if (app.session.get('role')['value'] == 0) %}
+                                <a href="{{ path('homeAdmin') }}" class="btn btn-danger">Admin</a>
+                            {% endif %}
                             <a href="{{ path('profil_client') }}" class="btn btn-info">Profil</a>
                             <a href="{{ path('setting_password') }}" class="btn btn-primary">Atur Password</a>
                             <a href="{{ path('logout') }}" class="btn btn-warning">Keluar</a>
