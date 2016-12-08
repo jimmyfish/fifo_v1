@@ -41,7 +41,8 @@ class clientController implements ControllerProviderInterface
         $controllers->match('/edit/', [$this, 'clientEditAction'])->bind('edit_client');
         $controllers->get('/resend-activation', [$this, 'resendAction'])->bind('resend_activation');
         $controllers->get('/profil', [$this, 'clientProfileAction'])->bind('profil_client');
-
+        $controllers->match('/forget-password',[$this, 'clientForgetAction'])->bind('client_forget');
+        $controllers->match('/reset/{token}', [$this, 'clientResetAction'])->bind('reset_client');
 
         return $controllers;
     }
@@ -171,7 +172,7 @@ class clientController implements ControllerProviderInterface
                 return 'Account Allready Validated';
             }
         } else {
-            return 'Data Not Available';
+            return 'Token tidak valid, silahkan periksa kembali link yang anda terima.';
         }
     }
 
@@ -235,5 +236,71 @@ class clientController implements ControllerProviderInterface
         $data = $this->app['user.repository']->findByEmail($this->app['session']->get('email')['value']);
 
         return $this->app['twig']->render('Client/profil.twig', ['data' => $data]);
+    }
+
+    public function clientForgetAction(Request $request)
+    {
+        $session = $this->app['session'];
+        if ($request->getMethod() == 'POST') {
+            $data = $this->app['user.repository']->findByEmail($request->get('email'));
+
+            if ($data != null ) {
+                $transport = \Swift_SmtpTransport::newInstance
+                ('smtp.gmail.com', 587, 'tls')
+                    ->setUsername('killcoder212@gmail.com')
+                    ->setPassword('getmarried');
+
+                $message = \Swift_Message::newInstance();
+                $message->setSubject('Activation Required');
+                $message->setFrom(['noreply@fifo.com']);
+                $message->setTo([$request->get('email')]);
+                $message->setBody(
+                    $this->app['twig']->render(
+                        'Client/forget_temp.twig',
+                        [
+                            'token' => $data->getSecretToken(),
+                            'host' => $this->app['request']->getHost(),
+                            'name' => $data->getFirstName()
+                        ]
+                    ),
+                    'text/html'
+                );
+
+                $mailer = \Swift_Mailer::newInstance($transport);
+                $mailer->send($message);
+
+                return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
+            } else {
+                $session->getFlashBag()->add(
+                    'message_error', 'Maaf alamat e-mail tidak dikenal'
+                );
+            }
+
+        }
+        return $this->app['twig']->render('Client/forget.twig');
+    }
+
+    public function clientResetAction(Request $request)
+    {
+        $data = $this->app['user.repository']->findByToken($request->get('token'));
+        if ($data != null) {
+            if ($request->getMethod() == 'POST') {
+                if ($request->get('password') == $request->get('repeat-password')) {
+                    $data->setPassword($request->get('repeat-password'));
+
+                    $this->app['orm.em']->flush();
+                    $this->app['session']->getFlashBag()->add('message_success','Password telah berhasil diganti, silahkan masuk dengan password baru anda.');
+                    return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
+                } else {
+                    $this->app['session']->getFlashBag()->add('message_error','Password tidak cocok');
+                }
+            }
+
+            return $this->app['twig']->render('Client/reset_password.twig');
+
+        } else {
+            return 'Token tidak valid, silahkan periksa kembali link yang anda terima';
+        }
+
     }
 }

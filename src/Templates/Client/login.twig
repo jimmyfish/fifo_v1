@@ -19,6 +19,11 @@
                             <strong>Ups!</strong> {{ message }}
                         </div>
                     {% endfor %}
+                    {% for message in app.session.getFlashBag.get('message_success') %}
+                        <div class="alert alert-success">
+                            <strong>Sukses!</strong> {{ message }}
+                        </div>
+                    {% endfor %}
                     <form action="{{ path('loginClient') }}" method="post">
 
                         <div class="field-wrap">
@@ -35,9 +40,9 @@
                             <input id="password" name="password" type="password" required autocomplete="off"/>
                         </div>
 
-                        <p class="forgot"><a href="#">Lupa Password?</a></p>
+                        <p class="forgot"><a href="{{ path('client_forget') }}">Lupa Password?</a></p>
 
-                        <button class="button button-block"/>
+                        <button class="button button-block">
                         Masuk</button>
                     </form>
 
@@ -77,7 +82,7 @@
                             <input id="password" name="password" type="password" required autocomplete="off"/>
                         </div>
 
-                        <button type="submit" class="button button-block"/>
+                        <button type="submit" class="button button-block">
                         Daftar</button>
 
                     </form>

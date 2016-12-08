@@ -1,0 +1,31 @@
+{% extends 'Client/Layouts/layouts.twig' %}
+
+{% block title %}Lupa Password{% endblock %}
+
+{% block content %}
+    <div id="form-login" class="container-fluid">
+        <div class="form">
+            <div id="login">
+                <h1>Masukkan alamat e-mail anda</h1>
+                {% for message in app.session.getFlashBag.get('message_error') %}
+                    <div class="alert alert-danger">
+                        <strong>Ups!</strong> {{ message }}
+                    </div>
+                {% endfor %}
+                <form action="{{ path('client_forget') }}" method="post">
+
+                    <div class="field-wrap">
+                        <label for="email">
+                            Email Anda<span class="req">*</span>
+                        </label>
+                        <input id="email" name="email" type="email" required autocomplete="off"/>
+                    </div>
+
+                    <button type="submit" class="button button-block">
+                        Proses</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
