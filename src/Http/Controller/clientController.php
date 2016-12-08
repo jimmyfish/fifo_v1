@@ -28,21 +28,53 @@ class clientController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
-        $controllers->get('/', [$this, 'homeClientAction'])->bind('homeClient');
-        $controllers->get('/about', [$this, 'aboutClientAction'])->bind('aboutClient');
-        $controllers->get('/daftar-barang', [$this, 'barangClientAction'])->bind('barangClient');
-        $controllers->get('/detail-barang', [$this, 'detailClientAction'])->bind('detailClient');
-        $controllers->get('/faq', [$this, 'faqClientAction'])->bind('faqClient');
-        $controllers->match('/login', [$this, 'loginClientAction'])->bind('loginClient');
-        $controllers->match('/client-registration', [$this, 'registrationClientAction'])->bind('client_registration');
-        $controllers->match('/upload', [$this, 'uploadClientAction'])->bind('uploadClient');
-        $controllers->get('/success-step-one/{email}', [$this, 'successStepOneAction'])->bind('success_step_one');
-        $controllers->get('/activation/{token}', [$this, 'clientActivationAction'])->bind('client_activation');
-        $controllers->match('/edit/', [$this, 'clientEditAction'])->bind('edit_client');
-        $controllers->get('/resend-activation', [$this, 'resendAction'])->bind('resend_activation');
-        $controllers->get('/profil', [$this, 'clientProfileAction'])->bind('profil_client');
-        $controllers->match('/forget-password',[$this, 'clientForgetAction'])->bind('client_forget');
-        $controllers->match('/reset/{token}', [$this, 'clientResetAction'])->bind('reset_client');
+        $controllers->get('/', [$this, 'homeClientAction'])
+            ->bind('homeClient');
+
+        $controllers->get('/about', [$this, 'aboutClientAction'])
+            ->bind('aboutClient');
+
+        $controllers->get('/daftar-barang', [$this, 'barangClientAction'])
+            ->bind('barangClient');
+
+        $controllers->get('/detail-barang', [$this, 'detailClientAction'])
+            ->bind('detailClient');
+
+        $controllers->get('/faq', [$this, 'faqClientAction'])
+            ->bind('faqClient');
+
+        $controllers->match('/login', [$this, 'loginClientAction'])
+            ->bind('loginClient');
+
+        $controllers->match('/client-registration', [$this, 'registrationClientAction'])
+            ->bind('client_registration');
+
+        $controllers->match('/upload', [$this, 'uploadClientAction'])
+            ->bind('uploadClient');
+
+        $controllers->get('/success-step-one/{email}', [$this, 'successStepOneAction'])
+            ->bind('success_step_one');
+
+        $controllers->get('/activation/{token}', [$this, 'clientActivationAction'])
+            ->bind('client_activation');
+
+        $controllers->match('/edit/', [$this, 'clientEditAction'])
+            ->bind('edit_client');
+
+        $controllers->get('/resend-activation', [$this, 'resendAction'])
+            ->bind('resend_activation');
+
+        $controllers->get('/profil', [$this, 'clientProfileAction'])
+            ->bind('profil_client');
+
+        $controllers->match('/forget-password',[$this, 'clientForgetAction'])
+            ->bind('client_forget');
+
+        $controllers->match('/reset/{token}', [$this, 'clientResetAction'])
+            ->bind('reset_client');
+
+        $controllers->match('/setting-password', [$this, 'clientSettingPasswordAction'])
+            ->bind('setting_password');
 
         return $controllers;
     }
@@ -302,5 +334,28 @@ class clientController implements ControllerProviderInterface
             return 'Token tidak valid, silahkan periksa kembali link yang anda terima';
         }
 
+    }
+
+    public function clientSettingPasswordAction(Request $request)
+    {
+        $data = $this->app['user.repository']->findByEmail($this->app['session']->get('email'));
+
+        if ($request->getMethod() == 'POST' ) {
+            if ($data->getPassword() == md5($request->get('old-password'))) {
+                if ($request->get('password') == $request->get('repeat-password')) {
+                    $data->setPassword($request->get('password'));
+                    $this->app['orm.em']->flush();
+
+                    $this->app['session']->getFlashBag()->add('message_success', 'Password telah berhasil diganti, silahkan masuk dengan password baru anda');
+                    return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
+                } else {
+                    $this->app['session']->getFlashBag()->add('message_error','Password tidak cocok, silahkan ulangi lagi');
+                }
+            } else {
+                $this->app['session']->getFlashBag()->add('message_error','Password lama tidak cocok');
+            }
+        }
+
+        return $this->app['twig']->render('Client/setting_password.twig');
     }
 }
