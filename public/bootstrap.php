@@ -16,7 +16,7 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider(), $config['db']);
  */
 $app->register(new \Dflydev\Silex\Provider\DoctrineOrm\DoctrineOrmServiceProvider(), $config['orm']);
 
-$app->register(new \Silex\Provider\SwiftmailerServiceProvider(), $config['swiftmailer']);
+$app->register(new \Silex\Provider\SwiftmailerServiceProvider());
 
 /**
  * Register Twig Service Provider

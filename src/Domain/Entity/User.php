@@ -7,6 +7,7 @@
  */
 
 namespace Jimmy\fifo\Domain\Entity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class User
@@ -90,6 +91,12 @@ class User
      * @var string
      */
     private $secretToken;
+
+    /**
+     * @Column(type="text", length=65535, nullable=true)
+     * @var string
+     */
+    private $picture;
 
     /**
      * @Column(type="datetime", nullable=false, name="created_at")
@@ -367,6 +374,24 @@ class User
     {
         $this->address = $address;
     }
+
+    /**
+     * @return string
+     */
+    public function getPicture()
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param $picture
+     */
+    public function setPicture($picture)
+    {
+        $this->picture = $picture;
+    }
+
+
 
 
 }

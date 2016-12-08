@@ -88,3 +88,14 @@ body {
 .label {
     font-size:1em;
 }
+
+.image-profile {
+    -webkit-border-radius:100%;
+    -moz-border-radius:100%;
+    border-radius:100%;
+    object-fit: cover;
+    max-height:125px;
+    max-width:125px;
+    min-height:125px;
+    min-width:125px;
+}

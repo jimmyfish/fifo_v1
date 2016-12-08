@@ -11,6 +11,7 @@ namespace Jimmy\fifo\Http\Controller;
 use Jimmy\fifo\Domain\Entity\User;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Provider\SwiftmailerServiceProvider;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -179,6 +180,7 @@ class clientController implements ControllerProviderInterface
         $data = $this->app['user.repository']->findByEmail($this->app['session']->get('email')['value']);
 
         if ($request->getMethod() == 'POST') {
+            $fileName = md5(uniqid()) . '.' . $request->files->get('profile-image')->guessExtension();
             $data->setFirstName($request->get('first-name'));
             $data->setLastName($request->get('last-name'));
             $data->setPhone($request->get('phone'));
@@ -186,9 +188,11 @@ class clientController implements ControllerProviderInterface
             $data->setPinBBM($request->get('pin-bbm'));
             $data->setAddress($request->get('address'));
             $this->app['session']->set('name', ['value' => $data->getFirstName() . ' ' . $data->getLastName()]);
+            $data->setPicture($fileName);
+
+            $request->files->get('profile-image')->move($this->app['foto.path'] . '/', $fileName);
 
             $this->app['orm.em']->flush();
-
             return $this->app->redirect($this->app['url_generator']->generate('profil_client'));
         }
 

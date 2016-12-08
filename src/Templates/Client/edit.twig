@@ -23,7 +23,11 @@
                             <strong>Perhatian!</strong> Akun anda belum tervalidasi, silahkan cek email untuk menvalidasi. <a href="{{ path('resend_activation') }}">Kirim ulang kode aktivasi</a>
                         </div>
                     {% endif %}
-                    <form method="post" action="{{ path('edit_client') }}">
+                    <form method="post" action="{{ path('edit_client') }}" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="profile-image">Foto Profil</label>
+                            <input type="file" accept="image/*" name="profile-image" id="profile-image">
+                        </div>
                         <div class="form-group">
                             <label for="first-name">Nama Depan</label>
                             <input type="text" class="form-control" value="{{ data.firstName }}" id="first-name" name="first-name" required>

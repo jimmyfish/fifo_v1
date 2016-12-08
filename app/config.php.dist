@@ -10,7 +10,9 @@ return [
     'common' => [
         'debug' => true,
         'monolog.logfile' => __DIR__ . '/../app/logs/development.log',
-        'asset.path' => __DIR__ . '/../public/assets'
+        'asset.path' => __DIR__ . '/../public/assets',
+        'dokumen.path' => __DIR__ . '/../public/documents',
+        'foto.path' => __DIR__ . '/../public/photo'
     ],
     'db' => [
         'db.options' => [
