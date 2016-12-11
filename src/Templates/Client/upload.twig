@@ -19,10 +19,10 @@
         <div class="row thumbnail">
             <div id="upload-content" class="col-md-12">
                 <p>&nbsp;</p>
-                <div id="info-kiri" class="col-md-3">
+                <div id="info-kiri" class="col-md-2">
 
                 </div>
-                <div id="upload-kanan" class="col-md-6">
+                <div id="upload-kanan" class="col-md-8">
                     <div class="row">
                         <div class="col-xs-12">
                             <h3>Keterangan</h3>
@@ -78,20 +78,57 @@
                                             <option>Tas</option>
                                         </select>
                                     </div>
+                                    {#<div class="form-group file-preview">#}
+                                        {#<label for="images">Unggah Gambar</label>#}
+                                        {#<output id="list" class="hide"></output>#}
+                                    {#</div>#}
+                                    {#<div class="form-group file-area">#}
+                                        {#<input type="file" name="images1" id="images1" required="required"/>#}
 
+                                        {#<div class="file-dummy">#}
+                                            {#<div class="success">Gambar sudah diproses, silahkan tambahkan lebih banyak gambar.</div>#}
+                                            {#<div class="default">Pilih gambar atau Tarik gambar ke kotak ini.</div>#}
+                                        {#</div>#}
+
+
+                                    {#</div>#}
                                     <div class="form-group">
-                                        <label>Lampiran Foto</label>
-                                        <p>
-                                            <img src="http://lorempixel.com/400/200" height="200" width="400">
-                                        </p>
-                                        <input type="file" name="attachment-1" accept="image/*" required>
+                                        <label>Unggah Foto</label>
+                                        <div class="pic-wrap">
+                                            {#<div class="pic-inner">#}
+                                                {#<img src="{{ app.request.basepath }}/assets/images/picture.svg" class="pic-preview">#}
+                                                {#<label>#}
 
+                                                    {#<input class="hide" type="file" name="pic-upload[]">#}
+                                                {#</label>#}
+                                            {#</div>#}
+                                            <div class="pic-preview">
+                                                <img class="img-preview" src="{{ app.request.basepath }}/assets/images/img-test.jpg">
+                                            </div>
+                                            <div class="pic-inner">
+                                                <img src="{{ app.request.basepath }}/assets/images/picture.svg" class="pic-preview img-responsive hide">
+                                                <label>
+                                                    <i class="fa fa-2x fa-plus">
+
+                                                    </i>
+                                                    <input type="file" class="hide" name="image" id="image" onchange="readURL(this)"></label>
+                                            </div>
+                                            <div class="pic-inner hide">
+                                                <img src="{{ app.request.basepath }}/assets/images/picture.svg" class="pic-preview img-responsive hide">
+                                                <label>
+                                                    <i class="fa fa-2x fa-plus">
+
+                                                    </i>
+                                                    <input type="file" class="hide" name="image" id="image" onchange="readURL(this)"></label>
+                                            </div>
+
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <p>
-                                            <img src="http://lorempixel.com/400/200" height="200" width="400">
-                                        </p>
-                                        <input type="file" name="attachment-2" accept="image/*" required>
+                                        <small>NB: Untuk menghapus gambar silahkan klik pada gambar yang ingin di hapus.</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <img src="">
                                     </div>
                                     <div class="control-group form-group">
                                         <div class="controls">
@@ -122,4 +159,87 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block customJS %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var _thumb = $(input).parent().find('img');
+                if (!_thumb.length) {
+                    _thumb = $(input).parent().prev().find('img.img-responsive');
+                }
+                if (_thumb.length) {
+                    var reader = new FileReader();
+                    var height = _thumb.attr('height') || _thumb.height();
+                    reader.onload = function (e) {
+                        _thumb
+                                .attr('src', e.target.result)
+                                .width(height)
+                                .css('object-fit', 'cover')
+                                .height(height)
+                                .removeClass('hide')
+                        ;
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+
+        $(document).ready(function() {
+//           $("[id^='images']").change(function() {
+//                $('output#list').removeClass('hide');
+////               if ($('output').find('span').length == 3) {
+////                   $('.file-area').addClass('hide');
+////               }
+//               var len = $(this).attr('name').length;
+//               var num = $(this).attr('name').substring(len - 1, len);
+//               var nump = num + 1;
+//               $(this).clone().appendTo('.file-area').prop('id', 'images' + nump);
+//
+//           });
+        });
+//        var input = document.getElementById('images1');
+
+//        input.value = '';
+//            var reader;
+//            var progress = document.querySelector('.percent');
+//
+//            function handleFileSelect(evt) {
+//
+//                var files = evt.target.files; // FileList object
+//
+//                // Loop through the FileList and render image files as thumbnails.
+//                for (var i = 0, f; f = files[i]; i++) {
+//
+//                    // Only process image files.
+//                    if (!f.type.match('image.*')) {
+//                        continue;
+//                    }
+//
+//                    var reader = new FileReader();
+//
+//                    // Closure to capture the file information.
+//                    reader.onload = (function(theFile) {
+//                        return function(e) {
+//                            // Render thumbnail.
+//                            var span = document.createElement('span');
+//                            span.innerHTML = ['<img class="thumb" src="', e.target.result,
+//                                '" title="', escape(theFile.name), '"/>'].join('');
+//                            document.getElementById('list').insertBefore(span, null);
+//                        };
+//                    })(f);
+//
+//                    // Read in the image file as a data URL.
+//                    reader.readAsDataURL(f);
+//                }
+//
+//            }
+//
+//
+//
+//            document.getElementById('images').addEventListener('change', handleFileSelect, false);
+
+    </script>
 {% endblock %}

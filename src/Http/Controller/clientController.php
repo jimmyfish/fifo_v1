@@ -143,6 +143,10 @@ class clientController implements ControllerProviderInterface
         $data = $this->app['user.repository']->findByEmail($session->get('email')['value']);
         if ($session->get('name') != null) {
 
+            if ($request->getMethod() == 'POST') {
+                return var_dump($request->files->get('images'));
+            }
+
             return $this->app['twig']->render('Client/upload.twig', ['data' => $data]);
         } else {
             return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
