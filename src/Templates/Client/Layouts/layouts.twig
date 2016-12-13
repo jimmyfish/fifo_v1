@@ -68,6 +68,26 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <ul>
+                {% if (app.session.get('name') is not null) %}
+                    <li id="usrn">
+                        <a href="#" data-toggle="popover" class="trigger" data-placement="bottom" title="{{ app.session.get('name')['value'] }}">
+                        <img src="{{ app.request.basepath }}/assets/images/user2-160x160.jpg" class="user-image" alt="User Image">
+                        </a>
+                        <div class="content hide">
+                            {% if (app.session.get('role')['value'] == 0) %}
+                                <a href="{{ path('homeAdmin') }}" class="btn btn-danger">Admin</a>
+                            {% endif %}
+                            <a href="{{ path('profil_client') }}" class="btn btn-default">Profil</a>
+                            <a href="{{ path('setting_password') }}" class="btn btn-default">Atur Password</a>
+                            <a href="{{ path('logout') }}" class="btn btn-default">Keluar</a>
+                        </div>
+                    </li>
+                {% else %}
+                    
+                {% endif %}
+            </ul>
+            
             <a class="navbar-brand" href="{{ ('/') }}"><img alt=""
                                                                           src="{{ app.request.basepath }}/assets/images/b.jpg"
                                                                           class="img-responsive"></a>
@@ -81,21 +101,24 @@
                 <li>
                     <a href="{{ path('barangClient') }}">Temukan Barangmu</a>
                 </li>
+                <li>
+                    <a href="{{ path('uploadClient') }}">Upload</a>
+                </li>
 
-
-                {% if (app.session.get('name') is not null) %}
-                    <li>
-                        <a href="{{ path('uploadClient') }}">Upload</a>
-                    </li>
-                    <li>
-                        <a href="#" data-toggle="popover" class="trigger" data-placement="bottom" title="{{ app.session.get('name')['value'] }}"><i class="fa fa-user"></i></a>
+                
+                    
+                    {% if (app.session.get('name') is not null) %}
+                    <li id="usr-nav">
+                        <a href="#" data-toggle="popover" class="trigger" data-placement="bottom" title="{{ app.session.get('name')['value'] }}">
+                        <img src="{{ app.request.basepath }}/assets/images/user2-160x160.jpg" class="user-image" alt="User Image">
+                        </a>
                         <div class="content hide">
                             {% if (app.session.get('role')['value'] == 0) %}
                                 <a href="{{ path('homeAdmin') }}" class="btn btn-danger">Admin</a>
                             {% endif %}
-                            <a href="{{ path('profil_client') }}" class="btn btn-info">Profil</a>
-                            <a href="{{ path('setting_password') }}" class="btn btn-primary">Atur Password</a>
-                            <a href="{{ path('logout') }}" class="btn btn-warning">Keluar</a>
+                            <a href="{{ path('profil_client') }}" class="btn btn-default">Profil</a>
+                            <a href="{{ path('setting_password') }}" class="btn btn-default">Atur Password</a>
+                            <a href="{{ path('logout') }}" class="btn btn-default">Keluar</a>
                         </div>
                     </li>
                 {% else %}

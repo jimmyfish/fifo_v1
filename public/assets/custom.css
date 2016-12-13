@@ -19,15 +19,20 @@ nav ul a {
     font-weight: 600;
     font-size: 17px;
 }
-nav ul a:hover{
+/**nav ul a:hover{
     border-bottom: 5px solid #ff0000 !important;
     background-color: #1E252C !important;
-}
+}*/
 nav a {
     color: #fff !important;
 }
 nav img {
-    margin-top: -7px !important;
+    margin-top: -18px;
+}
+@media (max-width: 768px) {
+    nav img {
+        margin-top: -15px !important;
+    }
 }
 .form-control:focus {
     border-color: #ff8080 !important;
@@ -354,5 +359,67 @@ img.responsive-img {
 @media screen and (max-width: 992px){
     #info-kiri {
         border-right: none !important;
+    }
+}
+
+.popover {
+    border-color: 2px solid #ff0000;
+}
+.popover-title {
+    background-color: #ff4d4d !important;
+    border-radius: none !important;
+}
+.navbar-collapse .btn,
+.navbar-header .btn {
+    border: 1px solid #ff0000;
+}
+.navbar-collapse .user-image {
+  float: left;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: -2px;
+}
+@media (max-width: 767px) {
+    .navbar-collapse .user-image {
+    float: none;
+    margin-right: 0;
+    margin-top: -8px;
+    line-height: 10px;
+  }
+}
+@media (max-width: 767px) {
+    .navbar-collapse li#usr-nav{
+        display: none;
+    }
+}
+
+.navbar-header #usrn {
+    float: right;
+    padding: 28px 15px 0px 0px;
+}
+.navbar-header .user-image {
+  float: left;
+  width: 27px;
+  height: 35px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-top: -2px;
+}
+@media (max-width: 767px) {
+    .navbar-header .user-image {
+    float: none;
+    margin-right: 0;
+    margin-top: -8px;
+    line-height: 10px;
+    }
+    .popover.bottom {
+        margin-top: 0px;
+    }
+}
+@media (min-width: 767px) {
+    .navbar-header #usrn{
+        display: none;
     }
 }
