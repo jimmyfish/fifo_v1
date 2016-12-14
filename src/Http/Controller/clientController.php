@@ -115,8 +115,20 @@ class clientController implements ControllerProviderInterface
 
     public function homeClientAction()
     {
+        $arrPhoto = [];
+        $barang = $this->app['orm.em']->getRepository('Jimmy\fifo\Domain\Entity\Barang')
+            ->createQueryBuilder('o')
+            ->orderBy('o.id', 'DESC')
+            ->setMaxResults(8)
+            ->getQuery()
+            ->getResult();
+        foreach ($barang as $modify) {
+            $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
+            array_push($arrPhoto, $info);
+        }
         $cat = $this->app['category.repository']->findAll();
-        return $this->app['twig']->render('Client/index.twig', ['cat' => $cat]);
+        return $this->app['twig']->render('Client/index.twig', ['cat' => $cat, 'barang' => $barang, 'photo' => $arrPhoto]);
+//        return var_dump($barang);
     }
 
     public function aboutClientAction()

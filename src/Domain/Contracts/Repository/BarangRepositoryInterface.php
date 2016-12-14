@@ -42,4 +42,6 @@ interface BarangRepositoryInterface
      * @return Barang
      */
     public function findByDescription($description);
+
+    public function findByAllDescending();
 }

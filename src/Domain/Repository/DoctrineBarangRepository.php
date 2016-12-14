@@ -61,4 +61,9 @@ class DoctrineBarangRepository extends EntityRepository implements BarangReposit
     {
         // TODO: Implement findByDescription() method.
     }
+
+    public function findByAllDescending()
+    {
+        return $this->findBy([],['id' => 'DESC']);
+    }
 }
