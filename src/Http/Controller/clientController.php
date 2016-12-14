@@ -8,6 +8,9 @@
 
 namespace Jimmy\fifo\Http\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Jimmy\fifo\Domain\Entity\Barang;
+use Jimmy\fifo\Domain\Entity\Photo;
 use Jimmy\fifo\Domain\Entity\User;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -37,7 +40,7 @@ class clientController implements ControllerProviderInterface
         $controllers->get('/daftar-barang', [$this, 'barangClientAction'])
             ->bind('barangClient');
 
-        $controllers->get('/detail-barang', [$this, 'detailClientAction'])
+        $controllers->get('/detail-barang/{id}', [$this, 'detailClientAction'])
             ->bind('detailClient');
 
         $controllers->get('/faq', [$this, 'faqClientAction'])
@@ -81,7 +84,8 @@ class clientController implements ControllerProviderInterface
 
     public function homeClientAction()
     {
-        return $this->app['twig']->render('Client/index.twig');
+        $cat = $this->app['category.repository']->findAll();
+        return $this->app['twig']->render('Client/index.twig', ['cat' => $cat]);
     }
 
     public function aboutClientAction()
@@ -91,12 +95,24 @@ class clientController implements ControllerProviderInterface
 
     public function barangClientAction()
     {
-        return $this->app['twig']->render('Client/barang.twig');
+        $arrPhoto = [];
+        $barang = $this->app['barang.repository']->findAll();
+        $cat = $this->app['category.repository']->findAll();
+        foreach ($barang as $modify) {
+            $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
+            array_push($arrPhoto, $info);
+        }
+        return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'photo' => $arrPhoto, 'cat' => $cat]);
     }
 
-    public function detailClientAction()
+    public function detailClientAction(Request $request)
     {
-        return $this->app['twig']->render('Client/detail.twig');
+        $cat = $this->app['category.repository']->findAll();
+        $barang = $this->app['barang.repository']->findById($request->get('id'));
+        $photo = $this->app['photo.repository']->findByIdBarang($request->get('id'));
+
+        return $this->app['twig']->render('Client/detail.twig',['cat' => $cat, 'barang' => $barang, 'photo' => $photo]);
+//        return count($photo);
     }
 
     public function faqClientAction()
@@ -140,14 +156,40 @@ class clientController implements ControllerProviderInterface
     public function uploadClientAction(Request $request)
     {
         $session = $this->app['session'];
+        $cat = $this->app['category.repository']->findAll();
         $data = $this->app['user.repository']->findByEmail($session->get('email')['value']);
         if ($session->get('name') != null) {
 
             if ($request->getMethod() == 'POST') {
-                return var_dump($request->files->get('images'));
+                $files = new ArrayCollection();
+                $info = Barang::create($request->get('first-name') . ' ' . $request->get('last-name'),$request->get('phone'),$request->get('email'),$request->get('address'),$request->get('description'),$request->get('title'), $request->get('category'));
+
+                if ($request->get('facebook') != "") {
+                    $info->setFounderFacebook($request->get('facebook'));
+                }
+                if ($request->get('bbm') != "") {
+                    $info->setFounderPin($request->get('bbm'));
+                }
+                $this->app['orm.em']->persist($info);
+                $this->app['orm.em']->flush();
+                $dirName = $this->app['foto.path'] . '/' . $info->getId();
+                mkdir($dirName, 0755);
+
+                foreach($request->files->get('images') as $img) {
+                    $fileName = md5(uniqid()) . '.' . $img->guessExtension();
+                    $files->add(Photo::create($info->getId(), $fileName));
+                    $img->move($dirName, $fileName);
+                }
+
+                for ($i = 0;$i < count($files);$i++) {
+                    $this->app['orm.em']->persist($files[$i]);
+                    $this->app['orm.em']->flush();
+                }
+
+                return 'SUKSES';
             }
 
-            return $this->app['twig']->render('Client/upload.twig', ['data' => $data]);
+            return $this->app['twig']->render('Client/upload.twig', ['data' => $data, 'cat' => $cat]);
         } else {
             return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
         }

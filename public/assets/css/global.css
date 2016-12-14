@@ -110,51 +110,6 @@ output {
     padding:5px;
 }
 
-.file-area {
-    width: 100%;
-    position: relative;
-    border: 2px dashed #999;
-}
-.file-area input[type=file] {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0;
-    cursor: pointer;
-}
-.file-area .file-dummy {
-    width: 100%;
-    padding: 30px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px dashed rgba(255, 255, 255, 0.2);
-    text-align: center;
-    transition: background 0.3s ease-in-out;
-}
-.file-area .file-dummy .success {
-    display: none;
-}
-.file-area:hover .file-dummy {
-    background: rgba(255, 255, 255, 0.1);
-}
-.file-area input[type=file]:focus + .file-dummy {
-    outline: 2px solid rgba(255, 255, 255, 0.5);
-    outline: -webkit-focus-ring-color auto 5px;
-}
-.file-area input[type=file]:valid + .file-dummy {
-    border-color: rgba(0, 255, 0, 0.4);
-    background-color: rgba(0, 255, 0, 0.3);
-}
-.file-area input[type=file]:valid + .file-dummy .success {
-    display: inline-block;
-}
-.file-area input[type=file]:valid + .file-dummy .default {
-    display: none;
-}
-
 .thumb {
     max-height: 117px;
     min-height:117px;
@@ -164,67 +119,42 @@ output {
     margin: 0 5px 5px 0;
 }
 
-.pic-wrap {
-    width: 100%;
-    padding:20px 0;
+.input-container {
+    padding:20px;
+    border:2px dashed #aaa;
     text-align: center;
-    background-color: #ddd;
 }
 
-.pic-inner:not(:nth-child(1)) {
-    margin-left:5px;
-}
-
-.pic-inner, .pic-preview {
-    display:inline-block;
-}
-
-.pic-inner {
-    vertical-align: middle;
+.input-inner {
+    text-align: center;
+    width: auto;
+    display: inline;
 }
 
 .img-preview {
-    height:126px;
-    width: 126px;
-    min-height:126px;
-    max-height:126px;
-    min-width:126px;
-    max-width:126px;
+    min-width: 120px;
+    max-width: 120px;
+    min-height: 120px;
+    max-height: 120px;
     object-fit: cover;
-    -o-object-fit: cover;
 }
 
-.pic-preview {
-    vertical-align: top;
+#add-images {
+    margin-top:20px;
+}
+
+.input-inner label {
+    margin-left:-70px;
+    position: absolute;
+    margin-top:46px;
+    height:100%;
     cursor: pointer;
 }
 
-.pic-inner label {
-    border:2px dashed #666;
-    cursor: pointer;
-    padding:46.25px 50px;
-    -webkit-transition: all .4s ease;
-    -moz-transition: all .4s ease;
-    -ms-transition: all .4s ease;
-    -o-transition: all .4s ease;
-    transition: all .4s ease;
-    display: inline-block;
+.input-error {
+    border:2px dashed #e74c3c !important;
 }
 
-.pic-inner label:hover {
-    background-color: #aaa;
-    border:2px dashed #ddd;
+.alert {
+    border-radius: 0;
 }
-
-
-
-
-
-/*.pic-input {*/
-    /*width: 25px;*/
-    /*height: 25px;*/
-    /*background-image: url('../images/add.svg');*/
-    /*position: absolute;*/
-    /*margin-left:-72px;*/
-    /*margin-top:-10px;*/
-/*}*/

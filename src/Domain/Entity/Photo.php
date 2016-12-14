@@ -43,6 +43,16 @@ class Photo
      */
     private $createdAt;
 
+    public static function create($idBarang,$uploadedFile)
+    {
+
+        $info = new Photo();
+        $info->setIdBarang($idBarang);
+        $info->setFilename($uploadedFile);
+        $info->setCreatedAt(new \DateTime());
+        return $info;
+    }
+
     /**
      * @return int
      */

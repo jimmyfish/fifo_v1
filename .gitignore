@@ -4,6 +4,6 @@ app/cache/
 app/logs/
 app/config.php
 app/proxies/
-public/photo/
+public/photo/*
 cli-config.php
 public/documents

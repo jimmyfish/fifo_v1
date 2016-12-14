@@ -6,45 +6,37 @@
 <!-- Main Content -->
 <div id="main-kerja" class="container-fluid">
     <!-- Page Content -->
+
     <div id="single-artikel" class="container thumbnail">
         <div class="row">
+            {#{{ dump(photo) }}#}
             <div id="info-kiri" class="col-md-6">
                 <div id="img-utama" class="col-md-offset-1 col-md-10">
                     <div class="thumbnail">
-                        <a class="fancybox" href="{{ app.request.basepath }}/assets/images/gambar/1_b.jpg" data-fancybox-group="fifo-gallery" title="">
-                            <img class="img-responsive" src="{{ app.request.basepath }}/assets/images/gambar/1_a.jpg" alt=""></a>
+                        <a class="fancybox" href="{{ app.request.basepath }}/photo/{{ barang.id }}/{{ photo[0].filename }}" data-fancybox-group="fifo-gallery" title="">
+                            <img class="img-responsive" src="{{ app.request.basepath }}/photo/{{ barang.id }}/{{ photo[0].filename }}" alt=""></a>
                     </div>
                 </div>
-                <div id="img-tambahan" class="col-md-4 col-sm-4 col-xs-4">
-                    <div class="thumbnail">
-                        <a class="fancybox" href="{{ app.request.basepath }}/assets/images/gambar/2_b.jpg" data-fancybox-group="fifo-gallery" title="">
-                            <img class="img-responsive" src="{{ app.request.basepath }}/assets/images/gambar/2_a.jpg" alt=""></a>
+                {% for info in photo %}
+                    <div id="img-tambahan" class="col-md-4 col-sm-4 col-xs-4">
+                        <div class="thumbnail">
+                            <a class="fancybox" href="{{ app.request.basepath }}/photo/{{ barang.id }}/{{ info.filename }}" data-fancybox-group="fifo-gallery" title="">
+                                <img class="img-responsive" src="{{ app.request.basepath }}/photo/{{ barang.id }}/{{ info.filename }}" alt=""></a>
+                        </div>
                     </div>
-                </div>
-                <div id="img-tambahan" class="col-md-4 col-sm-4 col-xs-4">
-                    <div class="thumbnail">
-                        <a class="fancybox" href="{{ app.request.basepath }}/assets/images/gambar/3_b.jpg" data-fancybox-group="fifo-gallery" title="">
-                            <img class="img-responsive" src="{{ app.request.basepath }}/assets/images/gambar/3_a.jpg" alt=""></a>
-                    </div>
-                </div>
-                <div id="img-tambahan" class="col-md-4 col-sm-4 col-xs-4">
-                    <div class="thumbnail">
-                        <a class="fancybox" href="{{ app.request.basepath }}/assets/images/gambar/4_b.jpg" data-fancybox-group="fifo-gallery" title="">
-                            <img class="img-responsive" src="{{ app.request.basepath }}/assets/images/gambar/4_a.jpg" alt=""></a>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <div id="info-kanan" class="col-md-6">
                 <h3>Kontak</h3>
                 <h4>Penemu
-                    <small>Lutfy Kumar</small></h4>
+                    <small>{{ barang.founder }}</small></h4>
                 <ul class="list-unstyled">
                     <div class="row">
                         <div class="col-md-12 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/telp.svg" alt="">&nbsp085655131310</li>
+                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/telp.svg" alt="">&nbsp; +62{{ barang.founderNumber }}</li>
                         </div>
                         <div class="col-md-12 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/email.png" alt="">&nbspLutfhiesita@gmail.com</li>
+                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/email.png" alt="">&nbsp; {{ barang.founderEmail }}</li>
                         </div>
                     </div>
 
@@ -53,30 +45,27 @@
                 <ul class="list-unstyled">
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/facebook.svg" alt=""><a href="facebook.com">&nbspLutchan</a></li>
+                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/facebook.svg" alt=""><a href="https://facebook.com/{{ barang.founderFacebook }}" target="_blank">&nbsp;{{ barang.founderFacebook }}</a></li>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/bbm.png" alt="">&nbsp41543628</li>
+                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/bbm.png" alt="">&nbsp;{{ barang.founderPin }}</li>
                         </div>
                     </div>
                 </ul>
                 <h3>Alamat</h3>
                 <p>
-                    Jl.Semanggi NO 53 Malang,
-                    Jawatimur, Indonesia
+                    {{ barang.founderAddress }}
                 </p>
             </div>
             <div id="info-utama" class="col-md-12">
                 <div class="thumbnail">
                     <div class="caption-full">
-                        <p class="pull-right">3 views</p>
-                        <h4><a href="#">Tas Parazo Warna Item</a>
+                        <p class="pull-right">{{ barang.views }} views</p>
+                        <h4><a href="#">{{ barang.title }}</a>
                         </h4>
-                        <p>See more snippets like these online store reviews at <a target="_blank" href="http://bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
-                        <p>Want to make these reviews work? Check out
-                            <strong><a href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this building a review system tutorial</a>
-                            </strong>over at maxoffsky.com!</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                        <p>
+                            {{ barang.description }}
+                        </p>
                     </div>
                 </div>
 

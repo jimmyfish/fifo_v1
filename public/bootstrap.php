@@ -75,4 +75,20 @@ $app['user.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\User::class);
 };
 
+$app['category.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Category::class);
+};
+
+$app['barang.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Barang::class);
+};
+
+$app['comentar.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Comentar::class);
+};
+
+$app['photo.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Photo::class);
+};
+
 $app['swiftmailer.use_spool'] = false;

@@ -10,10 +10,11 @@ namespace Jimmy\fifo\Domain\Repository;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Jimmy\fifo\Domain\Contracts\Repository\BarangRepositoryInterface;
 use Jimmy\fifo\Domain\Entity\Barang;
 
-class DoctrineBarangRepository extends EntityManager implements BarangRepositoryInterface
+class DoctrineBarangRepository extends EntityRepository implements BarangRepositoryInterface
 {
 
     /**

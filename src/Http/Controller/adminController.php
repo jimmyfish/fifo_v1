@@ -9,6 +9,7 @@
 namespace Jimmy\fifo\Http\Controller;
 
 
+use Jimmy\fifo\Domain\Entity\Category;
 use Jimmy\fifo\Domain\Entity\User;
 use Silex\Application;
 use Silex\Controller;
@@ -44,9 +45,42 @@ class adminController implements ControllerProviderInterface
 
         $controllers->get('/error',[$this, 'errorAction']);
 
+        $controllers->get('/category/', [$this, 'categoryAction'])->bind('category');
+
+        $controllers->get('/category/list', [$this, 'categoryListAction'])->bind('category_list');
+
+        $controllers->match('/category/create', [$this, 'categoryCreateAction'])->bind('category_create');
+
         $controllers->match('/masuk-admin', [$this, 'adminLoginAction'])->bind('loginAdmin');
 
         return $controllers;
+    }
+
+    public function categoryAction()
+    {
+        return $this->app->redirect($this->app['url_generator']->generate('category_list'));
+    }
+
+    public function categoryListAction()
+    {
+        $data = $this->app['category.repository']->findAll();
+        return $this->app['twig']->render('Admin/categories/list.twig', ['data' => $data]);
+    }
+
+    public function categoryCreateAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {
+            $info = Category::create($request->get('name'));
+
+            $this->app['orm.em']->persist($info);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add('message_success', 'Category has been successfully added to the database');
+
+            return $this->app->redirect($this->app['url_generator']->generate('category_list'));
+
+        }
+        return $this->app['twig']->render('Admin/categories/create.twig');
     }
 
     public function errorAction()

@@ -10,10 +10,11 @@ namespace Jimmy\fifo\Domain\Repository;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Jimmy\fifo\Domain\Contracts\Repository\PhotoRepositoryInterface;
 use Jimmy\fifo\Domain\Entity\Photo;
 
-class DoctrinePhotoRepository extends EntityManager implements PhotoRepositoryInterface
+class DoctrinePhotoRepository extends EntityRepository implements PhotoRepositoryInterface
 {
 
     /**
@@ -31,7 +32,7 @@ class DoctrinePhotoRepository extends EntityManager implements PhotoRepositoryIn
      */
     public function findByIdBarang($idBarang)
     {
-        // TODO: Implement findByIdBarang() method.
+        return $this->findBy(['idBarang' => $idBarang]);
     }
 
     /**

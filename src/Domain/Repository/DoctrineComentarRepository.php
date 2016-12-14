@@ -10,10 +10,11 @@ namespace Jimmy\fifo\Domain\Repository;
 
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Jimmy\fifo\Domain\Contracts\Repository\ComentarRepositoryInterface;
 use Jimmy\fifo\Domain\Entity\Comentar;
 
-class DoctrineComentarRepository extends EntityManager implements ComentarRepositoryInterface
+class DoctrineComentarRepository extends EntityRepository implements ComentarRepositoryInterface
 {
 
     /**

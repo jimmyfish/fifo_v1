@@ -7,7 +7,6 @@
  */
 
 namespace Jimmy\fifo\Domain\Entity;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class User
