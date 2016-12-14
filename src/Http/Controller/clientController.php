@@ -31,7 +31,7 @@ class clientController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
-        $controllers->get('/', [$this, 'homeClientAction'])
+        $controllers->match('/', [$this, 'homeClientAction'])
             ->bind('homeClient');
 
         $controllers->get('/about', [$this, 'aboutClientAction'])
@@ -79,7 +79,38 @@ class clientController implements ControllerProviderInterface
         $controllers->match('/setting-password', [$this, 'clientSettingPasswordAction'])
             ->bind('setting_password');
 
+        $controllers->post('/daftar-barang/filter', [$this, 'clientListBarangWithFilterAction'])->bind('client_list_barang_filter');
+
         return $controllers;
+    }
+
+    public function clientListBarangWithFilterAction(Request $request)
+    {
+        $arrPhoto = [];
+        $cat = $this->app['category.repository']->findAll();
+        if ($request->get('search_param') != 0 ) {
+            $barang = $this->app['orm.em']->getRepository('Jimmy\fifo\Domain\Entity\Barang')
+                ->createQueryBuilder('o')
+                ->where('o.description LIKE :querysatu')
+                ->andWhere('o.categoryId = :querydua')
+                ->setParameter('querysatu', '%'. $request->get('search-keyword') .'%')
+                ->setParameter('querydua', $request->get('search_param'))
+                ->getQuery()
+                ->getResult();
+        } else {
+            $barang = $this->app['orm.em']->getRepository('Jimmy\fifo\Domain\Entity\Barang')
+                ->createQueryBuilder('o')
+                ->where('o.description LIKE :querysatu')
+                ->setParameter('querysatu', '%'. $request->get('search-keyword') .'%')
+                ->getQuery()
+                ->getResult();
+        }
+
+        foreach ($barang as $modify) {
+            $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
+            array_push($arrPhoto, $info);
+        }
+        return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'cat' => $cat, 'photo' => $arrPhoto]);
     }
 
     public function homeClientAction()

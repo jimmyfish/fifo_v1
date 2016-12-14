@@ -12,26 +12,29 @@
 	        </div>
 	        <div class="row">
 	            <div class="col-xs-10 col-xs-offset-1">
+                    <form action="{{ path('client_list_barang_filter') }}" method="post">
 	                <div class="input-group">
-	                    <div class="input-group-btn search-panel">
-	                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-	                            <span id="search_concept">Semua</span> <span class="caret"></span>
-	                        </button>
-	                        <ul class="dropdown-menu" id="search-filter" role="menu">
-	                            {% for info in cat %}
-                                    <li><a href="#{{ info.id }}" class="filter">{{ info.name }}</a></li>
-                                {% endfor %}
-	                            <li class="divider"></li>
-	                            <li><a href="#0">Semua</a></li>
-	                        </ul>
-	                    </div>
-	                    <input type="hidden" name="search_param" id="search-param" value="all" id="search_param">
-	                    <input type="text" class="form-control" name="x" placeholder="Cari Penemu..">
-	                    <span class="input-group-btn">
-	                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-	                </span>
+
+                            <div class="input-group-btn search-panel">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span id="search_concept">Semua</span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" id="search-filter" role="menu">
+                                    {% for info in cat %}
+                                        <li><a href="#{{ info.id }}" class="filter">{{ info.name }}</a></li>
+                                    {% endfor %}
+                                    <li class="divider"></li>
+                                    <li><a href="#0">Semua</a></li>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="search_param" id="search-param" value="0" id="search_param">
+                            <input type="text" class="form-control" name="search-keyword" placeholder="Masukkan Keyword">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                            </span>
 	                </div>
-	            </div>
+                    </form>
+                </div>
 	        </div><!-- /.row -->
 	        <div class="parallax"><img src="{{ app.request.basepath }}/assets/images/a.jpg" alt="Unsplashed background img 1" style="display: block; transform: translate3d(-50%, 72px, 0px);"></div>
 	    </div>
