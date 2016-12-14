@@ -366,8 +366,9 @@ img.responsive-img {
     border-color: 2px solid #ff0000;
 }
 .popover-title {
-    background-color: #ff4d4d !important;
+    background-color: rgb(30, 37, 44)!important;
     border-radius: none !important;
+    color: #fff !important;
 }
 .navbar-collapse .btn,
 .navbar-header .btn {
