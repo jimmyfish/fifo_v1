@@ -126,9 +126,10 @@ class clientController implements ControllerProviderInterface
             $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
             array_push($arrPhoto, $info);
         }
+
         $cat = $this->app['category.repository']->findAll();
         return $this->app['twig']->render('Client/index.twig', ['cat' => $cat, 'barang' => $barang, 'photo' => $arrPhoto]);
-//        return var_dump($barang);
+//        return var_dump($user);
     }
 
     public function aboutClientAction()
@@ -173,9 +174,11 @@ class clientController implements ControllerProviderInterface
 
             if ($data != null) {
                 if ($pass == $data->getPassword()) {
+
                     $this->app['session']->set('name', ['value' => $data->getFirstName() . ' ' . $data->getLastName()]);
                     $this->app['session']->set('role', ['value' => $data->getRole()]);
                     $this->app['session']->set('email', ['value' => $data->getEmail()]);
+                    $this->app['session']->set('profile_picture', ['value' => $data->getPicture()]);
                     $this->app['session']->set('user-count', ['value' => count($userList)]);
                     return $this->app->redirect($this->app['url_generator']->generate('homeClient'));
                 } else {
@@ -316,6 +319,7 @@ class clientController implements ControllerProviderInterface
                 $fileName = md5(uniqid()) . '.' . $request->files->get('profile-image')->guessExtension();
                 $data->setPicture($fileName);
                 $request->files->get('profile-image')->move($this->app['foto.path'] . '/', $fileName);
+                $this->app['session']->set('profile_picture', ['value' => $fileName]);
             }
 
             $this->app['orm.em']->flush();
