@@ -94,7 +94,7 @@ class clientController implements ControllerProviderInterface
         if ($request->get('search_param') != 0 ) {
             $barang = $this->app['orm.em']->getRepository('Jimmy\fifo\Domain\Entity\Barang')
                 ->createQueryBuilder('o')
-                ->where('o.description LIKE :querysatu')
+                ->where('o.description LIKE :querysatu OR o.title LIKE :querysatu')
                 ->andWhere('o.categoryId = :querydua')
                 ->setParameter('querysatu', '%'. $request->get('search-keyword') .'%')
                 ->setParameter('querydua', $request->get('search_param'))
@@ -103,7 +103,7 @@ class clientController implements ControllerProviderInterface
         } else {
             $barang = $this->app['orm.em']->getRepository('Jimmy\fifo\Domain\Entity\Barang')
                 ->createQueryBuilder('o')
-                ->where('o.description LIKE :querysatu')
+                ->where('o.description LIKE :querysatu OR o.title LIKE :querysatu')
                 ->setParameter('querysatu', '%'. $request->get('search-keyword') .'%')
                 ->getQuery()
                 ->getResult();
@@ -224,7 +224,7 @@ class clientController implements ControllerProviderInterface
                 }
                 $this->app['orm.em']->persist($info);
                 $this->app['orm.em']->flush();
-                $dirName = $this->app['foto.path'] . '/' . $info->getId();
+                $dirName = $this->app['foto.path'] . '/barang/' . $info->getId();
                 mkdir($dirName, 0755);
 
                 foreach($request->files->get('images') as $img) {
@@ -310,6 +310,7 @@ class clientController implements ControllerProviderInterface
     public function clientEditAction(Request $request)
     {
         $data = $this->app['user.repository']->findByEmail($this->app['session']->get('email')['value']);
+        $fileDummy = '';
 
         if ($request->getMethod() == 'POST') {
 
@@ -322,13 +323,24 @@ class clientController implements ControllerProviderInterface
             $this->app['session']->set('name', ['value' => $data->getFirstName() . ' ' . $data->getLastName()]);
 
             if ($request->files->get('profile-image') != null) {
+                if ($data->getPicture() != null) {
+                    $fileDummy = $data->getPicture();
+                }
                 $fileName = md5(uniqid()) . '.' . $request->files->get('profile-image')->guessExtension();
                 $data->setPicture($fileName);
-                $request->files->get('profile-image')->move($this->app['foto.path'] . '/', $fileName);
+                $request->files->get('profile-image')->move($this->app['foto.path'] . '/profiles/', $fileName);
                 $this->app['session']->set('profile_picture', ['value' => $fileName]);
+            }
+            if ($request->files->get('berkas-ktp') != null) {
+                $ktpName = md5(uniqid()) . '.' . $request->files->get('berkas-ktp')->guessExtension();
+                $data->setKtpPicture($ktpName);
+                $request->files->get('berkas-ktp')->move($this->app['foto.path'] . '/ktp-picture/', $ktpName);
             }
 
             $this->app['orm.em']->flush();
+            if ($fileDummy != '') {
+                unlink($this->app['foto.path'] . '/profiles/' . $fileDummy);
+            }
             return $this->app->redirect($this->app['url_generator']->generate('profil_client'));
         }
 

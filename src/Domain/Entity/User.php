@@ -98,10 +98,22 @@ class User
     private $picture;
 
     /**
+     * @Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $ktpPicture;
+
+    /**
      * @Column(type="integer", length=2, nullable=false)
      * @var int
      */
     private $status;
+
+    /**
+     * @Column(type="integer", length=2, nullable=false)
+     * @var int
+     */
+    private $identityStatus;
 
     /**
      * @Column(type="datetime", nullable=false, name="created_at")
@@ -412,4 +424,38 @@ class User
     {
         $this->status = $status;
     }
+
+    /**
+     * @return string
+     */
+    public function getKtpPicture()
+    {
+        return $this->ktpPicture;
+    }
+
+    /**
+     * @param string $ktpPicture
+     */
+    public function setKtpPicture($ktpPicture)
+    {
+        $this->ktpPicture = $ktpPicture;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdentityStatus()
+    {
+        return $this->identityStatus;
+    }
+
+    /**
+     * @param int $identityStatus
+     */
+    public function setIdentityStatus($identityStatus)
+    {
+        $this->identityStatus = $identityStatus;
+    }
+
+
 }
