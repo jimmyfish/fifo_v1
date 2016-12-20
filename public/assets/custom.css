@@ -168,6 +168,7 @@ img.responsive-img {
 }
 .thumbnail .caption p {
     text-align: justify !important;
+    max-height: 150px;
 }
 #single-artikel{
     min-height: 500px;
@@ -259,7 +260,7 @@ img.responsive-img {
     padding: 2px 2px 2px 5px !important;
 }
 #sec-content .via-shootcut {
-    margin-top: 44px !important;
+    
 }
 #sec-content .via-shootcut .glyphicon {
     margin: 2px !important;
@@ -549,3 +550,49 @@ img.responsive-img {
 .profile .panel-body {
     padding: 5px !important;
 }
+
+#suc {
+  padding: 50px 0px 30px 0px;
+  text-align: center;
+}
+#suc .panel {
+  padding: 30px !important;
+}
+#suc .alert-success{
+  padding-top: 30px;
+}
+
+#main-kerja .thumbnail {
+  min-height: 400px;
+}
+#main-kerja .thumbnail > img {
+  max-height: 165px;
+  min-height: 165px;
+}
+#main-kerja ul.list-inline {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+}
+#main-kerja .thumbnail .caption p{
+  height: 103px;
+  overflow: hidden;
+}
+@media (max-width: 500px) {
+  #main-kerja .thumbnail .caption p{
+  height: 80px;
+  overflow: hidden;
+  }
+  #main-kerja .caption > h3 {
+    font-size: 20px;
+  }
+}
+
+#sec-content .img-responsive {
+  max-height: 90px !important;
+}
+#sec-content .thumbnail {
+  min-height: 105px;
+}
+#sec-content 

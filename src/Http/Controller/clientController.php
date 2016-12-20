@@ -49,6 +49,9 @@ class clientController implements ControllerProviderInterface
         $controllers->match('/login', [$this, 'loginClientAction'])
             ->bind('loginClient');
 
+        $controllers->match('/success', [$this, 'successClientAction'])
+            ->bind('successClient');
+
         $controllers->match('/client-registration', [$this, 'registrationClientAction'])
             ->bind('client_registration');
 
@@ -163,7 +166,10 @@ class clientController implements ControllerProviderInterface
     {
         return $this->app['twig']->render('Client/faq.twig');
     }
-
+    public function successClientAction()
+    {
+        return $this->app['twig']->render('Client/success.twig');
+    }
     public function loginClientAction(Request $request)
     {
         if ($request->getMethod() == 'POST') {
