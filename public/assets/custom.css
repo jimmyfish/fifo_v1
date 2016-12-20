@@ -544,3 +544,14 @@ img.responsive-img {
 .profile .panel-body {
     padding: 5px !important;
 }
+
+#suc {
+  padding: 50px 0px 30px 0px;
+  text-align: center;
+}
+#suc .panel {
+  padding: 30px !important;
+}
+#suc .alert-success{
+  padding-top: 30px;
+}
