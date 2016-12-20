@@ -9,7 +9,7 @@
             <div class="panel panel-default profile-sidebar">
                 <div class="profile-userpic">
                     {% if (data.picture) is not null %}
-                    <img src="{{ app.request.basepath }}/photo/{{ data.picture }}" class="img-responsive" alt="">
+                    <img src="{{ app.request.basepath }}/photo/profiles/{{ data.picture }}" class="img-responsive" alt="">
                     {% else %}
                     <img src="{{ app.request.basepath }}/assets/images/man.png" class="img-responsive" alt="">
                     {% endif %}
@@ -25,14 +25,14 @@
                 <div class="profile-usermenu">
                     <ul class="nav">
                         <li class="active">
-                            <a href="#">
-                            <i class="glyphicon glyphicon-home"></i>
-                            Overview </a>
+                            <a href="{{ path('profil_client') }}">
+                                <i class="glyphicon glyphicon-home"></i>
+                                Overview </a>
                         </li>
                         <li>
                             <a href="{{ path('edit_client') }}">
-                            <i class="glyphicon glyphicon-user"></i>
-                            Account Settings </a>
+                                <i class="glyphicon glyphicon-user"></i>
+                                Account Settings </a>
                         </li>
                     </ul>
                 </div>
@@ -41,11 +41,21 @@
         <div class="col-md-9">
             <div id="procont" class="panel panel-default profile-content">
             <div class="col-sm-12 col-md-12">
-             {% if data.validateState == 0 %}
-                    <div class="panel-heading">Profil <span class="pull-right label label-warning">Akun Belum Tervalidasi</span></div>
-                {% else %}
-                    <div class="panel-heading">Profil <span class="pull-right label label-success">Akun Tervalidasi</span></div>
-                {% endif %}
+                <div class="panel-heading">Edit Profil
+                    <div class="pull-right">
+                        {% if data.validateState == 0 %}
+                            <span class="label label-warning" data-toggle="tooltip" title="Silahkan ikuti panduan yang dikirimkan ke email anda untuk melakukan validasi akun" data-placement="bottom">Akun Belum Tervalidasi</span>
+                        {% else %}
+                            <span class="label label-success">Akun Tervalidasi</span>
+                        {% endif %}
+                        &nbsp;
+                        {% if data.identityStatus == 0 %}
+                            <span class="label label-warning" data-toggle="tooltip" title="Upload berkas ktp untuk di validasi oleh admin" data-placement="bottom">Identitas Belum Tervalidasi</span>
+                        {% else %}
+                            <span class="label label-success">Identitas Tervalidasi</span>
+                        {% endif %}
+                    </div>
+                </div>
                 <div class="panel-body">
                     {% if data.validateState == 0 %}
                         <div class="alert alert-danger">
@@ -115,72 +125,12 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
-    <!--<div class="container">
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <div class="col-md-2">
-
-        </div>
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                {% if data.validateState == 0 %}
-                    <div class="panel-heading">Edit Profil <span class="pull-right label label-warning">Akun Belum Tervalidasi</span></div>
-                {% else %}
-                    <div class="panel-heading">Edit Profil <span class="pull-right label label-success">Akun Tervalidasi</span></div>
-                {% endif %}
-                <div class="panel-body">
-                    {% if data.validateState == 0 %}
-                        <div class="alert alert-danger">
-                            <strong>Perhatian!</strong> Akun anda belum tervalidasi, silahkan cek email untuk menvalidasi. <a href="{{ path('resend_activation') }}">Kirim ulang kode aktivasi</a>
-                        </div>
-                    {% endif %}
-                        <div class="form-group text-center">
-                            {% if (data.picture) is not null %}
-                                <img src="{{ app.request.basepath }}/photo/{{ data.picture }}" class="image-profile">
-                                {% else %}
-                                    <img src="{{ app.request.basepath }}/assets/images/man.png" class="image-profile">
-                            {% endif %}
-                        </div>
-                        <div class="form-group">
-                            <p>Nama :</p>
-                            <h3>{{ data.firstName }} {% if (data.lastName is not null) and (data.lastName|length > 1) %}{{ data.lastName }}{% else %}-{% endif %}</h3>
-                        </div>
-                        <div class="form-group">
-                            <p>Email :</p>
-                            <h3>{{ data.email }}</h3>
-                        </div>
-                        <div class="form-group">
-                            <p>Nomor Telepon :</p>
-                            <h3>{% if data.phone is not null %}{{ data.phone }}{% endif %}</h3>
-                        </div>
-                        <div class="form-group">
-                            <p>Alamat Facebook :</p>
-                            <h3>{% if (data.fbLink is not null) and (data.fbLink|length > 1) %}
-                            facebook.com/{{ data.fbLink }} <a href="https://facebook.com/{{ data.fbLink }}" target="_blank"><i class="fa fa-external-link"></i></a> {% else %}-{% endif %}</h3>
-                        </div>
-                        <div class="form-group">
-                            <p>Pin BBM :</p>
-                            <h3>{% if (data.pinBBM is not null) and (data.pinBBM|length > 1) %}{{ data.pinBBM }}{% else %}-{% endif %}</h3>
-                        </div>
-                        <div class="form-group">
-                            <p>Alamat :</p>
-                            <h3>{% if (data.address is not null) and (data.address|length > 1) %}{{ data.address }}{% else %}-{% endif %}</h3>
-                        </div>
-                    <p>&nbsp;</p>
-                        <div class="form-group">
-                            <a href="{{ path('edit_client') }}" class="btn btn-success btn-block">Sunting Profil</a>
-                        </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-
-        </div>
-
-    </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p> -->
+{% block customJS %}
+    <script>
+        $(function() {
+           $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 {% endblock %}

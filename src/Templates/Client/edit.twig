@@ -1,74 +1,221 @@
+{#{% extends 'Client/Layouts/layouts.twig' %}#}
+
+{#{% block title %}Sunting Profil{% endblock %}#}
+
+{#{% block content %}#}
+    {#<div class="container">#}
+        {#<p>&nbsp;</p>#}
+        {#<p>&nbsp;</p>#}
+        {#<p>&nbsp;</p>#}
+        {#<div class="col-md-2">#}
+
+        {#</div>#}
+        {#<div class="col-md-8">#}
+            {#<div class="panel panel-default">#}
+                {#{% if data.validateState == 0 %}#}
+                    {#<div class="panel-heading">Edit Profil <span class="pull-right label label-warning">Akun Belum Tervalidasi</span></div>#}
+                {#{% else %}#}
+                    {#<div class="panel-heading">Edit Profil <span class="pull-right label label-success">Akun Tervalidasi</span></div>#}
+                {#{% endif %}#}
+                {#<div class="panel-body">#}
+                    {#{% if data.validateState == 0 %}#}
+                        {#<div class="alert alert-danger">#}
+                            {#<strong>Perhatian!</strong> Akun anda belum tervalidasi, silahkan cek email untuk menvalidasi. <a href="{{ path('resend_activation') }}">Kirim ulang kode aktivasi</a>#}
+                        {#</div>#}
+                    {#{% endif %}#}
+                    {#<form method="post" action="{{ path('edit_client') }}" enctype="multipart/form-data">#}
+                        {#<div class="form-group">#}
+                            {#<label for="profile-image">Foto Profil</label>#}
+                            {#<input type="file" accept="image/*" name="profile-image" id="profile-image">#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<label for="first-name">Nama Depan</label>#}
+                            {#<input type="text" class="form-control" value="{{ data.firstName }}" id="first-name" name="first-name" required>#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<label for="last-name">Nama Belakang</label>#}
+                            {#<input type="text" class="form-control" value="{% if data.lastName is not null %}{{ data.lastName }}{% endif %}" id="last-name" name="last-name">#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<label for="email">Email <small>(Tidak dapat dirubah)</small></label>#}
+                            {#<input type="text"class="form-control" id="email" name="email" value="{{ data.email }}" disabled>#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<label for="phone">Nomor Telepon</label>#}
+                            {#<input type="text"class="form-control" id="phone" name="phone" value="{{ data.phone }}">#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<label for="fb-link">Alamat Facebook <small>(optional)</small></label>#}
+                            {#<input type="text"class="form-control" id="fb-link" name="fb-link" value="{{ data.fbLink }}">#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<label for="pin-bbm">Pin BBM <small>(optional)</small></label>#}
+                            {#<input type="text"class="form-control" id="pin-bbm" name="pin-bbm" value="{{ data.pinBBM }}">#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<label for="address">Alamat</label>#}
+                            {#<textarea style="resize: vertical;color: #000;" name="address" id="address">{% if (data.address) is not null %}{{ data.address }}{% endif %}</textarea>#}
+                        {#</div>#}
+                        {#<div class="form-group">#}
+                            {#<input type="submit" class="btn btn-primary btn-block" value="SIMPAN">#}
+                        {#</div>#}
+                    {#</form>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="col-md-2">#}
+
+        {#</div>#}
+
+    {#</div>#}
+    {#<p>&nbsp;</p>#}
+    {#<p>&nbsp;</p>#}
+    {#<p>&nbsp;</p>#}
+{#{% endblock %}#}
+
 {% extends 'Client/Layouts/layouts.twig' %}
 
-{% block title %}Sunting Profil{% endblock %}
+{% block title %}Profil{% endblock %}
 
 {% block content %}
     <div class="container">
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <div class="col-md-2">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="panel panel-default profile-sidebar">
+                    <div class="profile-userpic">
+                        {% if (data.picture) is not null %}
+                            <img src="{{ app.request.basepath }}/photo/profiles/{{ data.picture }}" class="img-responsive" alt="">
+                        {% else %}
+                            <img src="{{ app.request.basepath }}/assets/images/man.png" class="img-responsive" alt="">
+                        {% endif %}
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {{ data.firstName }} {% if (data.lastName is not null) and (data.lastName|length > 1) %}{{ data.lastName }}{% else %}-{% endif %}
+                        </div>
+                        <div class="profile-usertitle-job">
+                            {% if (data.role == 0) %}
+                                ADMIN
+                            {% else %}
+                                MEMBER
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li>
+                                <a href="{{ path('profil_client') }}">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                    Overview </a>
+                            </li>
+                            <li class="active">
+                                <a href="{{ path('edit_client') }}">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    Account Settings </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div id="procont" class="panel panel-default profile-content">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="panel-heading">Edit Profil
+                            <div class="pull-right">
+                                {% if data.validateState == 0 %}
+                                    <span class="label label-warning" data-toggle="tooltip" title="Silahkan ikuti panduan yang dikirimkan ke email anda untuk melakukan validasi akun" data-placement="bottom">Akun Belum Tervalidasi</span>
+                                {% else %}
+                                    <span class="label label-success">Akun Tervalidasi</span>
+                                {% endif %}
+                                &nbsp;
+                                {% if data.identityStatus == 0 %}
+                                    <span class="label label-warning" data-toggle="tooltip" title="Upload berkas ktp untuk di validasi oleh admin" data-placement="bottom">Identitas Belum Tervalidasi</span>
+                                {% else %}
+                                    <span class="label label-success">Identitas Tervalidasi</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            {% if data.validateState == 0 %}
+                                <div class="alert alert-danger">
+                                    <strong>Perhatian!</strong> Akun anda belum tervalidasi, silahkan cek email untuk menvalidasi. <a href="{{ path('resend_activation') }}">Kirim ulang kode aktivasi</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
 
-        </div>
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                {% if data.validateState == 0 %}
-                    <div class="panel-heading">Edit Profil <span class="pull-right label label-warning">Akun Belum Tervalidasi</span></div>
-                {% else %}
-                    <div class="panel-heading">Edit Profil <span class="pull-right label label-success">Akun Tervalidasi</span></div>
-                {% endif %}
-                <div class="panel-body">
-                    {% if data.validateState == 0 %}
-                        <div class="alert alert-danger">
-                            <strong>Perhatian!</strong> Akun anda belum tervalidasi, silahkan cek email untuk menvalidasi. <a href="{{ path('resend_activation') }}">Kirim ulang kode aktivasi</a>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>Nama Depan</label>
+                                <input type="text" class="form-control" id="first-name" name="first-name" value="{{ data.firstName }}">
+                            </div>
                         </div>
-                    {% endif %}
-                    <form method="post" action="{{ path('edit_client') }}" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="profile-image">Foto Profil</label>
-                            <input type="file" accept="image/*" name="profile-image" id="profile-image">
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ data.email }}" readonly="readonly">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="first-name">Nama Depan</label>
-                            <input type="text" class="form-control" value="{{ data.firstName }}" id="first-name" name="first-name" required>
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>Facebook</label>
+                                <input type="text" class="form-control" id="facebook" name="facebook" value="{{ data.fbLink }}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="last-name">Nama Belakang</label>
-                            <input type="text" class="form-control" value="{% if data.lastName is not null %}{{ data.lastName }}{% endif %}" id="last-name" name="last-name">
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>Alamat</label>
+                                <textarea rows="6" cols="100" class="form-control" name="address" style="resize:vertical">{{ data.address }}</textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email <small>(Tidak dapat dirubah)</small></label>
-                            <input type="text"class="form-control" id="email" name="email" value="{{ data.email }}" disabled>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>Nama Belakang</label>
+                                <input type="text" class="form-control" id="last-name" name="last-name" value="{% if (data.lastName is not null) %}{{ data.lastName }}{% endif %}">
+                                <p class="help-block"></p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="phone">Nomor Telepon</label>
-                            <input type="text"class="form-control" id="phone" name="phone" value="{{ data.phone }}">
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>No Telepon</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{ data.phone }}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="fb-link">Alamat Facebook <small>(optional)</small></label>
-                            <input type="text"class="form-control" id="fb-link" name="fb-link" value="{{ data.fbLink }}">
+
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>Pin BBM</label>
+                                <input type="text" class="form-control" id="bbm" name="bbm" value="{{ data.pinBBM }}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="pin-bbm">Pin BBM <small>(optional)</small></label>
-                            <input type="text"class="form-control" id="pin-bbm" name="pin-bbm" value="{{ data.pinBBM }}">
+                        <div class="control-group form-group">
+                            <div class="controls">
+                                <label>Identitas KTP</label>
+                                <p class="upload-container">
+                                    <label class="btn btn-upload">UPLOAD BERKAS KTP
+                                        <input type="file" accept="image/*" class="hide">
+                                    </label>
+                                </p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="address">Alamat</label>
-                            <textarea style="resize: vertical;color: #000;" name="address" id="address">{% if (data.address) is not null %}{{ data.address }}{% endif %}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-primary btn-block" value="SIMPAN">
-                        </div>
-                    </form>
+
+                    </div>
+                    <div class="col-md-12">
+                        <input type="submit" class="btn btn-block btn-primary" value="SIMPAN PERUBAHAN">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-
-        </div>
-
     </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+{% endblock %}
+
+{% block customJS %}
+    <script>
+        $(function() {
+           $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 {% endblock %}
