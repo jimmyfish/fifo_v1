@@ -158,3 +158,9 @@ output {
 .alert {
     border-radius: 0;
 }
+
+.label-profile {
+    position: relative;
+    cursor: pointer;
+    display: block;
+}

@@ -89,7 +89,7 @@
                     <li id="usr-nav">
                         <a href="#" data-toggle="popover" class="trigger" data-placement="bottom" title="{{ app.session.get('name')['value'] }}">
                             {% if (app.session.get('profile_picture')['value'] is not null) %}
-                                <img src="{{ app.request.basepath }}/photo/{{ app.session.get('profile_picture')['value'] }}" class="user-image" alt="User Image">
+                                <img src="{{ app.request.basepath }}/photo/profiles/{{ app.session.get('profile_picture')['value'] }}" class="user-image" alt="User Image">
                                 {% else %}
                                  <img src="{{ app.request.basepath }}/assets/images/man.png" class="user-image" alt="User Image">
                             {% endif %}
@@ -170,7 +170,7 @@
         <div class="container" class="row">
             <div class="col-xs-12 ">
                 <div class="copy">
-                    <p>Copyright © Bangchan</p>
+                    <p>Copyright &copy; Bangchan</p>
                 </div>
 
                 <div class="fo-channel">

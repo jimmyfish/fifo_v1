@@ -176,6 +176,11 @@ img.responsive-img {
     margin-top: 15px;
     margin-bottom: 10px !important;
 }
+
+.caption-full {
+    padding:20px;
+}
+
 #info-kiri .thumbnail {
     margin-top: 30px!important;
 }
