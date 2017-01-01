@@ -199,3 +199,19 @@ output {
 .profile .panel-default {
     border:0;
 }
+
+.img-ktp {
+    max-height:145px;
+    height:100%;
+    max-width:360px;
+    width:100%;
+    object-fit: cover;
+}
+
+form label {
+    cursor: pointer;
+}
+
+.img-responsive {
+    object-fit: cover;
+}

@@ -83,37 +83,43 @@
 
                     <hr>
 
+                    {% if (comment|length > 0) %}
+                        {% for com in comment %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>{{ com.idUser }}
+                                    </h4>
+                                    <span class="pull-right">10 days ago</span>
+                                    <p>{{ com.content }}</p>
+                                </div>
+                            </div>
+
+                            <hr>
+                            {% endfor %}
+                        {% else %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>Tidak Ada Komentar</p>
+                                </div>
+                            </div>
+
+                            <hr>
+                    {% endif %}
+                </div>
+                <div class="well">
                     <div class="row">
                         <div class="col-md-12">
-                            <h4>Pembaca <small>Anonymous</small>
-                            </h4>
-                            <span class="pull-right">10 days ago</span>
-                            <p>This product was great in terms of quality. I would definitely buy another!</p>
+                            <form method="post" action="{{ path('detailClient', {id:barang.id}) }}">
+                                <div class="form-group">
+                                    <label>TAMBAHKAN TANGGAPANMU</label>
+                                    <textarea class="form-control" STYLE="resize: vertical" name="content" required></textarea>
+                                </div>
+                                <div class="form-group text-right">
+                                    <input type="submit" value="Komentar">
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Pembaca <small>Anonymous</small>
-                            </h4>
-                            <span class="pull-right">12 days ago</span>
-                            <p>I've alredy ordered another one!</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>Pembaca <small>Anonymous</small>
-                            </h4>
-                            <span class="pull-right">15 days ago</span>
-                            <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

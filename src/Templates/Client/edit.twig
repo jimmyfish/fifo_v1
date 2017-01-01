@@ -80,6 +80,7 @@
 {% block content %}
     <div class="container">
         <div class="row profile">
+            <form action="{{ path('edit_client') }}" method="post" enctype="multipart/form-data">
             <div class="col-md-3">
                 <div class="panel panel-default profile-sidebar">
                     <div class="profile-userpic">
@@ -88,6 +89,12 @@
                         {% else %}
                             <img src="{{ app.request.basepath }}/assets/images/man.png" class="img-responsive" alt="">
                         {% endif %}
+                    </div>
+                    <p>&nbsp;</p>
+                    <div class="text-center">
+                        <label class="label label-primary">Ganti gambar
+                            <input type="file" accept="image/*" class="hide" name="profile-image" id="profile-image" onchange="readThis(this)">
+                        </label>
                     </div>
                     <div class="profile-usertitle">
                         <div class="profile-usertitle-name">
@@ -144,70 +151,73 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-md-6">
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>Nama Depan</label>
-                                <input type="text" class="form-control" id="first-name" name="first-name" value="{{ data.firstName }}">
+
+                        <div class="col-sm-6 col-md-6">
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>Nama Depan</label>
+                                    <input type="text" class="form-control" id="first-name" name="first-name" value="{{ data.firstName }}">
+                                </div>
+                            </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ data.email }}" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>Facebook</label>
+                                    <input type="text" class="form-control" id="facebook" name="facebook" value="{{ data.fbLink }}">
+                                </div>
+                            </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>Alamat</label>
+                                    <textarea rows="6" cols="100" class="form-control" name="address" style="resize:vertical">{{ data.address }}</textarea>
+                                </div>
                             </div>
                         </div>
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ data.email }}" readonly="readonly">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>Nama Belakang</label>
+                                    <input type="text" class="form-control" id="last-name" name="last-name" value="{% if (data.lastName is not null) %}{{ data.lastName }}{% endif %}">
+                                    <p class="help-block"></p>
+                                </div>
                             </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>No Telepon</label>
+                                    <input type="tel" class="form-control" id="phone" name="phone" value="{{ data.phone }}">
+                                </div>
+                            </div>
+
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>Pin BBM</label>
+                                    <input type="text" class="form-control" id="bbm" name="bbm" value="{{ data.pinBBM }}">
+                                </div>
+                            </div>
+                            <div class="control-group form-group">
+                                <div class="controls">
+                                    <label>Identitas KTP</label>
+                                    <p class="upload-container">
+                                        <label class="btn btn-upload">UPLOAD BERKAS KTP
+                                            <input type="file" accept="image/*" class="hide" name="berkas-ktp">
+                                        </label>
+                                    </p>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>Facebook</label>
-                                <input type="text" class="form-control" id="facebook" name="facebook" value="{{ data.fbLink }}">
-                            </div>
-                        </div>
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>Alamat</label>
-                                <textarea rows="6" cols="100" class="form-control" name="address" style="resize:vertical">{{ data.address }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-6">
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>Nama Belakang</label>
-                                <input type="text" class="form-control" id="last-name" name="last-name" value="{% if (data.lastName is not null) %}{{ data.lastName }}{% endif %}">
-                                <p class="help-block"></p>
-                            </div>
-                        </div>
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>No Telepon</label>
-                                <input type="tel" class="form-control" id="phone" name="phone" value="{{ data.phone }}">
-                            </div>
+                        <div class="col-md-12">
+                            <input type="submit" class="btn btn-block btn-primary" value="SIMPAN PERUBAHAN">
                         </div>
 
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>Pin BBM</label>
-                                <input type="text" class="form-control" id="bbm" name="bbm" value="{{ data.pinBBM }}">
-                            </div>
-                        </div>
-                        <div class="control-group form-group">
-                            <div class="controls">
-                                <label>Identitas KTP</label>
-                                <p class="upload-container">
-                                    <label class="btn btn-upload">UPLOAD BERKAS KTP
-                                        <input type="file" accept="image/*" class="hide">
-                                    </label>
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-12">
-                        <input type="submit" class="btn btn-block btn-primary" value="SIMPAN PERUBAHAN">
-                    </div>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 {% endblock %}
@@ -217,5 +227,27 @@
         $(function() {
            $('[data-toggle="tooltip"]').tooltip();
         });
+        function readThis(input) {
+            if (input.files && input.files[0]) {
+                var _thumb = $(input).parent().parent().prev().prev().find('img');
+//                if (!_thumb.length) {
+//                    _thumb = $(input).parent().prev().find('img.img-responsive');
+//                }
+                if (_thumb.length) {
+                    var reader = new FileReader();
+                    var height = _thumb.attr('height') || _thumb.height();
+                    reader.onload = function (e) {
+                        _thumb
+                            .attr('src', e.target.result)
+                            .width(height)
+                            .css('object-fit', 'cover')
+                            .height(height)
+                        ;
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
     </script>
 {% endblock %}

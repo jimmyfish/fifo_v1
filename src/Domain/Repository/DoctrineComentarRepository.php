@@ -32,6 +32,7 @@ class DoctrineComentarRepository extends EntityRepository implements ComentarRep
      */
     public function findByIdBarang($idBarang)
     {
+        return $this->findBy(['idBarang' => $idBarang]);
         // TODO: Implement findByIdBarang() method.
     }
 

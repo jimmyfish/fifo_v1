@@ -38,6 +38,12 @@ class Comentar
     private $idUser;
 
     /**
+     * @Column(type="text", length=65535, nullable=false)
+     * @var string
+     */
+    private $content;
+
+    /**
      * @Column(type="datetime", nullable=false, name="created_at")
      * @var \DateTime
      */
@@ -105,6 +111,22 @@ class Comentar
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
     }
 
 

@@ -19,7 +19,11 @@
                         {{ data.firstName }} {% if (data.lastName is not null) and (data.lastName|length > 1) %}{{ data.lastName }}{% else %}-{% endif %}
                     </div>
                     <div class="profile-usertitle-job">
-                        Developer
+                        {% if (data.role == 0) %}
+                            ADMIN
+                        {% else %}
+                            MEMBER
+                        {% endif %}
                     </div>
                 </div>
                 <div class="profile-usermenu">
@@ -115,9 +119,11 @@
                                     <div class="control-group form-group">
                                         <div class="controls">
                                             <label>Identitas KTP</label>
-                                            <textarea rows="6" cols="100" class="form-control" name="address" style="resize:vertical" readonly="readonly">
-                                                
-                                            </textarea>
+                                            {% if (data.ktpPicture is defined) and (data.ktpPicture is not null) %}
+                                                <div class="">
+                                                    <img src="{{ app.request.basepath }}/photo/ktp-picture/{{ data.ktpPicture }}" class="img-ktp">
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                 </div>           

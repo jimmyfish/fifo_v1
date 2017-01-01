@@ -10,6 +10,7 @@ namespace Jimmy\fifo\Http\Controller;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Jimmy\fifo\Domain\Entity\Barang;
+use Jimmy\fifo\Domain\Entity\Comentar;
 use Jimmy\fifo\Domain\Entity\Photo;
 use Jimmy\fifo\Domain\Entity\User;
 use Silex\Application;
@@ -40,13 +41,14 @@ class clientController implements ControllerProviderInterface
         $controllers->get('/daftar-barang', [$this, 'barangClientAction'])
             ->bind('barangClient');
 
-        $controllers->get('/detail-barang/{id}', [$this, 'detailClientAction'])
+        $controllers->match('/detail-barang/{id}', [$this, 'detailClientAction'])
             ->bind('detailClient');
 
         $controllers->get('/faq', [$this, 'faqClientAction'])
             ->bind('faqClient');
 
         $controllers->match('/login', [$this, 'loginClientAction'])
+            ->before([$this, 'NoNeedData'])
             ->bind('loginClient');
 
         $controllers->match('/success', [$this, 'successClientAction'])
@@ -65,12 +67,14 @@ class clientController implements ControllerProviderInterface
             ->bind('client_activation');
 
         $controllers->match('/edit/', [$this, 'clientEditAction'])
+            ->before([$this, 'NeedData'])
             ->bind('edit_client');
 
         $controllers->get('/resend-activation', [$this, 'resendAction'])
             ->bind('resend_activation');
 
         $controllers->get('/profil', [$this, 'clientProfileAction'])
+            ->before([$this, 'NeedData'])
             ->bind('profil_client');
 
         $controllers->match('/forget-password',[$this, 'clientForgetAction'])
@@ -84,7 +88,25 @@ class clientController implements ControllerProviderInterface
 
         $controllers->post('/daftar-barang/filter', [$this, 'clientListBarangWithFilterAction'])->bind('client_list_barang_filter');
 
+        $controllers->get('/login-check', [$this, 'loginCheckAuthorization'])->bind('login_check');
+
         return $controllers;
+    }
+
+    public function NeedData()
+    {
+        $session = $this->app['session'];
+        if ($session->get('email') == null) {
+            return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
+        }
+    }
+
+    public function NoNeedData()
+    {
+        $session = $this->app['session'];
+        if ($session->get('email') != null) {
+            return $this->app->redirect($this->app['url_generator']->generate('profil_client'));
+        }
     }
 
     public function clientListBarangWithFilterAction(Request $request)
@@ -156,9 +178,33 @@ class clientController implements ControllerProviderInterface
     {
         $cat = $this->app['category.repository']->findAll();
         $barang = $this->app['barang.repository']->findById($request->get('id'));
+        $comment = $this->app['comentar.repository']->findByIdBarang($request->get('id'));
+        $uid = [];
+        foreach($comment as $item) {
+            $arr = $this->app['user.repository']->findById($item->getIdUser())->getFirstName() . ' ' . $this->app['user.repository']->findById($item->getIdUser())->getLastName();
+            array_push($uid, $arr);
+            $item->setIdUser($arr);
+        }
+
         $photo = $this->app['photo.repository']->findByIdBarang($request->get('id'));
 
-        return $this->app['twig']->render('Client/detail.twig',['cat' => $cat, 'barang' => $barang, 'photo' => $photo]);
+        if ($request->getMethod() == 'POST') {
+            $idBarang = $request->get('id');
+            $idUser = $this->app['user.repository']->findByEmail($this->app['session']->get('email'))->getId();
+
+            $comm = new Comentar();
+            $comm->setIdBarang($idBarang);
+            $comm->setIdUser($idUser);
+            $comm->setContent($request->get('content'));
+            $comm->setCreatedAt(new \DateTime());
+
+            $this->app['orm.em']->persist($comm);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($request->headers->get('referer'));
+        }
+
+        return $this->app['twig']->render('Client/detail.twig',['cat' => $cat, 'barang' => $barang, 'photo' => $photo, 'comment' => $comment]);
 //        return count($photo);
     }
 
@@ -166,10 +212,12 @@ class clientController implements ControllerProviderInterface
     {
         return $this->app['twig']->render('Client/faq.twig');
     }
+
     public function successClientAction()
     {
         return $this->app['twig']->render('Client/success.twig');
     }
+
     public function loginClientAction(Request $request)
     {
         if ($request->getMethod() == 'POST') {
@@ -265,7 +313,7 @@ class clientController implements ControllerProviderInterface
         $transport = \Swift_SmtpTransport::newInstance
         ('smtp.gmail.com', 587, 'tls')
             ->setUsername('killcoder212@gmail.com')
-            ->setPassword('getmarried');
+            ->setPassword('Faster123');
 
         $message = \Swift_Message::newInstance();
         $message->setSubject('Activation Required');
@@ -286,7 +334,7 @@ class clientController implements ControllerProviderInterface
         $mailer = \Swift_Mailer::newInstance($transport);
         $mailer->send($message);
 
-        return 'Registrasi Sukses';
+        return $this->app->redirect($request->headers->get('referer'));
     }
 
     public function clientActivationAction(Request $request)
@@ -331,6 +379,7 @@ class clientController implements ControllerProviderInterface
                 $request->files->get('profile-image')->move($this->app['foto.path'] . '/profiles/', $fileName);
                 $this->app['session']->set('profile_picture', ['value' => $fileName]);
             }
+
             if ($request->files->get('berkas-ktp') != null) {
                 $ktpName = md5(uniqid()) . '.' . $request->files->get('berkas-ktp')->guessExtension();
                 $data->setKtpPicture($ktpName);
@@ -385,8 +434,6 @@ class clientController implements ControllerProviderInterface
         return $this->app['twig']->render('Client/profil.twig', ['data' => $data]);
     }
 
-   
-
     public function clientForgetAction(Request $request)
     {
         $session = $this->app['session'];
@@ -397,7 +444,7 @@ class clientController implements ControllerProviderInterface
                 $transport = \Swift_SmtpTransport::newInstance
                 ('smtp.gmail.com', 587, 'tls')
                     ->setUsername('killcoder212@gmail.com')
-                    ->setPassword('getmarried');
+                    ->setPassword('Faster123');
 
                 $message = \Swift_Message::newInstance();
                 $message->setSubject('Activation Required');

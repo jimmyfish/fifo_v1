@@ -146,6 +146,7 @@ class User
         $user->setValidateState(0);
         $user->setSecretToken(sha1($email));
         $user->setCreatedAt(new \DateTime());
+        $user->setIdentityStatus(0);
         $user->setStatus(0);
 
         return $user;
