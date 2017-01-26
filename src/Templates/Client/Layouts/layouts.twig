@@ -80,7 +80,13 @@
                     <a href="{{ path('homeClient') }}">Beranda</a>
                 </li>
                 <li>
-                    <a href="{{ path('barangClient') }}">Temukan Barangmu</a>
+                    <a href="{{ path('barangClient') }}">Barang Di Temukan</a>
+                </li>
+                <li>
+                    <a href="{{ path('barangsClient') }}">Barang Di Cari</a>
+                </li>
+                <li>
+                    <a href="{{ path('videoClient') }}">Video</a>
                 </li>
                     {% if (app.session.get('name') is not null) %}
                         <li>
@@ -138,7 +144,6 @@
                     <div class="col-xs-6 col-sm-6">
                         <ul class="list-unstyled">
                             <li><a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i> Facebook</a></li>
-                            <li><a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
                             <li><a href="#"><i class="fa fa-google-plus-official" aria-hidden="true"></i> Google
                                     Plus</a></li>
                         </ul>
@@ -146,7 +151,6 @@
                     <div class="col-xs-6 col-sm-6">
                         <ul class="list-unstyled">
                             <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
-                            <li><a href="#"><i class="fa fa-snapchat" aria-hidden="true"></i> Snapchat</a></li>
                         </ul>
                     </div>
                 </div>

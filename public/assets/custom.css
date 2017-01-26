@@ -596,4 +596,11 @@ img.responsive-img {
 #sec-content .thumbnail {
   min-height: 105px;
 }
-#sec-content 
+/** Menu Video **/
+#main-video .page-header {
+    padding-bottom: 0px !important;
+    margin: 20px 0px 5px !important;
+}
+.embed-cus {
+    padding-bottom: 46% !important;
+}
