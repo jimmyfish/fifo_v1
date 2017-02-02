@@ -38,14 +38,20 @@ class clientController implements ControllerProviderInterface
         $controllers->get('/about', [$this, 'aboutClientAction'])
             ->bind('aboutClient');
 
-        $controllers->get('/daftar-barang', [$this, 'barangClientAction'])
+        $controllers->get('/daftar-barang-ditemukan', [$this, 'barangClientAction'])
             ->bind('barangClient');
+
+        $controllers->get('/daftar-barang-dicari', [$this, 'barangsClientAction'])
+            ->bind('barangsClient');
 
         $controllers->match('/detail-barang/{id}', [$this, 'detailClientAction'])
             ->bind('detailClient');
 
         $controllers->get('/faq', [$this, 'faqClientAction'])
             ->bind('faqClient');
+
+        $controllers->get('/video', [$this, 'videoClientAction'])
+            ->bind('videoClient');
 
         $controllers->match('/login', [$this, 'loginClientAction'])
             ->before([$this, 'NoNeedData'])
@@ -174,6 +180,7 @@ class clientController implements ControllerProviderInterface
         return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'photo' => $arrPhoto, 'cat' => $cat]);
     }
 
+
     public function detailClientAction(Request $request)
     {
         $cat = $this->app['category.repository']->findAll();
@@ -211,6 +218,15 @@ class clientController implements ControllerProviderInterface
     public function faqClientAction()
     {
         return $this->app['twig']->render('Client/faq.twig');
+    }
+
+    public function barangsClientAction()
+    {
+        return $this->app['twig']->render('Client/barangs.twig');
+    }
+
+    public function videoClientAction(){
+        return $this->app['twig']->render('Client/video.twig');
     }
 
     public function successClientAction()
