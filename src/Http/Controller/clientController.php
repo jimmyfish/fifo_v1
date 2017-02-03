@@ -38,11 +38,11 @@ class clientController implements ControllerProviderInterface
         $controllers->get('/about', [$this, 'aboutClientAction'])
             ->bind('aboutClient');
 
-        $controllers->get('/daftar-barang-ditemukan', [$this, 'barangClientAction'])
-            ->bind('barangClient');
+        $controllers->get('/daftar-barang-ditemukan', [$this, 'barangDitemukanClientAction'])
+            ->bind('barangDitemukanClient');
 
-        $controllers->get('/daftar-barang-dicari', [$this, 'barangsClientAction'])
-            ->bind('barangsClient');
+        $controllers->get('/daftar-barang-dicari', [$this, 'barangDicariClientAction'])
+            ->bind('barangDicariClient');
 
         $controllers->match('/detail-barang/{id}', [$this, 'detailClientAction'])
             ->bind('detailClient');
@@ -168,10 +168,22 @@ class clientController implements ControllerProviderInterface
         return $this->app['twig']->render('Client/about.twig');
     }
 
-    public function barangClientAction()
+    public function barangDitemukanClientAction()
     {
         $arrPhoto = [];
-        $barang = $this->app['barang.repository']->findAll();
+        $barang = $this->app['barang.repository']->findbyType(0);
+        $cat = $this->app['category.repository']->findAll();
+        foreach ($barang as $modify) {
+            $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
+            array_push($arrPhoto, $info);
+        }
+        return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'photo' => $arrPhoto, 'cat' => $cat]);
+    }
+    
+    public function barangDicariClientAction()
+    {
+        $arrPhoto = [];
+        $barang = $this->app['barang.repository']->findbyType(1);
         $cat = $this->app['category.repository']->findAll();
         foreach ($barang as $modify) {
             $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
@@ -218,11 +230,6 @@ class clientController implements ControllerProviderInterface
     public function faqClientAction()
     {
         return $this->app['twig']->render('Client/faq.twig');
-    }
-
-    public function barangsClientAction()
-    {
-        return $this->app['twig']->render('Client/barangs.twig');
     }
 
     public function videoClientAction(){

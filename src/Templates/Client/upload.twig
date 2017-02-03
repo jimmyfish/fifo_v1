@@ -1,8 +1,4 @@
-{% extends 'Client/Layouts/layouts.twig' %}
-
-{% block title %}Upload{% endblock %}
-
-{% block content %}
+{% extends 'Client/Layouts/layouts.twig' %} {% block title %}Upload{% endblock %} {% block content %}
 <!-- Main Content -->
 <div id="main-kerja" class="container-fluid">
     <!-- Page Content -->
@@ -82,8 +78,15 @@
                                         <label>Kategori</label>
                                         <select id="category" name="category" class="form-control">
                                             {% for info in cat %}
-                                                <option value="{{ info.id }}">{{ info.name }}</option>
+                                            <option value="{{ info.id }}">{{ info.name }}</option>
                                             {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tipe Barang</label>
+                                        <select id="type" name="type" class="form-control">
+                                            <option value="0">Barang Ditemukan</option>
+                                            <option value="1">Barang Dicari</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -96,7 +99,7 @@
                                             <img src="{{ app.request.basepath }}/assets/images/default-placeholder.png" class="img-preview">
                                             <label>
                                                 <i class="fa fa-2x fa-plus"></i>
-                                            <input type="file" class="hide" onchange="readThis(this)" name="images[]" id="images" accept="image/*" required>
+                                                <input type="file" class="hide" onchange="readThis(this)" name="images[]" id="images" accept="image/*" required>
                                             </label>
                                         </div>
                                         <div id="add-images">
@@ -139,39 +142,35 @@
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock %} {% block customJS %}
+<script>
+    function readThis(input) {
+        if (input.files && input.files[0]) {
+            var _thumb = $(input).parent().prev();
+            //                if (!_thumb.length) {
+            //                    _thumb = $(input).parent().prev().find('img.img-responsive');
+            //                }
+            if (_thumb.length) {
+                var reader = new FileReader();
+                var height = _thumb.attr('height') || _thumb.height();
+                reader.onload = function (e) {
+                    _thumb
+                        .attr('src', e.target.result)
+                        .width(height)
+                        .css('object-fit', 'cover')
+                        .height(height)
+                        .removeClass('hide');
+                    $(input).parent().addClass('hide');
+                };
 
-{% block customJS %}
-    <script>
-        function readThis(input) {
-            if (input.files && input.files[0]) {
-                var _thumb = $(input).parent().prev();
-//                if (!_thumb.length) {
-//                    _thumb = $(input).parent().prev().find('img.img-responsive');
-//                }
-                if (_thumb.length) {
-                    var reader = new FileReader();
-                    var height = _thumb.attr('height') || _thumb.height();
-                    reader.onload = function (e) {
-                        _thumb
-                                .attr('src', e.target.result)
-                                .width(height)
-                                .css('object-fit', 'cover')
-                                .height(height)
-                                .removeClass('hide')
-                        ;
-                        $(input).parent().addClass('hide');
-                    };
-
-                    reader.readAsDataURL(input.files[0]);
-                }
+                reader.readAsDataURL(input.files[0]);
             }
         }
+    }
 
-        $(document).ready(function() {
-            $('input[type=file]').val('');
+    $(document).ready(function () {
+        $('input[type=file]').val('');
 
-        });
-
-    </script>
+    });
+</script>
 {% endblock %}

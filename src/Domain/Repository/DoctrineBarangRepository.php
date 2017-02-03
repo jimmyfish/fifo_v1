@@ -66,4 +66,9 @@ class DoctrineBarangRepository extends EntityRepository implements BarangReposit
     {
         return $this->findBy([],['id' => 'DESC']);
     }
+    
+    public function findByType($type)
+    {
+        return $this->findBy(['type' => $type]);
+    }
 }

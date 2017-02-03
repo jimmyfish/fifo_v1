@@ -44,4 +44,6 @@ interface BarangRepositoryInterface
     public function findByDescription($description);
 
     public function findByAllDescending();
+    
+    public function findByType($type);
 }

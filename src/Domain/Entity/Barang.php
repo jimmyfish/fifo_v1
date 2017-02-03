@@ -84,6 +84,12 @@ class Barang
      * @var int
      */
     private $views;
+    
+    /**
+    * @Column(type="integer", nullable=true, length=2)
+    * @var int
+    */
+    private $type;
 
     /**
      * @Column(type="datetime", nullable=false, name="created_at")
@@ -91,7 +97,7 @@ class Barang
      */
     private $createdAt;
 
-    public static function create($founder, $founderNumber, $founderEmail, $founderAddress, $description, $title, $categoryId)
+    public static function create($founder, $founderNumber, $founderEmail, $founderAddress, $description, $title, $categoryId, $type)
     {
         $info = new Barang();
         $info->setTitle($title);
@@ -103,6 +109,7 @@ class Barang
         $info->setCategoryId($categoryId);
         $info->setCreatedAt(new \DateTime());
         $info->setViews(0);
+        $info->setType($type);
 
         return $info;
     }
@@ -297,6 +304,22 @@ class Barang
     public function setCategoryId($categoryId)
     {
         $this->categoryId = $categoryId;
+    }
+    
+    /**
+    * @return int
+    */
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+    /**
+    * @param int $type
+    */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
 
