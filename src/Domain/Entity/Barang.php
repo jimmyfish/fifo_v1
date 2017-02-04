@@ -74,7 +74,7 @@ class Barang
     private $description;
 
     /**
-     * @Column(type="integer", nullable=false, length=255)
+     * @Column(type="integer", nullable=false, length=255, name="category_id")
      * @var int
      */
     private $categoryId;

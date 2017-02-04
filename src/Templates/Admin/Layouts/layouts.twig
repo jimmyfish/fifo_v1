@@ -61,8 +61,14 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    {%  if (app.session.get('name') is defined) %}
-                        {{ app.session.get('name')['value'] }}
+                    {%  if (app.session.get('role')['value'] is defined) %}
+                        {% if (app.session.get('role')['value'] == 0) %}
+                            {{ app.session.get('name')['value'] }}
+                        {% else %}
+                            <script>window.location.href = '/';</script>
+                        {% endif %}
+                    {% else %}
+                        <script>window.location.href = '/login';</script>
                     {% endif %}
                 </a>
                 <ul class="dropdown-menu dropdown-user">
@@ -91,28 +97,40 @@
                         <a href="{{ ('/admin/user/list') }}">
                             <i class="fa fa-users fa-fw"></i> User
                             <span class="label label-success pull-right">
-                                {%  if (app.session.get('user-count') is defined) %}
+                                {%  if (app.session.get('user-count')['value'] is defined) %}
                                     {{ app.session.get('user-count')['value'] }}
                                 {% endif %}
                             </span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ path('category') }}"><i class="fa fa-list"></i> Kategori</a>
+                        <a href="{{ path('category') }}"><i class="fa fa-list fa-fw"></i> Kategori</a>
                     </li>
-
-                    {#<li>#}
-                        {#<a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>#}
-                        {#<ul class="nav nav-second-level">#}
-                            {#<li>#}
-                                {#<a href="flot.html">List User</a>#}
-                            {#</li>#}
-                            {#<li>#}
-                                {#<a href="morris.html">Morris.js Charts</a>#}
-                            {#</li>#}
-                        {#</ul>#}
-                        {##}
-                    {#</li>#}
+                    <li>
+                        <a href="#"><i class="fa fa-newspaper-o fa-fw"></i> Barang<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ path('admin_barang_list_ditemukan') }}">Ditemukan</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('admin_barang_list_dicari') }}">Dicari</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-video-camera fa-fw"></i> Video<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{ path('admin_video_create') }}">Tambah Baru</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('admin_video_list') }}">Daftar Video</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{{ path('category') }}"><i class="fa fa-wrench fa-fw"></i> Pengaturan</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

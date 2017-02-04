@@ -142,14 +142,12 @@
         </div>
     </div>
 </div>
-{% endblock %} {% block customJS %}
+{% endblock %}
+{% block customJS %}
 <script>
     function readThis(input) {
         if (input.files && input.files[0]) {
             var _thumb = $(input).parent().prev();
-            //                if (!_thumb.length) {
-            //                    _thumb = $(input).parent().prev().find('img.img-responsive');
-            //                }
             if (_thumb.length) {
                 var reader = new FileReader();
                 var height = _thumb.attr('height') || _thumb.height();

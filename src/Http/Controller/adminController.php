@@ -9,8 +9,10 @@
 namespace Jimmy\fifo\Http\Controller;
 
 
+use Jimmy\fifo\Domain\Entity\Barang;
 use Jimmy\fifo\Domain\Entity\Category;
 use Jimmy\fifo\Domain\Entity\User;
+use Jimmy\fifo\Domain\Entity\Video;
 use Silex\Application;
 use Silex\Controller;
 use Silex\ControllerProviderInterface;
@@ -53,7 +55,72 @@ class adminController implements ControllerProviderInterface
 
         $controllers->match('/masuk-admin', [$this, 'adminLoginAction'])->bind('loginAdmin');
 
+        $controllers->get('/barang/found-list', [$this, 'adminBarangListDitemukanAction'])->bind('admin_barang_list_ditemukan');
+
+        $controllers->get('/barang/wanted-list', [$this, 'adminBarangListDicariAction'])->bind('admin_barang_list_dicari');
+
+        $controllers->get('/video/list', [$this, 'adminVideoListAction'])
+            ->bind('admin_video_list');
+
+        $controllers->match('/video/create', [$this, 'adminVideoCreateAction'])
+            ->bind('admin_video_create');
+
         return $controllers;
+    }
+
+    public function adminVideoCreateAction(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            $data = Video::create(
+                $request->get('title'),
+                $request->get('subtitle'),
+                $request->get('link_video'),
+                $request->get('description')
+            );
+
+            $this->app['orm.em']->persist($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'video_success',
+                'Video berhasil ditambahkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_video_list'));
+        }
+
+        return $this->app['twig']->render('Admin/video/create.twig');
+    }
+
+    public function adminVideoListAction()
+    {
+        $videoList = $this->app['video.repository']->findAll();
+
+        return $this->app['twig']->render('Admin/video/list.twig', ['videoList' => $videoList]);
+    }
+
+    public function adminBarangListDitemukanAction()
+    {
+        $barangList = $this->app['barang.repository']->findByType(0);
+
+        for ($i = 0;$i < count($barangList);$i++) {
+            $catName = $this->app['category.repository']->findById($barangList[$i]->getCategoryId());
+            $barangList[$i]->setCategoryId($catName->getName());
+        }
+
+        return $this->app['twig']->render('Admin/barang/list.twig', ['barangList' => $barangList, 'title' => 'Ditemukan']);
+    }
+
+    public function adminBarangListDicariAction()
+    {
+        $barangList = $this->app['barang.repository']->findByType(1);
+
+        for ($i = 0;$i < count($barangList);$i++) {
+            $catName = $this->app['category.repository']->findById($barangList[$i]->getCategoryId());
+            $barangList[$i]->setCategoryId($catName->getName());
+        }
+
+        return $this->app['twig']->render('Admin/barang/list.twig', ['barangList' => $barangList, 'title' => 'Dicari']);
     }
 
     public function categoryAction()

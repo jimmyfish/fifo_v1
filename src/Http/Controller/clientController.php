@@ -160,7 +160,6 @@ class clientController implements ControllerProviderInterface
 
         $cat = $this->app['category.repository']->findAll();
         return $this->app['twig']->render('Client/index.twig', ['cat' => $cat, 'barang' => $barang, 'photo' => $arrPhoto]);
-//        return var_dump($user);
     }
 
     public function aboutClientAction()
@@ -224,7 +223,6 @@ class clientController implements ControllerProviderInterface
         }
 
         return $this->app['twig']->render('Client/detail.twig',['cat' => $cat, 'barang' => $barang, 'photo' => $photo, 'comment' => $comment]);
-//        return count($photo);
     }
 
     public function faqClientAction()
@@ -285,7 +283,7 @@ class clientController implements ControllerProviderInterface
 
             if ($request->getMethod() == 'POST') {
                 $files = new ArrayCollection();
-                $info = Barang::create($request->get('first-name') . ' ' . $request->get('last-name'),$request->get('phone'),$request->get('email'),$request->get('address'),$request->get('description'),$request->get('title'), $request->get('category'));
+                $info = Barang::create($request->get('first-name') . ' ' . $request->get('last-name'),$request->get('phone'),$request->get('email'),$request->get('address'),$request->get('description'),$request->get('title'), $request->get('category'), $request->get('type'));
 
                 if ($request->get('facebook') != "") {
                     $info->setFounderFacebook($request->get('facebook'));

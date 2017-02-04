@@ -91,4 +91,8 @@ $app['photo.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Photo::class);
 };
 
+$app['video.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Video::class);
+};
+
 $app['swiftmailer.use_spool'] = false;
