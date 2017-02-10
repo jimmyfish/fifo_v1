@@ -59,7 +59,7 @@ class Video
      * @Column(type="datetime", nullable=true, name="updated_at")
      * @var \DateTime
      */
-    private $updateAt;
+    private $updatedAt;
 
     /**
      * @param $title
@@ -180,16 +180,16 @@ class Video
     /**
      * @return \DateTime
      */
-    public function getUpdateAt()
+    public function getUpdatedAt()
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
     /**
-     * @param \DateTime $updateAt
+     * @param \DateTime $updatedAt
      */
-    public function setUpdateAt($updateAt)
+    public function setUpdatedAt($updatedAt)
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = $updatedAt;
     }
 }

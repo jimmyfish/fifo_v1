@@ -1,0 +1,46 @@
+{% extends 'Admin/Layouts/layouts.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-video-camera text-primary"></i> Sunting Video</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Lengkapi data dibawah
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form role="form" method="post" action="">
+                            <div class="form-group">
+                                <label>Judul <small>( Wajib Diisi )</small></label>
+                                <input type="text" class="form-control" name="title" value="{{ data.title }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Subtitle</label>
+                                <input type="text" class="form-control" name="subtitle" value="{{ data.subtitle }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Link Video -<span class="text-info"> Masukkan id video youtube</span> <small>( Wajib Diisi )</small></label>
+                                <input type="text" class="form-control" name="link_video" value="{{ data.linkVideo }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Deskripsi</label>
+                                <textarea class="form-control" name="description">{{ data.description }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-block btn-success" value="Proses">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">&nbsp;</div>
+    </div>
+{% endblock %}

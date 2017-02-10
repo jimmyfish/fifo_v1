@@ -17,6 +17,7 @@ use Silex\Application;
 use Silex\Controller;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Class adminController
@@ -63,9 +64,100 @@ class adminController implements ControllerProviderInterface
             ->bind('admin_video_list');
 
         $controllers->match('/video/create', [$this, 'adminVideoCreateAction'])
+            ->before([$this, 'credentialCheck'])
             ->bind('admin_video_create');
 
+        $controllers->get('/video/delete/{id}', [$this, 'adminVideoDeleteAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_video_delete');
+
+        $controllers->match('/video/edit/{id}', [$this, 'adminVideoEditAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_video_edit');
+
+        $controllers->match('/user/edit/{id}', [$this, 'adminUserEditCredentialAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_user_edit_credential');
+
         return $controllers;
+    }
+
+    public function adminUserEditCredentialAction(Request $request)
+    {
+        $data = $this->app['user.repository']->findById($request->get('id'));
+
+        if ($data == null) {
+            $this->app['session']->getFlashBag()->add(
+                'user_error',
+                'Pengguna dengan id tersebut tidak ditemukan, proses dibatalkan'
+            );
+
+            return $this->app->redirect($request->headers->get('referer'));
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $data->setRole($request->get('role'));
+            $this->app['orm.em']->merge($data);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($this->app['url_generator']->generate('user_list'));
+        }
+
+        return $this->app['twig']->render('Admin/users/edit-credential.twig', ['data' => $data->getRole()]);
+    }
+
+    public function adminVideoEditAction(Request $request)
+    {
+        $data = $this->app['video.repository']->findById($request->get('id'));
+
+        if ($data == null) {
+            $this->app['session']->getFlashBag()->add(
+                'video_error',
+                'Video dengan id tersebut tidak ditemukan, proses dibatalkan'
+            );
+
+            return $this->app->redirect($request->headers->get('referer'));
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $data->setTitle($request->get('title'));
+            $data->setSubtitle($request->get('subtitle'));
+            $data->setLinkVideo($request->get('link_video'));
+            $data->setDescription($request->get('description'));
+            $data->setUpdatedAt(new \DateTime());
+
+            $this->app['orm.em']->merge($data);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_video_list'));
+        }
+
+        return $this->app['twig']->render('Admin/video/edit.twig', ['data' => $data]);
+    }
+
+    public function adminVideoDeleteAction(Request $request)
+    {
+        $data = $this->app['video.repository']->findById($request->get('id'));
+
+        if ($data != null) {
+            $this->app['orm.em']->remove($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'video_success',
+                'Video berhasil dihapus'
+            );
+
+            return $this->app->redirect($request->headers->get('referer'));
+
+        } else {
+            $this->app['session']->getFlashBag()->add(
+                'video_error',
+                'Video dengan id tersebut tidak tersedia, Proses dibatalkan'
+            );
+
+            return $this->app->redirect($request->headers->get('referer'));
+        }
     }
 
     public function adminVideoCreateAction(Request $request)
@@ -193,6 +285,15 @@ class adminController implements ControllerProviderInterface
         }
 
         return $this->app['twig']->render('Admin/login.twig');
+    }
+
+    public function credentialCheck()
+    {
+        $session = $this->app['session'];
+        if ($session->get('role')['value'] != 0) {
+            return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
+        }
+        return null;
     }
 
 }
