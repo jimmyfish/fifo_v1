@@ -62,8 +62,10 @@ class UserController implements ControllerProviderInterface
 
     public function userListAction()
     {
-        $userList = $this->app['user.repository']->findAll();
-        return $this->app['twig']->render('Admin/users/list.twig', ['userList' => $userList]);
+        $qb = $this->app['orm.em']->createQueryBuilder();
+        $qb->select('u')->from('Jimmy\fifo\Domain\Entity\User', 'u')->where('u.isDelete != 1');
+
+        return $this->app['twig']->render('Admin/users/list.twig', ['userList' => $qb->getQuery()->getResult()]);
     }
 
 }

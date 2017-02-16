@@ -11,7 +11,7 @@ function readURL(input) {
         if (_thumb.length) {
             var reader = new FileReader();
             var height = _thumb.attr('height') || _thumb.height();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 _thumb
                     .attr('src', e.target.result)
                     .width(height)
@@ -37,7 +37,7 @@ $(document).ready(function() {
     }
     var addNewImage = $('#add-images');
     if (imgPropertyUpload) {
-        addNewImage.find('.btn').click(function (e) {
+        addNewImage.find('.btn').click(function(e) {
             var imgBody = $('#add-images').prev();
             var photoLen = $('.input-inner').length;
 

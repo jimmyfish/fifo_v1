@@ -128,6 +128,12 @@ class User
     private $updatedAt;
 
     /**
+    * @Column(type="integer", nullable=false, name="is_delete")
+    * @var int
+    */
+    private $isDelete;
+
+    /**
      * @param $email
      * @param $password
      * @param $firstName
@@ -148,6 +154,7 @@ class User
         $user->setCreatedAt(new \DateTime());
         $user->setIdentityStatus(0);
         $user->setStatus(0);
+        $user->setIsDelete(0);
 
         return $user;
     }
@@ -456,6 +463,22 @@ class User
     public function setIdentityStatus($identityStatus)
     {
         $this->identityStatus = $identityStatus;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIsDelete()
+    {
+        return $this->isDelete;
+    }
+
+    /**
+     * @param $isDelete
+     */
+    public function setIsDelete($isDelete)
+    {
+        $this->isDelete = $isDelete;
     }
 
 

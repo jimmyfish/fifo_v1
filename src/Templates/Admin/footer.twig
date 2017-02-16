@@ -1,0 +1,53 @@
+{% extends 'Admin/Layouts/layouts.twig' %}
+{% block title %}Footer{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Sunting Footer</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Sunting footer
+            </div>
+            <div class="panel-body">
+                {% if (info.updatedAt is not null) %}
+                    <div class="alert alert-success">
+                        <strong>Terakhir di perbaharui pada {{ info.updatedAt|date('d M Y - h:i:s A') }}</strong>
+                    </div>
+                {% endif %}
+                <div class="col-md-12">
+                    <form method="post" action="" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="donasi-umum">Donasi Umum <small><strong>No. Rekening</strong></small></label>
+                            <input type="text" class="form-control" id="donasi-umum" name="donasi-umum" placeholder="Donasi Umum" value="{% if (info.donasiUmum is not null) %}{{ info.donasiUmum }}{% endif %}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="facebook">Facebook <small>ID Facebook ( eg. facebook.com/<strong>id</strong> )</small></label>
+                            <input type="text" class="form-control" id="facebook" name="facebook" placeholder="Facebook ID" value="{% if (info.facebook is not null) %}{{ info.facebook }}{% endif %}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="instagram">Instagram <small><strong>ID Instagram</strong></small></label>
+                            <input type="text" class="form-control" id="instagram" name="instagram" placeholder="Instagram" value="{% if (info.instagram is not null) %}{{ info.instagram }}{% endif %}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="google-plus">Google Plus <small><strong>ID Google</strong></small></label>
+                            <input type="text" class="form-control" id="google-plus" name="google-plus" placeholder="ID Google Plus" value="{% if (info.googlePlus is not null) %}{{ info.googlePlus }}{% endif %}">
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value="UPDATE" class="btn btn-info btn-block">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">&nbsp;</div>
+{% endblock %}
