@@ -11,6 +11,7 @@ namespace Jimmy\fifo\Http\Controller;
 
 use Jimmy\fifo\Domain\Entity\Barang;
 use Jimmy\fifo\Domain\Entity\Category;
+use Jimmy\fifo\Domain\Entity\Footer;
 use Jimmy\fifo\Domain\Entity\User;
 use Jimmy\fifo\Domain\Entity\Video;
 use Silex\Application;
@@ -79,7 +80,64 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_user_edit_credential');
 
+        $controllers->get('/user/delete/{id}', [$this, 'adminUserDeleteAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_user_delete');
+
+        $controllers->match('/footer/edit', [$this, 'adminFooterEditAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_footer_edit');
+
         return $controllers;
+    }
+
+    public function adminFooterEditAction(Request $request)
+    {
+        $data = $this->app['footer.repository']->findAll();
+
+        if ($data == null) {
+            $info = Footer::init();
+
+            $this->app['orm.em']->persist($info);
+            $this->app['orm.em']->flush();
+        } else {
+            $info = $data[0];
+
+            if ($request->getMethod() === 'POST') {
+                $info->setDonasiUmum($request->get('donasi-umum'));
+                $info->setFacebook($request->get('facebook'));
+                $info->setInstagram($request->get('instagram'));
+                $info->setGooglePlus($request->get('google-plus'));
+                $info->setUpdatedAt(new \DateTime());
+
+                $this->app['orm.em']->merge($info);
+                $this->app['orm.em']->flush();
+
+                return $this->app->redirect($this->app['url_generator']->generate('admin_footer_edit'));
+            }
+
+            return $this->app['twig']->render('Admin/footer.twig', ['info' => $info]);
+        }
+
+        return $this->app['twig']->render('Admin/footer.twig');
+    }
+
+    public function adminUserDeleteAction(Request $request)
+    {
+        $user_id = $request->get('id');
+
+        if ($user_id != null and $user_id != '') {
+            $data = $this->app['user.repository']->findById($user_id);
+
+            if ($data != null) {
+                $data->setIsDelete(1);
+
+                $this->app['orm.em']->merge($data);
+                $this->app['orm.em']->flush();
+
+                return $this->app->redirect($this->app['url_generator']->generate('user_list'));
+            }
+        }
     }
 
     public function adminUserEditCredentialAction(Request $request)
