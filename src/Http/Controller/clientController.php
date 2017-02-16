@@ -307,7 +307,7 @@ class clientController implements ControllerProviderInterface
                     $this->app['orm.em']->flush();
                 }
 
-                return 'SUKSES';
+                return $this->app['twig']->render('Client/succes-upload.twig');
             }
 
             return $this->app['twig']->render('Client/upload.twig', ['data' => $data, 'cat' => $cat]);

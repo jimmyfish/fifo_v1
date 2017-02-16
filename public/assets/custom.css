@@ -46,6 +46,10 @@ nav img {
 #sec-content {
     min-height: 280px;
     background-color: #dddddd;
+    padding: 0px 0px 20px 0px;
+}
+#sec-content .page-header {
+    margin: 25px 0 5px !important;
 }
 footer {
     color: #fff !important;
@@ -162,6 +166,10 @@ img.responsive-img {
 #main-kerja {
     background-color: #dddddd;
     margin-top: -15px;
+    padding: 0px 0px 20px 0px;
+}
+#main-kerja .caption h4 {
+  padding-top: 15px;
 }
 .thumbnail .caption {
     margin: -19px 0px -15px 0px !important;
@@ -603,4 +611,10 @@ img.responsive-img {
 }
 .embed-cus {
     padding-bottom: 46% !important;
+}
+#main-video p {
+  font-size: 15px;
+}
+#main-video h3 {
+  font-weight: bold;
 }

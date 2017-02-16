@@ -4,7 +4,7 @@
 
 {% block content %}
 <!-- Main Content -->
-<div id="main-kerja" class="container-fluid">
+<div id="div" class="container-fluid">
     <!-- Page Content -->
 
     <div id="single-artikel" class="container thumbnail">
@@ -15,8 +15,10 @@
                     <div class="thumbnail">
                         <a class="fancybox" href="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ photo[0].filename }}" data-fancybox-group="fifo-gallery" title="">
                             <img class="img-responsive" src="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ photo[0].filename }}" alt=""></a>
+                     
                     </div>
                 </div>
+             
                 {% for info in photo %}
                     <div id="img-tambahan" class="col-md-4 col-sm-4 col-xs-4">
                         <div class="thumbnail">
@@ -24,6 +26,7 @@
                                 <img class="img-responsive" src="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ info.filename }}" alt=""></a>
                         </div>
                     </div>
+          
                 {% endfor %}
             </div>
             <div id="info-kanan" class="col-md-6">
@@ -33,7 +36,7 @@
                 <ul class="list-unstyled">
                     <div class="row">
                         <div class="col-md-12 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/telp.svg" alt="">&nbsp; +62{{ barang.founderNumber }}</li>
+                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/telp.svg" alt="">&nbsp; {{ barang.founderNumber }}</li>
                         </div>
                         <div class="col-md-12 col-sm-6 col-xs-12">
                             <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/email.png" alt="">&nbsp; {{ barang.founderEmail }}</li>
