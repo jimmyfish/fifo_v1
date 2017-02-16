@@ -53,7 +53,7 @@
                                 <small>
                             
                                 <i class="fa fa-tag" aria-hidden="true"> {{ cat[info.categoryId - 1].name }}</i> ,  
-                                <i class="fa fa-clock-o" aria-hidden="true"> 12 Feb 2017</i></small>
+                                <i class="fa fa-clock-o" aria-hidden="true"> {{ info.createdAt|date('d M Y') }}</i></small>
 
                             </h4>
                             <p>{{ info.description }}</p>

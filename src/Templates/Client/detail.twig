@@ -47,10 +47,10 @@
                 <h3>Social Media</h3>
                 <ul class="list-unstyled">
                     <div class="row">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/facebook.svg" alt=""><a href="https://facebook.com/{{ barang.founderFacebook }}" target="_blank">&nbsp;{{ barang.founderFacebook }}</a></li>
+                        <div class="col-md-12 col-sm-6 col-xs-12">
+                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/facebook.svg" alt=""><a href="https://{{ barang.founderFacebook }}" target="_blank">&nbsp;{{ barang.founderFacebook }}</a></li>
                         </div>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-md-12 col-sm-6 col-xs-12">
                             <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/bbm.png" alt="">&nbsp;{{ barang.founderPin }}</li>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                                             <h4><strong>{{ barang.title }}</strong></h4>
                                         </div>
                                         <div class="col-md-2">
-                                            <p class="pull-right"><i class="fa fa-calendar"></i> {{ barang.createdAt|date('d M') }}</p>
+                                            <p class="pull-right"><i class="fa fa-calendar"></i> {{ barang.createdAt|date('d M Y') }}</p>
                                         </div>
                                     </div>
 
@@ -81,22 +81,71 @@
 
                 <div class="well">
                     <div class="text-right">
-                        <i class="pull-right">Komentar</i>
+                        <span class="pull-left" style="font-size: 17px">Komentar</span>
                     </div>
 
                     <hr>
 
                     {% if (comment|length > 0) %}
                         {% for com in comment %}
+                       
+
                             <div class="row">
-                                <div class="col-md-12">
-                                    <h4>{{ com.idUser }}
+                                <div class="col-md-1">
+                                <div class="panel panel-default panel-komen">
+                                                    <div class="profile-userpic">
+                                <img class="img-responsive user-photo" src="{{ app.request.basepath }}/assets/images/man.png">
+                                </div>
+                                </div>
+                            
+                                </div>
+
+                                <div class="col-md-8">
+                                <div class="panel panel-default">
+                                <div class="panel-heading kiri">
+                                <i class="fa fa-user" aria-hidden="true"> <strong>myusername</strong></i> 
+                                <span class="text-muted"><i class="fa fa-clock-o" aria-hidden="true"> commented 5 days ago</i></span>
+                                </div>
+                                <div class="panel-body">
+                                Panel content
+                                </div>
+                                </div>
+                                </div>
+                                    
+
+                                    <!--<h4>{{ com.idUser }}
                                     </h4>
                                     <span class="pull-right">10 days ago</span>
-                                    <p>{{ com.content }}</p>
-                                </div>
+                                    <p>{{ com.content }}</p>-->
+                            
                             </div>
 
+                            <hr>
+
+                            <div class="row">
+                                <div class="col-md-1 pull-right">
+                                <div class="panel panel-default panel-komen">
+                                                    <div class="profile-userpic">
+                                <img class="img-responsive user-photo" src="{{ app.request.basepath }}/assets/images/man.png">
+                                </div>
+                                </div>
+                            
+                                </div>
+
+                                <div class="col-md-8 pull-right">
+                                <div class="panel panel-default">
+                                <div class="panel-kanan text-right">
+                                <i class="fa fa-user" aria-hidden="true"> <strong>myusername</strong></i> 
+                                <span class="text-muted"><i class="fa fa-clock-o" aria-hidden="true"> commented 5 days ago</i></span>
+                                </div>
+                                <div class="panel-body text-right">
+                                Panel content
+                                </div>
+                                </div>
+                                </div>
+
+                
+                            </div>
                             <hr>
                             {% endfor %}
                         {% else %}

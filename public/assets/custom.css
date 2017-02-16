@@ -386,7 +386,7 @@ img.responsive-img {
 }
 .navbar-collapse .btn,
 .navbar-header .btn {
-    border: 1px solid #ff0000;
+    border: 1px solid #e74c3c;
 }
 .navbar-collapse .user-image {
   float: left;
@@ -617,4 +617,70 @@ img.responsive-img {
 }
 #main-video h3 {
   font-weight: bold;
+}
+
+#info-utama .well .panel {
+  position:relative;
+}
+#info-utama .well .panel>.panel-heading:after,.panel>.panel-heading:before{
+  position:absolute;
+  top:11px;left:-16px;
+  right:100%;
+  width:0;
+  height:0;
+  display:block;
+  content:" ";
+  border-color:transparent;
+  border-style:solid solid outset;
+  pointer-events:none;
+}
+#info-utama .well .panel>.panel-heading:after{
+  border-width:7px;
+  border-right-color:#f7f7f7;
+  margin-top:1px;
+  margin-left:2px;
+}
+#info-utama .well .panel>.panel-heading:before{
+  border-right-color:#ddd;
+  border-width:8px;
+}
+#info-utama .well .panel-komen {
+  background-color: #f5f5f5;
+  border: none !important;
+}
+
+.panel-default>.panel-kanan {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+.panel-kanan {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+
+#info-utama .well .panel>.panel-kanan:after,.panel>.panel-kanan:before{
+  position:absolute;
+  top:11px;right:-16px;
+  left:100%;
+  width:0;
+  height:0;
+  display:block;
+  content:" ";
+  border-color:transparent;
+  border-style:solid solid outset;
+  pointer-events:none;
+}
+#info-utama .well .panel>.panel-kanan:after{
+  border-width:7px;
+  border-right-color:#f7f7f7;
+  margin-top:1px;
+  margin-left:2px;
+}
+#info-utama .well .panel>.panel-kanan:before{
+  border-left-color:#ddd;
+  border-width:8px;
 }
