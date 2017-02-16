@@ -407,6 +407,8 @@ class clientController implements ControllerProviderInterface
                 $request->files->get('berkas-ktp')->move($this->app['foto.path'] . '/ktp-picture/', $ktpName);
             }
 
+            $this->app['orm.em']->merge($data);
+
             $this->app['orm.em']->flush();
             if ($fileDummy != '') {
                 unlink($this->app['foto.path'] . '/profiles/' . $fileDummy);
