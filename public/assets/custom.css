@@ -597,10 +597,6 @@ img.responsive-img {
     font-size: 20px;
   }
 }
-
-#sec-content .img-responsive {
-  max-height: 90px !important;
-}
 #sec-content .thumbnail {
   min-height: 105px;
 }

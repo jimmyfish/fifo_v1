@@ -74,7 +74,8 @@ class Barang
     private $description;
 
     /**
-     * @Column(type="integer", nullable=false, length=255, name="category_id")
+     * @ManyToOne(targetEntity="Jimmy\fifo\Domain\Entity\Category")
+     * @JoinColumn(name="category_id", referencedColumnName="id")
      * @var int
      */
     private $categoryId;
@@ -97,8 +98,9 @@ class Barang
      */
     private $createdAt;
 
-    public static function create($founder, $founderNumber, $founderEmail, $founderAddress, $description, $title, $categoryId, $type)
+    public static function create($founder, $founderNumber, $founderEmail, $founderAddress, $description, $title, Category $categoryId, $type)
     {
+        // return var_dump($categoryId);
         $info = new Barang();
         $info->setTitle($title);
         $info->setFounder($founder);
@@ -301,7 +303,7 @@ class Barang
     /**
      * @param int $categoryId
      */
-    public function setCategoryId($categoryId)
+    public function setCategoryId(Category $categoryId)
     {
         $this->categoryId = $categoryId;
     }

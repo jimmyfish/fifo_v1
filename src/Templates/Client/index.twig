@@ -1,23 +1,20 @@
 {% extends 'Client/Layouts/layouts.twig' %}
-
 {% block title %}HOME{% endblock %}
-
 {% block content %}
-<!-- Main Content -->
-		<div id="index-banner" class="parallax-container">
-		    <div class="section no-pad-bot">
-	        <div class="container" style="margin-top: 5%;margin-bottom: 3%;color: #fff;">
-	            <h2 class="light" align="center"><b>The First Lost and Found Platform Solution based on Tag in Indonesia</b></h2>
-	            <h3 align="center">With Vivo.id Tags your lost stuff can return to you!</h3>
-	        </div>
-	        <div class="row">
-	            <div class="col-xs-10 col-xs-offset-1">
+    <!-- Main Content -->
+    <div id="index-banner" class="parallax-container">
+        <div class="section no-pad-bot">
+            <div class="container" style="margin-top: 5%;margin-bottom: 3%;color: #fff;">
+                <h2 class="light" align="center"><b>The First Lost and Found Platform Solution based on Tag in Indonesia</b></h2>
+                <h3 align="center">With Vivo.id Tags your lost stuff can return to you!</h3>
+            </div>
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1">
                     <form action="{{ path('client_list_barang_filter') }}" method="post">
-	                <div class="input-group">
-
+                        <div class="input-group">
                             <div class="input-group-btn search-panel">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    <span id="search_concept">Semua</span> <span class="caret"></span>
+                                <span id="search_concept">Semua</span> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" id="search-filter" role="menu">
                                     {% for info in cat %}
@@ -32,61 +29,83 @@
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                             </span>
-	                </div>
+                        </div>
                     </form>
                 </div>
-	        </div><!-- /.row -->
-	        <div class="parallax"><img src="{{ app.request.basepath }}/assets/images/a.jpg" alt="Unsplashed background img 1" style="display: block; transform: translate3d(-50%, 72px, 0px);"></div>
-	    </div>
-	</div>
-
-<!-- Second Content -->
-<div id="sec-content" class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Baru
-                    <small>Di Temukan.</small>
-                </h1>
+                </div><!-- /.row -->
+                <div class="parallax"><img src="{{ app.request.basepath }}/assets/images/a.jpg" alt="Unsplashed background img 1" style="display: block; transform: translate3d(-50%, 72px, 0px);"></div>
             </div>
         </div>
-        <div class="row">
-            {% set i = 0 %}
-            {% for info in barang %}
-                <div class="col-md-3 col-sm-4 col-xs-12">
-                    <a href="{{ path('detailClient', {id: info.id}) }}" class="row thumbnail">
-                        <div class="col-xs-5 gbr-shootcut">
-                            {% if (photo[i] is not null) %}
-                                <img class="img-responsive" src="{{ app.request.basepath }}/photo/barang/{{ info.id }}/{{ photo[i].filename }}" alt="">
-                            {% endif %}
-                        </div>
-                        <div class="col-xs-7 des-shootcut">
-                            <h4>{{ info.title }}</h4>
-                            {#<div class="text-right time-shootcut">#}
-                                {#<i class="pull-right">1 jam yang lalu</i>#}
-                            {#</div>#}
-                            <div class="text-left via-shootcut">
-                                <span class="pull-left badge fa fa-comment-o" aria-hidden="true"> 20</span>
-                                <span class="pull-right badge fa fa-clock-o" aria-hidden="true"> {{ info.createdAt|date('d M') }}</span>
-                            </div>
-                        </div>
-                    </a>
+        <!-- Second Content -->
+        <div id="sec-content" class="container-fluid">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Baru
+                        <small>Di Temukan.</small>
+                        </h1>
+                    </div>
                 </div>
-                {% set i = i + 1 %}
-            {% endfor %}
-
-            
+                <div class="row">
+                    {% set i = 0 %}
+                    {% if (barang|length > 0) %}
+                        {% for info in barang %}
+                            {# <div class="col-md-3 col-sm-4 col-xs-12">
+                                <a href="{{ path('detailClient', {id: info.id}) }}" class="row thumbnail">
+                                    <div class="col-xs-5 gbr-shootcut">
+                                        {% if (photo[i] is not null) %}
+                                            <img class="img-responsive" src="{{ app.request.basepath }}/photo/barang/{{ info.id }}/{{ photo[i].filename }}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-xs-7 des-shootcut">
+                                        <h4>{{ info.title }}</h4>
+                                        <div class="text-left via-shootcut">
+                                            <span class="pull-left badge fa fa-comment-o" aria-hidden="true"> 20</span>
+                                            <span class="pull-right badge fa fa-clock-o" aria-hidden="true"> {{ info.createdAt|date('d M') }}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div> #}
+                            <a href="{{ path('detailClient', {id: info.id}) }}">
+                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                    <div class="home__barang-wrapper">
+                                        <div class="row">
+                                            <div class="col-md-5 col-sm-6 col-xs-6">
+                                                <div class="home__img-barang">
+                                                    {% if (photo[i] is not null) %}
+                                                        <img class="img-responsive" src="{{ app.request.basepath }}/photo/barang/{{ info.id }}/{{ photo[i].filename }}">
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7 col-sm-6 col-xs-6 home__info">
+                                                <p class="home__title">{{ info.title }}</p>
+                                                <div class="home__barang-footer">
+                                                    <span class="label label-primary">{{ info.categoryId.name }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </a>
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    {% else %}
+                        <p>&nbsp;</p>
+                        <div class="jumbotron text-center">
+                            <h4>Belum ada barang diposting</h4>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-{% endblock %}
-
-{% block customJS %}
-    <script>
+    {% endblock %}
+    {% block customJS %}
+        <script>
         $(function() {
-           $('[class^=filter]').click(function () {
-              $('input#search-param').val($(this).attr('href').substr(1,25));
-           });
+        $('[class^=filter]').click(function () {
+        $('input#search-param').val($(this).attr('href').substr(1,25));
         });
-    </script>
-{% endblock %}
+        });
+        </script>
+    {% endblock %}

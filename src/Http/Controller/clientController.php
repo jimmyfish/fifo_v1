@@ -170,25 +170,33 @@ class clientController implements ControllerProviderInterface
     public function barangDitemukanClientAction()
     {
         $arrPhoto = [];
-        $barang = $this->app['barang.repository']->findbyType(0);
+        $stuff = $this->app['orm.em']->createQueryBuilder();
+        $stuff->select('u')->from('Jimmy\fifo\Domain\Entity\Barang', 'u')->where('u.type = 0')->orderBy('u.createdAt', 'DESC');
+
+        $barang = $stuff->getQuery()->getResult();
+
         $cat = $this->app['category.repository']->findAll();
         foreach ($barang as $modify) {
             $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
             array_push($arrPhoto, $info);
         }
-        return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'photo' => $arrPhoto, 'cat' => $cat]);
+        return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'photo' => $arrPhoto, 'cat' => $cat, 'title' => 'Barang Ditemukan']);
     }
     
     public function barangDicariClientAction()
     {
         $arrPhoto = [];
-        $barang = $this->app['barang.repository']->findbyType(1);
+        $query = $this->app['orm.em']->createQueryBuilder();
+        $query->select('u')->from('Jimmy\fifo\Domain\Entity\Barang', 'u')->where('u.type = 1')->orderBy('u.createdAt', 'DESC');
+
+
+        $barang = $query->getQuery()->getResult();
         $cat = $this->app['category.repository']->findAll();
         foreach ($barang as $modify) {
             $info = $this->app['photo.repository']->findOneBy(['idBarang' => $modify->getId()]);
             array_push($arrPhoto, $info);
         }
-        return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'photo' => $arrPhoto, 'cat' => $cat]);
+        return $this->app['twig']->render('Client/barang.twig', ['barang' => $barang, 'photo' => $arrPhoto, 'cat' => $cat, 'title' => 'Barang Dicari']);
     }
 
 
@@ -283,7 +291,19 @@ class clientController implements ControllerProviderInterface
 
             if ($request->getMethod() == 'POST') {
                 $files = new ArrayCollection();
-                $info = Barang::create($request->get('first-name') . ' ' . $request->get('last-name'),$request->get('phone'),$request->get('email'),$request->get('address'),$request->get('description'),$request->get('title'), $request->get('category'), $request->get('type'));
+
+                $info = Barang::create(
+                    $request->get('first-name') . ' ' . $request->get('last-name'),
+                    $request->get('phone'),
+                    $request->get('email'),
+                    $request->get('address'),
+                    $request->get('description'),
+                    $request->get('title'), 
+
+                    $this->app['category.repository']->findById($request->get('category'))
+                    ,
+
+                    $request->get('type'));
 
                 if ($request->get('facebook') != "") {
                     $info->setFounderFacebook($request->get('facebook'));
