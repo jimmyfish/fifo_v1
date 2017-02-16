@@ -5,5 +5,4 @@ app/logs/
 app/config.php
 app/proxies/
 public/photo/*
-cli-config.php
 public/documents
