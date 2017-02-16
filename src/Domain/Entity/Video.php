@@ -32,10 +32,11 @@ class Video
     private $title;
 
     /**
-     * @Column(type="string", nullable=true, length=255)
-     * @var string
+     * @ManyToOne(targetEntity="Jimmy\fifo\Domain\Entity\User")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     * @var User
      */
-    private $subtitle;
+    private $userId;
 
     /**
      * @Column(type="string", nullable=false, length=255, name="link_video")
@@ -68,12 +69,12 @@ class Video
      * @param $description
      * @return Video
      */
-    public static function create($title, $subtitle, $linkVideo, $description)
+    public static function create($title, User $user, $linkVideo, $description)
     {
         $data = new Video();
 
         $data->setTitle($title);
-        $data->setSubtitle($subtitle);
+        $data->setUserId($user);
         $data->setLinkVideo($linkVideo);
         $data->setDescription($description);
         $data->setCreatedAt(new \DateTime());
@@ -116,17 +117,17 @@ class Video
     /**
      * @return string
      */
-    public function getSubtitle()
+    public function getUserId()
     {
-        return $this->subtitle;
+        return $this->userId;
     }
 
     /**
      * @param string $subtitle
      */
-    public function setSubtitle($subtitle)
+    public function setUserId($userId)
     {
-        $this->subtitle = $subtitle;
+        $this->userId = $userId;
     }
 
     /**

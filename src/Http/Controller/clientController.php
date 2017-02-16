@@ -238,8 +238,10 @@ class clientController implements ControllerProviderInterface
         return $this->app['twig']->render('Client/faq.twig');
     }
 
-    public function videoClientAction(){
-        return $this->app['twig']->render('Client/video.twig');
+    public function videoClientAction()
+    {
+        $data = $this->app['video.repository']->findAll();
+        return $this->app['twig']->render('Client/video.twig', ['data' => $data]);
     }
 
     public function successClientAction()

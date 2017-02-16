@@ -1,7 +1,5 @@
 {% extends 'Client/Layouts/layouts.twig' %}
-
 {% block title %}Video{% endblock %}
-
 {% block content %}
     <!-- Main Content -->
     <div id="main-video" class="container-fluid">
@@ -11,68 +9,35 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="page-header">Video
-                        <small>Komunitas Kami</small>
+                    <small>Komunitas Kami</small>
                     </h1>
                 </div>
             </div>
-            <!-- Project One -->
-            <div class="thumbnail">
-                <div class="row">
-
-                    <div class="col-md-7">
-                        <div class="embed-responsive embed-responsive-4by3 embed-cus">
-                            <iframe class="embed-responsive-ite" style="max-width: 700px; max-height: 300px;" src="https://www.youtube.com/embed/7YUPBiiQO9w"></iframe>
+            {% if (data|length > 0) %}
+                {% for video in data %}
+                    <div class="thumbnail">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="embed-responsive embed-responsive-4by3 embed-cus">
+                                    <iframe class="embed-responsive-ite" style="max-width: 700px; max-height: 300px;" src="https://www.youtube.com/embed/{{ video.linkVideo }}"></iframe>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <h3>{{ video.title }}</h3>
+                                <h5><i>{{ video.userId.firstName }} - {{ video.createdAt|date('d M Y') }}</i></h5>
+                                <p>
+                                    {{ video.description|raw }}
+                                </p>
+                                
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <h3>Project One</h3>
-                        <h5><i>Bangchan - 12 feb 2016</i></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium veniam exercitationem expedita laborum at voluptate. Labore, voluptates totam at aut nemo deserunt rem magni pariatur quos perspiciatis atque eveniet unde.</p>
-                       
-                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="jumbotron">
+                    <h4>Tidak ada video diunggah</h4>
                 </div>
-            </div>
-            <!-- /.row -->
-
-
-            <!-- Project Two -->
-            <div class="thumbnail">
-                <div class="row">
-                    <div class="col-md-7">
-                        <a href="#">
-                            <img class="img-responsive" src="http://placehold.it/700x300" alt="">
-                        </a>
-                    </div>
-                    <div class="col-md-5">
-                        <h3>Project Two</h3>
-                       <h5><i>Bangchan - 12 feb 2016</i></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, odit velit cumque vero doloremque repellendus distinctio maiores rem expedita a nam vitae modi quidem similique ducimus! Velit, esse totam tempore.</p>
-                       
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
-
-
-
-            <!-- Project Three -->
-            <div class="thumbnail">
-                <div class="row">
-                    <div class="col-md-7">
-                        <a href="#">
-                            <img class="img-responsive" src="http://placehold.it/700x300" alt="">
-                        </a>
-                    </div>
-                    <div class="col-md-5">
-                        <h3>Project Three</h3>
-                        <h5><i>Bangchan - 12 feb 2016</i></h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, temporibus, dolores, at, praesentium ut unde repudiandae voluptatum sit ab debitis suscipit fugiat natus velit excepturi amet commodi deleniti alias possimus!</p>
-                       
-                    </div>
-                </div>
-            </div>
-            <!-- /.row -->
-
+            {% endif %}
             <hr>
         </div>
     </div>

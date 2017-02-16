@@ -179,7 +179,6 @@ class adminController implements ControllerProviderInterface
 
         if ($request->getMethod() === 'POST') {
             $data->setTitle($request->get('title'));
-            $data->setSubtitle($request->get('subtitle'));
             $data->setLinkVideo($request->get('link_video'));
             $data->setDescription($request->get('description'));
             $data->setUpdatedAt(new \DateTime());
@@ -220,10 +219,12 @@ class adminController implements ControllerProviderInterface
 
     public function adminVideoCreateAction(Request $request)
     {
+        $user = $this->app['user.repository']->findByEmail($this->app['session']->get('email'));
+
         if ($request->getMethod() === 'POST') {
             $data = Video::create(
                 $request->get('title'),
-                $request->get('subtitle'),
+                $user,
                 $request->get('link_video'),
                 $request->get('description')
             );
