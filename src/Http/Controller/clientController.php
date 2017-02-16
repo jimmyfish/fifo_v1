@@ -395,6 +395,11 @@ class clientController implements ControllerProviderInterface
                 if ($data->getPicture() != null) {
                     $fileDummy = $data->getPicture();
                 }
+                if ($fileDummy != '') {
+                    if (file_exists($this->app['foto.path'] . '/profiles/' . $data->getPicture())) {
+                        unlink($this->app['foto.path'] . '/profiles/' . $fileDummy);
+                    }
+                }
                 $fileName = md5(uniqid()) . '.' . $request->files->get('profile-image')->guessExtension();
                 $data->setPicture($fileName);
                 $request->files->get('profile-image')->move($this->app['foto.path'] . '/profiles/', $fileName);
@@ -410,9 +415,7 @@ class clientController implements ControllerProviderInterface
             $this->app['orm.em']->merge($data);
 
             $this->app['orm.em']->flush();
-            if ($fileDummy != '') {
-                unlink($this->app['foto.path'] . '/profiles/' . $fileDummy);
-            }
+            
             return $this->app->redirect($this->app['url_generator']->generate('profil_client'));
         }
 
