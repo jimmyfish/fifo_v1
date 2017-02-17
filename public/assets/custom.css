@@ -680,3 +680,9 @@ img.responsive-img {
   border-left-color:#ddd;
   border-width:8px;
 }
+#main-video .tdk {
+  margin-top: 25px;
+}
+#main-video .tdk h4 {
+    text-align: center;
+}

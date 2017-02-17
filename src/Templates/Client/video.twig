@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-5">
                                 <h3>{{ video.title }}</h3>
-                                <h5><i>{{ video.userId.firstName }} - {{ video.createdAt|date('d M Y') }}</i></h5>
+                                <h5><i class="fa fa-user"> {{ video.userId.firstName }}</i> - <i class="fa fa-clock-o"> {{ video.createdAt|date('d M Y') }}</i></h5>
                                 <p>
                                     {{ video.description|raw }}
                                 </p>
@@ -34,7 +34,7 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <div class="jumbotron">
+                <div class="jumbotron tdk">
                     <h4>Tidak ada video diunggah</h4>
                 </div>
             {% endif %}
