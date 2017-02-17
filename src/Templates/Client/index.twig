@@ -67,7 +67,7 @@
                                 </a>
                             </div> #}
                             <a href="{{ path('detailClient', {id: info.id}) }}">
-                                <div class="col-md-3 col-sm-4 col-xs-6">
+                                <div class="aro col-md-3 col-sm-4 col-xs-6">
                                     <div class="home__barang-wrapper">
                                         <div class="row">
                                             <div class="col-md-5 col-sm-6 col-xs-6">
@@ -81,6 +81,7 @@
                                                 <p class="home__title">{{ info.title }}</p>
                                                 <div class="home__barang-footer">
                                                     <span class="label label-primary">{{ info.categoryId.name }}</span>
+                                                    <span class="label label-danger">{{ info.createdAt|date('d M Y') }}</span>
                                                 </div>
                                             </div>
                                         </div>

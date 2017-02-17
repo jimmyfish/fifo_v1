@@ -609,10 +609,13 @@ img.responsive-img {
     padding-bottom: 46% !important;
 }
 #main-video p {
-  font-size: 15px;
+    font-size: 15px;
+    height: 204px;
+    overflow: hidden;
 }
 #main-video h3 {
   font-weight: bold;
+    margin-top: 8px;
 }
 
 #info-utama .well .panel {
@@ -685,4 +688,12 @@ img.responsive-img {
 }
 #main-video .tdk h4 {
     text-align: center;
+}
+#sec-content .aro {
+    padding: 5px;
+}
+#about-content .caption .team-footer {
+    position: relative;
+    bottom: 0;
+    padding-bottom: 2px;
 }
