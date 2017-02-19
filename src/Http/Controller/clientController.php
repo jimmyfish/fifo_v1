@@ -295,7 +295,7 @@ class clientController implements ControllerProviderInterface
                 $files = new ArrayCollection();
 
                 $info = Barang::create(
-                    $request->get('first-name') . ' ' . $request->get('last-name'),
+                    $data,
                     $request->get('phone'),
                     $request->get('email'),
                     $request->get('address'),

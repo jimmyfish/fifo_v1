@@ -8,6 +8,8 @@
 
 namespace Jimmy\fifo\Domain\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class Barang
  * @package Jimmy\fifo\Domain\Entity
@@ -26,8 +28,9 @@ class Barang
     private $id;
 
     /**
-     * @Column(type="string", nullable=false, length=255)
-     * @var string
+     * @ManyToOne(targetEntity="Jimmy\fifo\Domain\Entity\User", inversedBy="barang")
+     * @JoinColumn(name="founder", referencedColumnName="id")
+     * @var User
      */
     private $founder;
 
@@ -97,8 +100,13 @@ class Barang
      * @var \DateTime
      */
     private $createdAt;
+    
+    public function __construct()
+    {
+        $this->founder = new ArrayCollection();
+    }
 
-    public static function create($founder, $founderNumber, $founderEmail, $founderAddress, $description, $title, Category $categoryId, $type)
+    public static function create(User $founder, $founderNumber, $founderEmail, $founderAddress, $description, $title, Category $categoryId, $type)
     {
         // return var_dump($categoryId);
         $info = new Barang();
@@ -141,9 +149,9 @@ class Barang
     }
 
     /**
-     * @param string $founder
+     * @param User|string $founder
      */
-    public function setFounder($founder)
+    public function setFounder(User $founder)
     {
         $this->founder = $founder;
     }

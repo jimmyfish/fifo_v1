@@ -16,6 +16,14 @@ $app = new \Silex\Application($config['common']);
 
 require 'bootstrap.php';
 
+$footerData = $app['footer.repository']->findAll();
+if ($footerData != null) {
+    $app['twig']->addGlobal('Footer', $footerData);
+} else {
+    \Jimmy\fifo\Domain\Entity\Footer::init();
+    $app['twig']->addGlobal('Footer', $footerData);
+}
+
 $app->mount('/', new \Jimmy\fifo\Http\Controller\clientController($app));
 $app->mount('/admin', new \Jimmy\fifo\Http\Controller\adminController($app));
 $app->mount('/admin/user', new \Jimmy\fifo\Http\Controller\UserController($app));

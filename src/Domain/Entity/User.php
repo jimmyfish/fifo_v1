@@ -8,6 +8,8 @@
 
 namespace Jimmy\fifo\Domain\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class User
  * @package Jimmy\fifo\Domain\Entity
@@ -38,6 +40,7 @@ class User
     private $password;
 
     /**
+     * @OneToMany(targetEntity="Jimmy\fifo\Domain\Entity\Barang", mappedBy="user")
      * @Column(length=255, nullable=true, type="string", name="first_name")
      * @var string
      */
@@ -132,6 +135,11 @@ class User
     * @var int
     */
     private $isDelete;
+
+    public function __construct()
+    {
+        $this->firstName = new ArrayCollection();
+    }
 
     /**
      * @param $email
