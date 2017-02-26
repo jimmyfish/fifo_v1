@@ -11,6 +11,7 @@ namespace Jimmy\fifo\Http\Controller;
 
 use Jimmy\fifo\Domain\Entity\Barang;
 use Jimmy\fifo\Domain\Entity\Category;
+use Jimmy\fifo\Domain\Entity\Faq;
 use Jimmy\fifo\Domain\Entity\Footer;
 use Jimmy\fifo\Domain\Entity\User;
 use Jimmy\fifo\Domain\Entity\Video;
@@ -88,7 +89,56 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_footer_edit');
 
+        $controllers->match('/faq/create', [$this, 'adminFaqCreateAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_faq_create');
+
+        $controllers->get('/faq/list', [$this, 'adminFaqListAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_faq_list');
+
+        $controllers->get('/faq/delete/{id}', [$this, 'adminFaqDeleteAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_faq_delete');
+
         return $controllers;
+    }
+
+    public function adminFaqDeleteAction(Request $request)
+    {
+        $data = $this->app['faq.repository']->findById($request->get('id'));
+
+        if ($data != null) {
+            $this->app['orm.em']->remove($data);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_faq_list'));
+        }
+
+        return false;
+    }
+
+    public function adminFaqListAction()
+    {
+        $data = $this->app['faq.repository']->findAll();
+        return $this->app['twig']->render('Admin/faq/list.twig', ['data' => $data]);
+    }
+
+    public function adminFaqCreateAction(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            $data = new Faq();
+
+            $data->setQuestion($request->get('question'));
+            $data->setAnswer($request->get('answer'));
+
+            $this->app['orm.em']->persist($data);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_faq_list'));
+        }
+
+        return $this->app['twig']->render('Admin/faq/create.twig');
     }
 
     public function adminFooterEditAction(Request $request)

@@ -247,6 +247,7 @@ img.responsive-img {
 }
 #faq-content {
     padding-top: 2%;
+    min-height: 320px;
 }
 
 #upload-kanan h3 {

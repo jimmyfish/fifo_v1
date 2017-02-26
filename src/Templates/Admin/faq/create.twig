@@ -1,0 +1,39 @@
+{% extends 'Admin/Layouts/layouts.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header"><i class="fa fa-comment text-primary"></i> Pertanyaan Baru</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Lengkapi data dibawah
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form role="form" method="post" action="">
+                            <div class="form-group">
+                                <label for="question">Pertanyaan</label>
+                                <input type="text" id="question" name="question" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="answer">Jawab</label>
+                                <textarea id="answer" name="answer" class="form-control"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary btn-block" value="Masukkan data">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">&nbsp;</div>
+    </div>
+{% endblock %}
