@@ -26,13 +26,15 @@ class Comentar
     private $id;
 
     /**
-     * @Column(type="integer", nullable=false, name="id_barang")
+     * @ManyToOne(targetEntity="Jimmy\fifo\Domain\Entity\Barang")
+     * @JoinColumn(name="id_barang", referencedColumnName="id")
      * @var int
      */
     private $idBarang;
 
     /**
-     * @Column(type="integer", nullable=false, name="id_user")
+     * @ManyToOne(targetEntity="Jimmy\fifo\Domain\Entity\User")
+     * @JoinColumn(name="id_user", referencedColumnName="id")
      * @var int
      */
     private $idUser;
@@ -76,7 +78,7 @@ class Comentar
     /**
      * @param int $idBarang
      */
-    public function setIdBarang($idBarang)
+    public function setIdBarang(Barang $idBarang)
     {
         $this->idBarang = $idBarang;
     }
@@ -92,7 +94,7 @@ class Comentar
     /**
      * @param int $idUser
      */
-    public function setIdUser($idUser)
+    public function setIdUser(User $idUser)
     {
         $this->idUser = $idUser;
     }

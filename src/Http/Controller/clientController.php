@@ -206,17 +206,16 @@ class clientController implements ControllerProviderInterface
         $barang = $this->app['barang.repository']->findById($request->get('id'));
         $comment = $this->app['comentar.repository']->findByIdBarang($request->get('id'));
         $uid = [];
-        foreach($comment as $item) {
-            $arr = $this->app['user.repository']->findById($item->getIdUser())->getFirstName() . ' ' . $this->app['user.repository']->findById($item->getIdUser())->getLastName();
-            array_push($uid, $arr);
-            $item->setIdUser($arr);
-        }
 
         $photo = $this->app['photo.repository']->findByIdBarang($request->get('id'));
 
         if ($request->getMethod() == 'POST') {
-            $idBarang = $request->get('id');
-            $idUser = $this->app['user.repository']->findByEmail($this->app['session']->get('email'))->getId();
+            if ($this->app['session']->get('email') == null) {
+                return $this->app->redirect($this->app['url_generator']->generate('loginClient'));
+            }
+
+            $idBarang = $this->app['barang.repository']->findById($request->get('id'));
+            $idUser = $this->app['user.repository']->findByEmail($this->app['session']->get('email'));
 
             $comm = new Comentar();
             $comm->setIdBarang($idBarang);
@@ -229,6 +228,8 @@ class clientController implements ControllerProviderInterface
 
             return $this->app->redirect($request->headers->get('referer'));
         }
+
+        // return var_dump($comment);
 
         return $this->app['twig']->render('Client/detail.twig',['cat' => $cat, 'barang' => $barang, 'photo' => $photo, 'comment' => $comment]);
     }
@@ -266,7 +267,7 @@ class clientController implements ControllerProviderInterface
                     $this->app['session']->set('email', ['value' => $data->getEmail()]);
                     $this->app['session']->set('profile_picture', ['value' => $data->getPicture()]);
                     $this->app['session']->set('user-count', ['value' => count($userList)]);
-                    return $this->app->redirect($this->app['url_generator']->generate('homeClient'));
+                    return $this->app->redirect($request->headers->get('referer'));
                 } else {
 
                     $this->app['session']->getFlashBag()->add('message_error','Password tidak cocok');

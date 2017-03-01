@@ -1,180 +1,190 @@
 {% extends 'Client/Layouts/layouts.twig' %}
-
 {% block title %}Detail{% endblock %}
-
 {% block content %}
-<!-- Main Content -->
-<div id="div" class="container-fluid">
-    <!-- Page Content -->
-
-    <div id="single-artikel" class="container thumbnail">
-        <div class="row">
-            {#{{ dump(photo) }}#}
-            <div id="info-kiri" class="col-md-6">
-                <div id="img-utama" class="col-md-offset-1 col-md-10">
-                    <div class="thumbnail">
-                        <a class="fancybox" href="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ photo[0].filename }}" data-fancybox-group="fifo-gallery" title="">
-                            <img class="img-responsive" src="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ photo[0].filename }}" alt=""></a>
-                     
-                    </div>
-                </div>
-             
-                {% for info in photo %}
-                    <div id="img-tambahan" class="col-md-4 col-sm-4 col-xs-4">
+    <!-- Main Content -->
+    <div id="div" class="container-fluid">
+        <!-- Page Content -->
+        <div id="single-artikel" class="container thumbnail">
+            <div class="row">
+                {#{{ dump(photo) }}#}
+                <div id="info-kiri" class="col-md-6">
+                    <div id="img-utama" class="col-md-offset-1 col-md-10">
                         <div class="thumbnail">
-                            <a class="fancybox" href="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ info.filename }}" data-fancybox-group="fifo-gallery" title="">
-                                <img class="img-responsive" src="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ info.filename }}" alt=""></a>
+                            <a class="fancybox"
+                                href="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ photo[0].filename }}"
+                                data-fancybox-group="fifo-gallery" title="">
+                                <img class="img-responsive"
+                                src="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ photo[0].filename }}"
+                            alt=""></a>
                         </div>
                     </div>
-          
-                {% endfor %}
-            </div>
-            <div id="info-kanan" class="col-md-6">
-                <h3>Kontak</h3>
-                <h4>Penemu
-                    <small>{{ barang.founder.firstname }}</small></h4>
-                <ul class="list-unstyled">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/telp.svg" alt="">&nbsp; {{ barang.founderNumber }}</li>
+                    {% for info in photo %}
+                        <div id="img-tambahan" class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="thumbnail">
+                                <a class="fancybox"
+                                    href="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ info.filename }}"
+                                    data-fancybox-group="fifo-gallery" title="">
+                                    <img class="img-responsive"
+                                    src="{{ app.request.basepath }}/photo/barang/{{ barang.id }}/{{ info.filename }}"
+                                alt=""></a>
+                            </div>
                         </div>
-                        <div class="col-md-12 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/email.png" alt="">&nbsp; {{ barang.founderEmail }}</li>
-                        </div>
-                    </div>
-
-                </ul>
-                <h3>Social Media</h3>
-                <ul class="list-unstyled">
-                    <div class="row">
-                        <div class="col-md-12 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/facebook.svg" alt=""><a href="https://{{ barang.founderFacebook }}" target="_blank">&nbsp;{{ barang.founderFacebook }}</a></li>
-                        </div>
-                        <div class="col-md-12 col-sm-6 col-xs-12">
-                            <li><img class="img-responsive" src="{{ app.request.basepath }}/assets/images/icons/bbm.png" alt="">&nbsp;{{ barang.founderPin }}</li>
-                        </div>
-                    </div>
-                </ul>
-                <h3>Alamat</h3>
-                <p>
-                    {{ barang.founderAddress }}
-                </p>
-            </div>
-            <div id="info-utama" class="col-md-12">
-                <div class="thumbnail">
-                    <div class="caption-full">
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <h4><strong>{{ barang.title }}</strong></h4>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <p class="pull-right"><i class="fa fa-calendar"></i> {{ barang.createdAt|date('d M Y') }}</p>
-                                        </div>
-                                    </div>
-
-                                    <p>
-                                        {{ barang.description }}
-                                    </p>
-
-                    </div>
+                    {% endfor %}
                 </div>
-
-                <div class="well">
-                    <div class="text-right">
-                        <span class="pull-left" style="font-size: 17px">Komentar</span>
+                <div id="info-kanan" class="col-md-6">
+                    <h3>Kontak</h3>
+                    <h4>Penemu
+                    <small>{{ barang.founder.firstname }}</small>
+                    </h4>
+                    <ul class="list-unstyled">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-6 col-xs-12">
+                                <li><img class="img-responsive"
+                                    src="{{ app.request.basepath }}/assets/images/icons/telp.svg"
+                                alt="">&nbsp; {{ barang.founderNumber }}</li>
+                            </div>
+                            <div class="col-md-12 col-sm-6 col-xs-12">
+                                <li><img class="img-responsive"
+                                    src="{{ app.request.basepath }}/assets/images/icons/email.png"
+                                alt="">&nbsp; {{ barang.founderEmail }}</li>
+                            </div>
+                        </div>
+                    </ul>
+                    <h3>Social Media</h3>
+                    <ul class="list-unstyled">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-6 col-xs-12">
+                                <li><img class="img-responsive"
+                                    src="{{ app.request.basepath }}/assets/images/icons/facebook.svg" alt=""><a
+                                        href="https://{{ barang.founderFacebook }}" target="_blank">
+                                    &nbsp;{{ barang.founderFacebook }}</a></li>
+                                </div>
+                                <div class="col-md-12 col-sm-6 col-xs-12">
+                                    <li><img class="img-responsive"
+                                        src="{{ app.request.basepath }}/assets/images/icons/bbm.png"
+                                    alt="">&nbsp;{{ barang.founderPin }}</li>
+                                </div>
+                            </div>
+                        </ul>
+                        <h3>Alamat</h3>
+                        <p>
+                            {{ barang.founderAddress }}
+                        </p>
                     </div>
-
-                    <hr>
-
-                    {% if (comment|length > 0) %}
-                        {% for com in comment %}
-                       
-
-                            <div class="row">
-                                <div class="col-md-1">
-                                <div class="panel panel-default panel-komen">
-                                                    <div class="profile-userpic">
-                                <img class="img-responsive user-photo" src="{{ app.request.basepath }}/assets/images/man.png">
+                    <div id="info-utama" class="col-md-12">
+                        <div class="thumbnail">
+                            <div class="caption-full">
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h4><strong>{{ barang.title }}</strong></h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p class="pull-right"><i
+                                        class="fa fa-calendar"></i> {{ barang.createdAt|date('d M Y') }}</p>
+                                    </div>
                                 </div>
-                                </div>
-                            
-                                </div>
-
-                                <div class="col-md-8">
-                                <div class="panel panel-default">
-                                <div class="panel-heading kiri">
-                                <i class="fa fa-user" aria-hidden="true"> <strong>myusername</strong></i> 
-                                <span class="text-muted"><i class="fa fa-clock-o" aria-hidden="true"> commented 5 days ago</i></span>
-                                </div>
-                                <div class="panel-body">
-                                Panel content
-                                </div>
-                                </div>
-                                </div>
-                                    
-
-                                    <!--<h4>{{ com.idUser }}
-                                    </h4>
-                                    <span class="pull-right">10 days ago</span>
-                                    <p>{{ com.content }}</p>-->
-                            
+                                <p>
+                                    {{ barang.description }}
+                                </p>
                             </div>
-
-                            <hr>
-
-                            <div class="row">
-                                <div class="col-md-1 pull-right">
-                                <div class="panel panel-default panel-komen">
-                                                    <div class="profile-userpic">
-                                <img class="img-responsive user-photo" src="{{ app.request.basepath }}/assets/images/man.png">
-                                </div>
-                                </div>
-                            
-                                </div>
-
-                                <div class="col-md-8 pull-right">
-                                <div class="panel panel-default">
-                                <div class="panel-kanan text-right">
-                                <i class="fa fa-user" aria-hidden="true"> <strong>myusername</strong></i> 
-                                <span class="text-muted"><i class="fa fa-clock-o" aria-hidden="true"> commented 5 days ago</i></span>
-                                </div>
-                                <div class="panel-body text-right">
-                                Panel content
-                                </div>
-                                </div>
-                                </div>
-
-                
+                        </div>
+                        <div class="well">
+                            <div class="text-right">
+                                <span class="pull-left" style="font-size: 17px">Komentar</span>
                             </div>
                             <hr>
-                            {% endfor %}
-                        {% else %}
+                            {% if (comment|length > 0) %}
+                                {% set i = 0 %}
+                                {% for com in comment %}
+                                    {% if (i % 2 == 0) %}
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <div class="panel panel-default panel-komen">
+                                                    <div class="profile-userpic">
+                                                        {% if (com.idUser.picture is not null) %}
+                                                            <img class="img-responsive user-photo"
+                                                            src="{{ app.request.basepath }}/photo/profiles/{{ com.idUser.picture }}">
+                                                        {% else %}
+                                                            <img class="img-responsive user-photo"
+                                                            src="{{ app.request.basepath }}/assets/images/man.png">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading kiri">
+                                                        <i class="fa fa-user" aria-hidden="true">
+                                                        <strong>{{ com.idUser.firstName }}&nbsp;{{com.idUser.lastName}} </strong></i>
+                                                        {# <span class="text-muted"><i class="fa fa-clock-o" aria-hidden="true"> commented 5 days ago</i></span> #}
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        {{ com.content }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    {% else %}
+                                        <div class="row">
+                                            <div class="col-md-1 pull-right">
+                                                <div class="panel panel-default panel-komen">
+                                                    <div class="profile-userpic">
+                                                        {% if (com.idUser.picture is not null) %}
+                                                            <img class="img-responsive user-photo"
+                                                            src="{{ app.request.basepath }}/photo/profiles/{{ com.idUser.picture }}">
+                                                        {% else %}
+                                                            <img class="img-responsive user-photo"
+                                                            src="{{ app.request.basepath }}/assets/images/man.png">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 pull-right">
+                                                <div class="panel panel-default">
+
+                                                    <div class="panel-kanan text-right">
+                                                        <i class="fa fa-user" aria-hidden="true">
+                                                        <strong>{{ com.idUser.firstName }}&nbsp;{{com.idUser.lastName}}</strong></i>
+                                                        {# <span class="text-muted"><i class="fa fa-clock-o" aria-hidden="true"> commented 5 days ago</i></span> #}
+                                                    </div>
+                                                    <div class="panel-body text-left">
+                                                        {{ com.content }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    {% endif %}
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>Tidak Ada Komentar</p>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endif %}
+                        </div>
+                        <div class="well">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p>Tidak Ada Komentar</p>
+                                    <form method="post" action="{{ path('detailClient', {id:barang.id}) }}">
+                                        <div class="form-group">
+                                            <label>TAMBAHKAN TANGGAPANMU</label>
+                                            <textarea class="form-control" STYLE="resize: vertical" name="content"
+                                            required></textarea>
+                                        </div>
+                                        <div class="form-group text-right">
+                                            <input type="submit" value="Komentar">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-
-                            <hr>
-                    {% endif %}
-                </div>
-                <div class="well">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form method="post" action="{{ path('detailClient', {id:barang.id}) }}">
-                                <div class="form-group">
-                                    <label>TAMBAHKAN TANGGAPANMU</label>
-                                    <textarea class="form-control" STYLE="resize: vertical" name="content" required></textarea>
-                                </div>
-                                <div class="form-group text-right">
-                                    <input type="submit" value="Komentar">
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-{% endblock %}
+    {% endblock %}
