@@ -9,10 +9,14 @@
 namespace Jimmy\fifo\Http\Controller;
 
 
+use Jimmy\fifo\Domain\Entity\About;
 use Jimmy\fifo\Domain\Entity\Barang;
 use Jimmy\fifo\Domain\Entity\Category;
 use Jimmy\fifo\Domain\Entity\Faq;
 use Jimmy\fifo\Domain\Entity\Footer;
+use Jimmy\fifo\Domain\Entity\Komunitas;
+use Jimmy\fifo\Domain\Entity\Member;
+use Jimmy\fifo\Domain\Entity\Team;
 use Jimmy\fifo\Domain\Entity\User;
 use Jimmy\fifo\Domain\Entity\Video;
 use Silex\Application;
@@ -101,7 +105,149 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_faq_delete');
 
+        $controllers->get('/about/list', [$this, 'adminAboutListAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_about_list');
+
+        $controllers->match('/about/member/create', [$this, 'adminMemberCreateAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_member_create');
+
+        $controllers->get('/about/member/delete/{id}', [$this, 'adminKMemberDeleteAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_member_delete');
+
+        $controllers->match('/about/team/create', [$this, 'adminTeamCreateAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_team_create');
+
+        $controllers->get('/about/team/delete/{id}', [$this, 'adminTeamDeleteAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_team_delete');
+
+        $controllers->match('/about/team/edit/{id}', [$this, 'adminTeamEditAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_team_edit');
+
         return $controllers;
+    }
+
+    public function adminAboutListAction()
+    {
+        $data = $this->app['team.repository']->findAll();
+        return $this->app['twig']->render('Admin/about/list.twig', ['data' => $data]);
+    }
+
+    public function adminMemberDeleteAction(Request $request)
+    {
+        $data = $this->app['member.repository']->findById($request->get('id'));
+
+        if ($data != null) {
+            $this->app['orm.em']->remove($data);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return false;
+    }
+
+    public function adminMemberCreateAction(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            $data = new Member();
+
+            $data->setTitle($request->get('title'));
+            $data->setJob($request->get('job'));
+            $data->setDescription($request->get('description'));
+            $data->setFbLink($request->get('fbLink'));
+            $data->setIgLink($request->get('igLink'));
+            $data->setImages($request->get('images'));
+
+            $this->app['orm.em']->persist($data);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return $this->app['twig']->render('Admin/about/member/create.twig');
+    }
+
+    public function adminTeamEditAction(Request $request)
+    {
+        $data = $this->app['team.repository']->findById($request->get('id'));
+
+        if ($data == null) {
+            $this->app['session']->getFlashBag()->add(
+                'team_error',
+                'Komunitas dengan id tersebut tidak ditemukan, proses dibatalkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $data->setTitle($request->get('title'));
+            $data->setDescription($request->get('description'));
+            $data->setImages($request->get('images'));
+
+            $this->app['orm.em']->merge($data);
+            $this->app['orm.em']->flush();
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return $this->app['twig']->render('Admin/about/team/edit.twig', ['data' => $data]);
+    }
+
+    public function adminTeamDeleteAction(Request $request)
+    {
+        $data = $this->app['team.repository']->findById($request->get('id'));
+
+        if ($data != null) {
+            $this->app['orm.em']->remove($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'team_success',
+                'Komunitas berhasil dihapus'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+
+        } else {
+            $this->app['session']->getFlashBag()->add(
+                'team_error',
+                'Komunitas dengan id tersebut tidak tersedia, Proses dibatalkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return false;
+    }
+
+    public function adminTeamCreateAction(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            $data = new Team();
+
+            $data->setTitle($request->get('title'));
+            $data->setDescription($request->get('description'));
+            $data->setImages($request->get('images'));
+
+            $this->app['orm.em']->persist($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'team_success',
+                'Komunitas berhasil ditambahkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return $this->app['twig']->render('Admin/about/team/create.twig');
     }
 
     public function adminFaqDeleteAction(Request $request)

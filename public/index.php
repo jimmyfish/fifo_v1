@@ -20,7 +20,9 @@ $footerData = $app['footer.repository']->findAll();
 if ($footerData != null) {
     $app['twig']->addGlobal('Footer', $footerData);
 } else {
-    \Jimmy\fifo\Domain\Entity\Footer::init();
+    $data = \Jimmy\fifo\Domain\Entity\Footer::init();
+    $app['orm.em']->persist($data);
+    $app['orm.em']->flush();
     $app['twig']->addGlobal('Footer', $footerData);
 }
 
