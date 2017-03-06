@@ -164,7 +164,9 @@ class clientController implements ControllerProviderInterface
 
     public function aboutClientAction()
     {
-        return $this->app['twig']->render('Client/about.twig');
+        $team = $this->app['team.repository']->findAll();
+        $member = $this->app['member.repository']->findAll();
+        return $this->app['twig']->render('Client/about.twig', ['team' => $team , 'member' => $member]);
     }
 
     public function barangDitemukanClientAction()
@@ -391,12 +393,27 @@ class clientController implements ControllerProviderInterface
                 $data->setValidateState(1);
                 $this->app['orm.em']->flush();
 
-                return 'Account Validate';
+                $this->app['session']->getFlashBag()->add(
+                    'activation_success',
+                    'Selamat Account Anda Sudah TerValidasi.'
+                );
+
+                return $this->app['twig']->render('Client/activation.twig');
             } else {
-                return 'Account Allready Validated';
+                $this->app['session']->getFlashBag()->add(
+                    'activation_failed',
+                    'Maaf,.. Aktivasi Account Anda Tidak Berhasil, Silahkan Ulangi Kembali.'
+                );
+
+                return $this->app['twig']->render('Client/activation.twig');
             }
         } else {
-            return 'Token tidak valid, silahkan periksa kembali link yang anda terima.';
+            $this->app['session']->getFlashBag()->add(
+                'activation_error',
+                'Maaf, Token Tidak Valid, Silahkan Periksa Kembali Link Yang Anda Terima.'
+            );
+
+            return $this->app['twig']->render('Client/activation.twig');
         }
     }
 

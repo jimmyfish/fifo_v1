@@ -113,9 +113,13 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_member_create');
 
-        $controllers->get('/about/member/delete/{id}', [$this, 'adminKMemberDeleteAction'])
+        $controllers->get('/about/member/delete/{id}', [$this, 'adminMemberDeleteAction'])
             ->before([$this, 'credentialCheck'])
             ->bind('admin_member_delete');
+
+        $controllers->get('/about/member/edit/{id}', [$this, 'adminMemberEditAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_member_edit');
 
         $controllers->match('/about/team/create', [$this, 'adminTeamCreateAction'])
             ->before([$this, 'credentialCheck'])
@@ -125,7 +129,7 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_team_delete');
 
-        $controllers->match('/about/team/edit/{id}', [$this, 'adminTeamEditAction'])
+        $controllers->get('/about/team/edit/{id}', [$this, 'adminTeamEditAction'])
             ->before([$this, 'credentialCheck'])
             ->bind('admin_team_edit');
 
@@ -134,8 +138,44 @@ class adminController implements ControllerProviderInterface
 
     public function adminAboutListAction()
     {
-        $data = $this->app['team.repository']->findAll();
-        return $this->app['twig']->render('Admin/about/list.twig', ['data' => $data]);
+        $team = $this->app['team.repository']->findAll();
+        $member = $this->app['member.repository']->findAll();
+        return $this->app['twig']->render('Admin/about/list.twig', ['team' => $team , 'member' => $member]);
+    }
+
+    public function adminMemberEditAction(Request $request)
+    {
+        $data = $this->app['member.repository']->findById($request->get('id'));
+
+        if ($data == null) {
+            $this->app['session']->getFlashBag()->add(
+                'member_error',
+                'Anggota dengan id tersebut tidak ditemukan, proses dibatalkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $data->setTitle($request->get('title'));
+            $data->setJob($request->get('job'));
+            $data->setDescription($request->get('description'));
+            $data->setFbLink($request->get('fbLink'));
+            $data->setIgLink($request->get('igLink'));
+            $data->setImages($request->get('images'));
+
+            $this->app['orm.em']->merge($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'member_edit',
+                'Data anggota berhasil di edit'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return $this->app['twig']->render('Admin/about/member/edit.twig', ['data' => $data]);
     }
 
     public function adminMemberDeleteAction(Request $request)
@@ -146,10 +186,20 @@ class adminController implements ControllerProviderInterface
             $this->app['orm.em']->remove($data);
             $this->app['orm.em']->flush();
 
+            $this->app['session']->getFlashBag()->add(
+                'member_success',
+                'Anggota berhasil dihapus'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        } else {
+            $this->app['session']->getFlashBag()->add(
+                'member_error',
+                'Anggota dengan id tersebut tidak tersedia, Proses dibatalkan'
+            );
+
             return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
         }
-
-        return false;
     }
 
     public function adminMemberCreateAction(Request $request)
@@ -166,6 +216,11 @@ class adminController implements ControllerProviderInterface
 
             $this->app['orm.em']->persist($data);
             $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'member_success',
+                'Anggota berhasil ditambahkan'
+            );
 
             return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
         }
@@ -193,6 +248,11 @@ class adminController implements ControllerProviderInterface
 
             $this->app['orm.em']->merge($data);
             $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'team_edit',
+                'Data Komunitas berhasil di edit'
+            );
 
             return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
         }
@@ -222,9 +282,8 @@ class adminController implements ControllerProviderInterface
             );
 
             return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
-        }
 
-        return false;
+        }
     }
 
     public function adminTeamCreateAction(Request $request)

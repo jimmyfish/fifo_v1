@@ -103,7 +103,7 @@ $app['faq.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Faq::class);
 };
 
-$app['about.repository'] = function () use ($app) {
+$app['member.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Member::class);
 };
 

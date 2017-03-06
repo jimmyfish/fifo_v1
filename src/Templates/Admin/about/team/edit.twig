@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"><i class="fa fa-video-camera text-primary"></i> Sunting Video</h1>
+            <h1 class="page-header"><i class="fa fa-video-camera text-primary"></i> Sunting Komunitas</h1>
         </div>
     </div>
     <div class="row">
@@ -16,22 +16,32 @@
                 <div class="panel-body">
                     <div class="col-md-12">
                         <form role="form" method="post" action="">
+
                             <div class="form-group">
-                                <label>Judul <small>( Wajib Diisi )</small></label>
-                                <input type="text" class="form-control" name="title" value="{{ data.title }}">
-                            </div>
-                            <div class="form-group">
-                                <label>Link Video -<span class="text-info"> Masukkan id video youtube</span> <small>( Wajib Diisi )</small></label>
-                                <input type="text" class="form-control" name="link_video" value="{{ data.linkVideo }}">
-                            </div>
-                            <div class="form-group">
-                                <label>Deskripsi</label>
-                                <textarea class="form-control" name="description">{{ data.description }}</textarea>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" class="btn btn-block btn-success" value="Proses">
+                                <label for="title">Nama Komunitas</label>
+                                <input type="text" id="title" name="title" class="form-control" value="{{ data.title }}">
                             </div>
 
+                            <div class="form-group">
+                                <label for="description">Deskripsi</label>
+                                <textarea id="description" name="description" class="form-control"></textarea>
+                            </div>
+
+                            {# <div class="form-group">
+                                <label id="images">Upload Gambar</label>
+
+                            </div>
+
+                            <div class="form-group input-container">
+                                <p class="text-danger hide">HARAP MASUKKAN GAMBAR</p>
+                                <div class="input-inner" data-property="images">
+                                    <img src="{{ app.request.basepath }}/assets/images/default-placeholder.png" class="img-preview">
+                                    <label>
+                                        <i class="fa fa-2x fa-plus"></i>
+                                        <input type="file" class="hide" onchange="readThis(this)" name="images[]" id="images" accept="image/*" required>
+                                    </label>
+                                </div>
+                            </div>#}
                         </form>
                     </div>
                 </div>
