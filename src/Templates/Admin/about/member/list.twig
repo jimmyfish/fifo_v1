@@ -1,0 +1,103 @@
+{% extends 'Admin/Layouts/layouts.twig' %}
+
+{% block content %}
+    <!-- Member  -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Anggota Komunitas</h1>
+            <a href="{{ path('admin_member_create') }}" class="btn btn-primary">Buat Baru</a>
+            <p>&nbsp;</p>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
+    {% for message in app.session.flashbag.get('member_success') %}
+        <div class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('member_error') %}
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Ups!</strong> {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('member_edit') %}
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> {{ message }}
+        </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="list-member">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Lengkap</th>
+                            <th>Jabatan</th>
+                            <th>deskripsi</th>
+                            <th>Facebook</th>
+                            <th>Instagram</th>
+                            <th>Gambar</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set i = 1 %}
+                        {% for data in memberList %}
+                            <tr>
+                                <td>{{ i }}</td>
+                                <td>{{ data.title }}</td>
+                                <td>{{ data.job }}</td>
+                                <td>{{ data.description }}</td>
+                                <td>{{ data.fbLink }}</td>
+                                <td>{{ data.igLink }}</td>
+                                <td>
+                                    <span class="btn btn-danger btn-crud"><a href="">Check</a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{{ path('admin_member_edit', {id:data.id}) }}">
+                                        <i class="fa fa-pencil text-info"></i>
+                                    </a>
+                                    <a href="{{ path('admin_member_delete', {id:data.id}) }}">
+                                        <i class="fa fa-trash text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            {% set i = i + 1 %}
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+{% endblock %}
+{% block customJS %}
+    <script>
+    $(document).ready(function () {
+        $('#list-member').DataTable({
+            responsive: true,
+            "columnDefs": [
+                { "orderable": false, "targets": [4,3]},
+                { "searchable": false, "targets": 4 }
+            ]
+        });
+
+        
+    });
+
+
+    </script>
+{% endblock %}

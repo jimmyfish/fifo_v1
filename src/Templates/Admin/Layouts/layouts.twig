@@ -27,10 +27,11 @@
     <link href="{{ app.request.basepath }}/assets/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="{{ app.request.basepath }}/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet"
-          type="text/css">
+    <link href="{{ app.request.basepath }}/assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <link href="{{ app.request.basepath }}/assets/css/global.css" rel="stylesheet" type="text/css">
+
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -43,24 +44,24 @@
 
 <body id="admin-page">
 
-<div id="wrapper">
+    <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ path('homeClient') }}">FIFO <small><strong>SYSTEM v1.0</strong></small></a>
-        </div>
-        <!-- /.navbar-header -->
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ path('homeClient') }}">FIFO <small><strong>SYSTEM v1.0</strong></small></a>
+            </div>
+            <!-- /.navbar-header -->
 
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     {%  if (app.session.get('role')['value'] is defined) %}
                         {% if (app.session.get('role')['value'] == 0) %}
                             {{ app.session.get('name')['value'] }}
@@ -71,118 +72,135 @@
                         <script>window.location.href = '/login';</script>
                     {% endif %}
                 </a>
-                <ul class="dropdown-menu dropdown-user">
-                    {#<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>#}
-                    {#</li>#}
-                    {#<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>#}
-                    {#</li>#}
-                    {#<li class="divider"></li>#}
-                    <li><a href="{{ ('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-        </ul>
-        <!-- /.navbar-top-links -->
+                    <ul class="dropdown-menu dropdown-user">
+                        {#
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>#} {#
+                        </li>#} {#
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>#} {#
+                        </li>#} {#
+                        <li class="divider"></li>#}
+                        <li><a href="{{ ('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
 
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
 
-                    <li>
-                        <a href="{{ ('/admin/home') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="{{ ('/admin/user/list') }}">
-                            <i class="fa fa-users fa-fw"></i> User
-                            <span class="label label-success pull-right">
+                        <li>
+                            <a href="{{ ('/admin/home') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{ ('/admin/user/list') }}">
+                                <i class="fa fa-users fa-fw"></i> User
+                                <span class="label label-success pull-right">
                                 {%  if (app.session.get('user-count')['value'] is defined) %}
                                     {{ app.session.get('user-count')['value'] }}
                                 {% endif %}
                             </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ path('category') }}"><i class="fa fa-list fa-fw"></i> Kategori</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-newspaper-o fa-fw"></i> Barang<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{{ path('admin_barang_list_ditemukan') }}">Ditemukan</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('admin_barang_list_dicari') }}">Dicari</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-video-camera fa-fw"></i> Video<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{{ path('admin_video_create') }}">Tambah Baru</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('admin_video_list') }}">Daftar Video</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> Pengaturan<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="{{ path('admin_faq_list') }}">FAQ</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('admin_about_list') }}">Tentang Kami</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('admin_footer_edit') }}">Footer</a>
-                            </li>
+                            </a>
+                        </li>
 
-                        </ul>
-                    </li>
-                </ul>
+                        <li>
+                            <a href="{{ path('comentar') }}"><i class="fa fa-list fa-comments-o"></i> Komentar</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path('category') }}"><i class="fa fa-list fa-fw"></i> Kategori</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-newspaper-o fa-fw"></i> Barang<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ path('admin_barang_list_ditemukan') }}">Ditemukan</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_barang_list_dicari') }}">Dicari</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-video-camera fa-fw"></i> Video<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ path('admin_video_create') }}">Tambah Baru</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_video_list') }}">Daftar Video</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-certificate fa-fw"></i> Tentang Kami<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ path('admin_team_list') }}">Komunitas</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_member_list') }}">Member</a>
+                                </li>
+                                <li>
+                                    <a href="">Sponsorship</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Pengaturan<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="{{ path('admin_faq_list') }}">FAQ</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_footer_edit') }}">Footer</a>
+                                </li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
             </div>
-            <!-- /.sidebar-collapse -->
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            {% block content %} {% endblock %}
         </div>
-        <!-- /.navbar-static-side -->
-    </nav>
+        <!-- /#page-wrapper -->
 
-    <div id="page-wrapper">
-        {% block content %}
-        {% endblock %}
     </div>
-    <!-- /#page-wrapper -->
+    <!-- /#wrapper -->
 
-</div>
-<!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="{{ app.request.basepath }}/assets/js/jquery.min.js"></script>
 
-<!-- jQuery -->
-<script src="{{ app.request.basepath }}/assets/js/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ app.request.basepath }}/assets/js/bootstrap.min.js"></script>
 
-<!-- Bootstrap Core JavaScript -->
-<script src="{{ app.request.basepath }}/assets/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{ app.request.basepath }}/assets/vd/metisMenu/metisMenu.min.js"></script>
 
-<!-- Metis Menu Plugin JavaScript -->
-<script src="{{ app.request.basepath }}/assets/vd/metisMenu/metisMenu.min.js"></script>
+    {#
+    <!-- Morris Charts JavaScript -->#} {#
+    <script src="{{ app.request.basepath }}/assets/vd/raphael.min.js"></script>#} {#
+    <script src="../vendor/morrisjs/morris.min.js"></script>#} {#
+    <script src="../data/morris-data.js"></script>#}
 
-{#<!-- Morris Charts JavaScript -->#}
-{#<script src="{{ app.request.basepath }}/assets/vd/raphael.min.js"></script>#}
-{#<script src="../vendor/morrisjs/morris.min.js"></script>#}
-{#<script src="../data/morris-data.js"></script>#}
+    <!-- DataTables JavaScript -->
+    <script src="{{ app.request.basepath }}/assets/vd/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="{{ app.request.basepath }}/assets/vd/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="{{ app.request.basepath }}/assets/vd/datatables-responsive/dataTables.responsive.js"></script>
 
-<!-- DataTables JavaScript -->
-<script src="{{ app.request.basepath }}/assets/vd/datatables/js/jquery.dataTables.min.js"></script>
-<script src="{{ app.request.basepath }}/assets/vd/datatables-plugins/dataTables.bootstrap.min.js"></script>
-<script src="{{ app.request.basepath }}/assets/vd/datatables-responsive/dataTables.responsive.js"></script>
+    {#
+    <!-- Custom Theme JavaScript -->#}
+    <script src="{{ app.request.basepath }}/assets/js/sb-admin-2.js"></script>
 
-{#<!-- Custom Theme JavaScript -->#}
-<script src="{{ app.request.basepath }}/assets/js/sb-admin-2.js"></script>
-
-{% block customJS %}
-{% endblock %}
+    {% block customJS %} {% endblock %}
 </body>
 
 </html>

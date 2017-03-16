@@ -16,6 +16,7 @@ use Jimmy\fifo\Domain\Entity\Faq;
 use Jimmy\fifo\Domain\Entity\Footer;
 use Jimmy\fifo\Domain\Entity\Komunitas;
 use Jimmy\fifo\Domain\Entity\Member;
+use Jimmy\fifo\Domain\Entity\Sponsor;
 use Jimmy\fifo\Domain\Entity\Team;
 use Jimmy\fifo\Domain\Entity\User;
 use Jimmy\fifo\Domain\Entity\Video;
@@ -57,6 +58,14 @@ class adminController implements ControllerProviderInterface
         $controllers->get('/category/', [$this, 'categoryAction'])->bind('category');
 
         $controllers->get('/category/list', [$this, 'categoryListAction'])->bind('category_list');
+
+        $controllers->get('/comentar/', [$this, 'comentarAction'])->bind('comentar');
+
+        $controllers->get('/comentar/list', [$this, 'comentarListAction'])->bind('comentar_list');
+
+        $controllers->get('/comentar/delete/{id}', [$this, 'comentarDeleteAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('comentar_delete');
 
         $controllers->match('/category/create', [$this, 'categoryCreateAction'])->bind('category_create');
 
@@ -105,9 +114,25 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_faq_delete');
 
-        $controllers->get('/about/list', [$this, 'adminAboutListAction'])
+        $controllers->get('/about/sponsorship/list', [$this, 'adminSponsorListAction'])
             ->before([$this, 'credentialCheck'])
-            ->bind('admin_about_list');
+            ->bind('admin_sponsor_list');
+
+        $controllers->match('/about/sponsorship/create', [$this, 'adminSponsorCreateAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_sponsor_create');
+
+        $controllers->get('/about/sponsorship/delete/{id}', [$this, 'adminSponsorDeleteAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_sponsor_delete');
+
+        $controllers->match('/about/sponsorship/edit/{id}', [$this, 'adminSponsorEditAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_sponsor_edit');
+
+        $controllers->get('/about/member/list', [$this, 'adminMemberListAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_member_list');
 
         $controllers->match('/about/member/create', [$this, 'adminMemberCreateAction'])
             ->before([$this, 'credentialCheck'])
@@ -117,9 +142,13 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_member_delete');
 
-        $controllers->get('/about/member/edit/{id}', [$this, 'adminMemberEditAction'])
+        $controllers->match('/about/member/edit/{id}', [$this, 'adminMemberEditAction'])
             ->before([$this, 'credentialCheck'])
             ->bind('admin_member_edit');
+
+        $controllers->get('/about/team/list', [$this, 'adminTeamListAction'])
+            ->before([$this, 'credentialCheck'])
+            ->bind('admin_team_list');
 
         $controllers->match('/about/team/create', [$this, 'adminTeamCreateAction'])
             ->before([$this, 'credentialCheck'])
@@ -129,18 +158,106 @@ class adminController implements ControllerProviderInterface
             ->before([$this, 'credentialCheck'])
             ->bind('admin_team_delete');
 
-        $controllers->get('/about/team/edit/{id}', [$this, 'adminTeamEditAction'])
+        $controllers->match('/about/team/edit/{id}', [$this, 'adminTeamEditAction'])
             ->before([$this, 'credentialCheck'])
             ->bind('admin_team_edit');
 
         return $controllers;
     }
 
-    public function adminAboutListAction()
+    public function adminSponsorListAction()
     {
-        $team = $this->app['team.repository']->findAll();
-        $member = $this->app['member.repository']->findAll();
-        return $this->app['twig']->render('Admin/about/list.twig', ['team' => $team , 'member' => $member]);
+        $sponsorList = $this->app['sponsor.repository']->findAll();
+        return $this->app['twig']->render('Admin/about/sponsorship/list.twig', ['sponsorList' => $sponsorList]);
+    }
+
+    public function adminSponsorEditAction(Request $request)
+    {
+        $data = $this->app['sponsor.repository']->findById($request->get('id'));
+
+        if ($data == null) {
+            $this->app['session']->getFlashBag()->add(
+                'sponsor_error',
+                'Sponsor dengan id tersebut tidak ditemukan, proses dibatalkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        if ($request->getMethod() === 'POST') {
+            $data->setTitle($request->get('title'));
+            $data->setDescription($request->get('description'));
+            $data->setTelp($request->get('telp'));
+            $data->setImages($request->get('images'));
+
+            $this->app['orm.em']->merge($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'sponsor_edit',
+                'Data Sponsor berhasil di edit'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return $this->app['twig']->render('Admin/about/sponsorship/edit.twig', ['data' => $data]);
+    }
+
+    public function adminSponsorDeleteAction(Request $request)
+    {
+        $data = $this->app['sponsor.repository']->findById($request->get('id'));
+
+        if ($data != null) {
+            $this->app['orm.em']->remove($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'sponsor_success',
+                'Sponsor berhasil dihapus'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+
+        } else {
+            $this->app['session']->getFlashBag()->add(
+                'sponsor_error',
+                'Sponsor dengan id tersebut tidak tersedia, Proses dibatalkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+
+        }
+    }
+
+    public function adminSponsorCreateAction(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            $data = new Sponsor();
+
+            $data->setTitle($request->get('title'));
+            $data->setDescription($request->get('description'));
+            $data->setTelp($request->get('telp'));
+            $data->setImages($request->get('images'));
+
+            $this->app['orm.em']->persist($data);
+            $this->app['orm.em']->flush();
+
+            $this->app['session']->getFlashBag()->add(
+                'sponsor_success',
+                'Sponsor berhasil ditambahkan'
+            );
+
+            return $this->app->redirect($this->app['url_generator']->generate('admin_about_list'));
+        }
+
+        return $this->app['twig']->render('Admin/about/sponsorship/create.twig');
+    }
+
+    public function adminMemberListAction()
+    {
+        $memberList = $this->app['member.repository']->findAll();
+        return $this->app['twig']->render('Admin/about/member/list.twig', ['memberList' => $memberList]);
     }
 
     public function adminMemberEditAction(Request $request)
@@ -228,6 +345,12 @@ class adminController implements ControllerProviderInterface
         return $this->app['twig']->render('Admin/about/member/create.twig');
     }
 
+    public function adminTeamListAction()
+    {
+        $teamList = $this->app['team.repository']->findAll();
+        return $this->app['twig']->render('Admin/about/team/list.twig', ['teamList' => $teamList]);
+    }
+
     public function adminTeamEditAction(Request $request)
     {
         $data = $this->app['team.repository']->findById($request->get('id'));
@@ -288,6 +411,8 @@ class adminController implements ControllerProviderInterface
 
     public function adminTeamCreateAction(Request $request)
     {
+        $user = $this->app['user.repository']->findByEmail($this->app['session']->get('email'));
+
         if ($request->getMethod() === 'POST') {
             $data = new Team();
 
@@ -527,6 +652,17 @@ class adminController implements ControllerProviderInterface
         }
 
         return $this->app['twig']->render('Admin/barang/list.twig', ['barangList' => $barangList, 'title' => 'Dicari']);
+    }
+
+    public function comentarAction()
+    {
+        return $this->app->redirect($this->app['url_generator']->generate('comentar_list'));
+    }
+
+    public function comentarListAction()
+    {
+        $data = $this->app['comentar.repository']->findAll();
+        return $this->app['twig']->render('Admin/comentar/list.twig', ['data' => $data]);
     }
 
     public function categoryAction()

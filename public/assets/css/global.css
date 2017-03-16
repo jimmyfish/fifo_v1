@@ -369,3 +369,16 @@ form label {
     text-transform: uppercase;
     width: 100%;
 }
+td > a {
+    font-size: 18px !important;
+    padding: 0px 5px !important;
+}
+.btn-crud {
+    font-size: 12px !important;
+    padding: 2px 4px !important;
+    text-transform: none !important;
+    text-decoration: none !important;
+}
+.btn-crud a {
+    color: #fff;
+}

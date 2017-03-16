@@ -111,4 +111,8 @@ $app['team.repository'] = function () use ($app) {
     return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Team::class);
 };
 
+$app['sponsor.repository'] = function () use ($app) {
+    return $app['orm.em']->getRepository(\Jimmy\fifo\Domain\Entity\Sponsor::class);
+};
+
 $app['swiftmailer.use_spool'] = false;

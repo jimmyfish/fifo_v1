@@ -8,13 +8,13 @@ body {
     margin: -5px 0px -5px 0px !important;
 }
 .navbar-default {
-    background-color: #1E252C !important;
-    border-color: #29333d !important;
-    border-bottom: 1px solid #141a1f !important;
+    background-color: #fff !important;
+    border-color: #fff !important;
+    border-bottom: 1px solid #f4f4f4 !important;
     min-height: 70px !important;
 }
 nav ul a {
-    color : #fff !important;
+    color : rgb(30, 37, 44) !important;
     margin-top: 4px !important;
     font-weight: 600;
     font-size: 17px;
@@ -27,7 +27,7 @@ nav a {
     color: #fff !important;
 }
 nav img {
-    margin-top: -18px;
+    margin-top: -15px;
 }
 @media (max-width: 768px) {
     nav img {
@@ -168,6 +168,16 @@ img.responsive-img {
     margin-top: -15px;
     padding: 0px 0px 20px 0px;
 }
+#main-kerja .pagination {
+  margin: 30px 0px 0px 0px !important;
+}
+#main-kerja .pagination-lg > li > a, .pagination-lg > li > span {
+  font-size: 14px !important;
+  color: rgb(30, 37, 44) !important;
+}
+#main-kerja .pagination-lg > li > a:hover {
+  color: #000 !important;
+}
 #main-kerja .caption h4 {
   padding-top: 15px;
 }
@@ -180,6 +190,10 @@ img.responsive-img {
 }
 #single-artikel{
     min-height: 500px;
+}
+#single-artikel .btn-comment{
+  margin-left: 4%;
+
 }
 .thumbnail {
     margin-top: 15px;
@@ -377,14 +391,7 @@ img.responsive-img {
     }
 }
 
-.popover {
-    border-color: 2px solid #ff0000;
-}
-.popover-title {
-    background-color: rgb(30, 37, 44)!important;
-    border-radius: none !important;
-    color: #fff !important;
-}
+
 .navbar-collapse .btn,
 .navbar-header .btn {
     border: 1px solid #e74c3c;
@@ -692,6 +699,9 @@ img.responsive-img {
 }
 #sec-content .aro {
     padding: 5px;
+}
+#about-content .page-header {
+  margin: 10px 0px 0px !important;
 }
 #about-content .caption .team-footer {
     position: relative;

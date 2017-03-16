@@ -62,6 +62,18 @@ class Member
     Private $images;
 
     /**
+     * @Column(type="datetime", nullable=false, name="created_at")
+     * @var \DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @Column(type="datetime", nullable=true, name="updated_at")
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
      * @return int
      */
     public function getId()
@@ -171,5 +183,37 @@ class Member
     public function setImages($images)
     {
         $this->images = $images;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

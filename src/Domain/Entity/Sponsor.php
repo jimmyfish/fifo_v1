@@ -2,20 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: lutfykumar
- * Date: 02/03/17
- * Time: 17:29
+ * Date: 12/03/17
+ * Time: 15:31
  */
 
 namespace Jimmy\fifo\Domain\Entity;
 
 /**
- * Class Team
+ * Class Sponsor
  * @package Jimmy\fifo\Domain\Entity
- * @Entity(repositoryClass="Jimmy\fifo\Domain\Repository\DoctrineTeamRepository")
+ * @Entity(repositoryClass="Jimmy\fifo\Domain\Repository\DoctrineSponsorRepository")
  * @HasLifecycleCallbacks
- * @Table(name="team")
+ * @Table(name="sponsor")
  */
-class Team
+class Sponsor
 {
     /**
      * @Id
@@ -32,11 +32,10 @@ class Team
     private $title;
 
     /**
-     * @ManyToOne(targetEntity="Jimmy\fifo\Domain\Entity\User")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
-     * @var User
+     * @Column(length=255, nullable=true, type="string", name="telp")
+     * @var string
      */
-    private $userId;
+    private $telp;
 
 
     /**
@@ -98,10 +97,19 @@ class Team
     /**
      * @return string
      */
-    public function getUserId()
+    public function getTelp()
     {
-        return $this->userId;
+        return $this->telp;
     }
+
+    /**
+     * @param string $telp
+     */
+    public function setTelp($telp)
+    {
+        $this->telp = $telp;
+    }
+
 
     /**
      * @return string
